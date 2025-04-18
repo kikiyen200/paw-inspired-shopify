@@ -1,0 +1,91 @@
+{% stylesheet %}
+@import url("/assets/category.css");
+{% endstylesheet %}
+
+<section class="category-section">
+  <div class="category-header">
+    <h2 class="category-heading">{{ section.settings.heading }}</h2>
+    <p class="category-subheading">{{ section.settings.subheading }}</p>
+    <div class="category-see-all">
+      {% render 'see-all', link: section.settings.see_all_link, text: 'See All' %}
+    </div>
+  </div>
+  <div class="category-card">
+    <div class="category-image">
+      <img src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/dog-paw-pawinspired.jpg?v=1744794386" alt="Dog paw for pet product by Paw Inspired" loading="lazy">
+    </div>
+    <div class="category-content">
+      <h3 class="category-title">FOR DOGS</h3>
+      <p class="category-subtitle">Small / Medium / Large Breeds</p>
+      <div class="category-tags">
+        <span class="category-tag active">Diaper</span>
+        <span class="category-tag">Pads</span>
+        <span class="category-tag">Mats</span>
+        <span class="category-tag">Liners</span>
+      </div>
+    </div>
+  </div>
+  <div class="category-grid">
+    <div class="category-card">
+      <div class="category-image">
+        <img src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/cat-paw-pawinspired.jpg?v=1744794386" alt="Cute cat paw for pet product by Paw Inspired" loading="lazy">
+      </div>
+      <div class="category-content">
+        <h3 class="category-title">FOR CATS</h3>
+        <p class="category-subtitle">Kitten / Adult / Senior</p>
+        <div class="category-tags">
+          <span class="category-tag active">Pads</span>
+          <span class="category-tag">Mats</span>
+          <span class="category-tag">Liners</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="category-card">
+      <div class="category-image">
+        <img src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/guinea-pig-paw-pawinspired.jpg?v=1744794386" alt="Small animal paw guinea pig or rabbit foot by Paw Inspired" loading="lazy">
+      </div>
+      <div class="category-content">
+        <h3 class="category-title">FOR SMALL ANIMALS</h3>
+        <p class="category-subtitle">Guinea Pig / Rabbit / Ferret</p>
+        <div class="category-tags">
+          <span class="category-tag active">Toilet</span>
+          <span class="category-tag">Pads</span>
+          <span class="category-tag">Mats</span>
+          <span class="category-tag">Liners</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Category",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "標題",
+      "default": "SHOP BY PET TYPE"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "副標",
+      "default": "Find essentials curated for your furry, feathery, or tiny friend."
+    },
+    {
+      "type": "url",
+      "id": "see_all_link",
+      "label": "See All 連結",
+      "default": "/collections/all"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category"
+    }
+  ]
+}
+{% endschema %}
