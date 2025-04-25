@@ -1,99 +1,259 @@
 .category-section {
-    padding: 4rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .category-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
-  }
-  
-  .category-header-text {
-    max-width: 70%;
-  }
-  
-  .category-heading {
-    font-size: 28px;
-    font-weight: 700;
-    color: #00B4ED;
-    margin: 0;
-  }
-  
-  .category-subheading {
-    font-size: 16px;
-    color: #333;
-    margin: 0.5rem 0 0 0;
-  }
-  
-  .category-see-all a {
-    color: #00B4ED;
-    font-weight: 500;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    font-size: 14px;
-    gap: 4px;
-  }
-  
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-  }
-  
-  .category-card {
-    background-color: #fff;
-    text-align: left;
-  }
-  
-  .category-image img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    border-radius: 0.5rem;
-  }
-  
-  .category-content {
-    padding: 1rem 0 0;
-  }
-  
-  .category-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #00B4ED;
-    margin-bottom: 0.5rem;
-  }
-  
-  .category-subtitle {
-    font-size: 14px;
-    color: #000;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-  }
-  
-  .category-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  
-  .category-tag {
-    padding: 4px 12px;
-    border-radius: 20px;
-    border: 1px solid #ddd;
-    font-size: 12px;
-    color: #555;
-    background-color: #f5f5f5;
-  }
-  
-  .category-tag.active {
-    background-color: #00B4ED;
-    color: #fff;
-    border: none;
-  }
-  
+  padding: 4rem 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.category-header {
+  text-align: center;
+  margin-top: 6rem;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.category-header-text {
+  max-width: 70%;
+}
+
+.category-heading {
+  font-size: 32px;
+  font-weight: 700;
+  color: #00B4ED;
+  margin: 0;
+}
+
+.category-subheading {
+  font-size: 20px;
+  color: #333;
+  margin:2rem 0 2rem 0;
+}
+/* See All Link */
+.category-see-all a {
+  color: #00B4ED;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-size: 18px;
+  gap: 8px;
+}
+
+.category-see-all svg {
+  width: 18px;
+  height: 18px;
+  stroke: #00B4ED;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  transition: transform 0.3s ease;
+}
+
+.category-see-all a:hover svg {
+  transform: translateX(3px);
+}
+.see-all-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #00B4ED;
+  text-decoration: none;
+  gap: 6px;
+  line-height: 1;
+}
+
+.see-all-link::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -1.5px;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color: #00B4ED;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+}
+
+.see-all-link:hover::after {
+  transform: scaleX(1);
+}
+
+.see-all-link svg {
+  transition: transform 0.35s ease;
+}
+
+.see-all-link:hover svg {
+  transform: translateX(4px);
+}
+
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
+}
+
+.category-card {
+  background-color: #fff;
+  text-align: left;
+  width: 100%;
+  max-width: 100%;
+}
+
+.category-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0.5rem;
+  transition: opacity 0.4s ease;
+
+}
+.category-image-hover {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#dog-hover-image {
+  width: 100%;
+  display: block;
+  transition: opacity 0.4s ease;
+}
+
+.paw-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://cdn.shopify.com/s/files/1/0611/7992/0584/files/we-connect-hand-and-paw-pawinspired.jpg?v=1745225176");
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 2;
+  border-radius: 0.5rem;
+}
+
+/* hover 時切換圖片 */
+.category-image-hover:hover #dog-hover-image {
+  opacity: 0;
+}
+
+.category-image-hover:hover .paw-overlay {
+  opacity: 1;
+}
+
+
+.category-content {
+  padding: 1rem 0 0;
+}
+
+.category-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #00B4ED;
+  margin-top: -1rem;
+}
+
+.category-subtitle {
+  font-size: 16px;
+  color: #000;
+  font-weight: 600;
+  margin-top: -3rem;
+  margin-bottom: 1rem;
+}
+
+.category-tag {
+  padding: 4px 10px;
+  border-radius: 24px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  color: #555;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.category-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 8px; 
+}
+
+.category-tag:hover {
+  border-color: #00B4ED;
+  color: #00B4ED;
+  background-color: #fff;
+}
+
+.category-tag.active {
+  background-color: #00B4ED;
+  color: #fff;
+  border: none;
+}
+#dog-category-image {
+  transition: opacity 0.5s ease;
+}
+.image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 440px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.image-wrapper img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.4s ease;
+}
+
+.image-wrapper .image-default {
+  z-index: 1;
+}
+
+.image-wrapper .image-hover {
+  z-index: 2;
+  opacity: 0;
+}
+
+.image-wrapper .dark-overlay {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  transition: opacity 0.4s ease;
+}
+
+/* Hover 效果切換 */
+.category-image-hover:hover .image-hover {
+  opacity: 1;
+}
+
+.category-image-hover:hover .dark-overlay {
+  opacity: 0;
+}
+
+/* 點擊連結區 */
+.image-link-cover {
+  position: absolute;
+  z-index: 4;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

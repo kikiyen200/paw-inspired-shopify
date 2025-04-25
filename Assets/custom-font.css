@@ -1,0 +1,22 @@
+@font-face {
+  font-family: 'BauerGroteskOT';
+  src: url('BauerGroteskOT.woff2') format('woff2'),
+      url('BauerGroteskOT.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+html,
+body,
+h1, h2, h3, h4, h5, h6,
+p,
+.rte,
+.text-body,
+caption,
+fieldset,
+input, textarea,
+button,
+label {
+font-family: 'BauerGroteskOT', sans-serif !important;
+}

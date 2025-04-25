@@ -1,0 +1,141 @@
+/* 彈出視窗背景遮罩 */
+.size-guide-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+
+/* 彈出視窗主體 */
+.size-guide-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  max-width: 720px;
+  height: 80vh;
+  background-color: #00B4ED;
+  border-radius: 24px;
+  padding: 2rem;
+  z-index: 999;
+  overflow-y: auto;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  color: #fff;
+  font-family: 'Bauer Grotesk', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 關閉按鈕 */
+.close-size-guide {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* step 內容格式 */
+.size-guide-step {
+  display: none;
+  text-align: center;
+  width: 100%;
+}
+
+.size-guide-step.active {
+  display: block;
+}
+
+/* 文字排版 */
+.step-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.step-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #fff;
+}
+
+/* 選項按鈕群組 */
+.option-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.option-button {
+  background: #fff;
+  color: #00B4ED;
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.option-button:hover,
+.option-button.selected {
+  background: #00B4ED;
+  color: #fff;
+  border: 2px solid #fff;
+}
+
+/* 導航按鈕 */
+.next-button, .prev-button {
+  background: transparent;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  font-size: 1rem;
+  margin: 1rem;
+  cursor: pointer;
+}
+
+/* 結果 */
+.result-size {
+  font-size: 4rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.shop-now-btn {
+  color: #fff;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+/* 步驟的背景圖 */
+.size-guide-step.step-1 {
+  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step01-dog-outline-pawinspired_jpg.jpg?v=1745571501');
+}
+
+.size-guide-step.step-2 {
+  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step02-dog-outline-pawinspired_jpg.jpg?v=1745571501');
+}
+
+.size-guide-step.step-3 {
+  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step03-dog-outline-pawinspired_jpg.jpg?v=1745571501');
+}
+
+.size-guide-step.step-4 {
+  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step04-dog-outline-pawinspired_jpg.jpg?v=1745571501');
+}

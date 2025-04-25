@@ -10,54 +10,110 @@
       {% render 'see-all', link: section.settings.see_all_link, text: 'See All' %}
     </div>
   </div>
-  <div class="category-card">
-    <div class="category-image">
-      <img src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/dog-paw-pawinspired.jpg?v=1744794386" alt="Dog paw for pet product by Paw Inspired" loading="lazy">
-    </div>
-    <div class="category-content">
-      <h3 class="category-title">FOR DOGS</h3>
-      <p class="category-subtitle">Small / Medium / Large Breeds</p>
-      <div class="category-tags">
-        <span class="category-tag active">Diaper</span>
-        <span class="category-tag">Pads</span>
-        <span class="category-tag">Mats</span>
-        <span class="category-tag">Liners</span>
-      </div>
-    </div>
-  </div>
   <div class="category-grid">
-    <div class="category-card">`
-      <div class="category-image">
-        <img src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/cat-paw-pawinspired.jpg?v=1744794386" alt="Cute cat paw for pet product by Paw Inspired" loading="lazy">
-      </div>
+    <!--For Dog  -->
+    <div class="category-card">
+     <div class="category-image-hover">
+  <div class="image-wrapper">
+    <a id="dog-category-link" href="/collections/dog-products">
+    <img id="dog-category-image" class="image-default" src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/dog-paw-pawinspired.jpg?v=1744794386" alt="Dog Paw" loading="lazy" />
+    <img class="image-hover" src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/we-connect-hand-and-paw-pawinspired.jpg?v=1745225176" alt="High Five" />
+    <div class="dark-overlay"></div>
+  </div>
+  <a href="/collections/dog-products" class="image-link-cover"></a>
+   </div>
       <div class="category-content">
-        <h3 class="category-title">FOR CATS</h3>
-        <p class="category-subtitle">Kitten / Adult / Senior</p>
+        <h3 class="category-title">DOG</h3>
+        <p class="category-subtitle">Small / Medium / Large Breeds</p>
         <div class="category-tags">
-          <span class="category-tag active">Pads</span>
-          <span class="category-tag">Mats</span>
-          <span class="category-tag">Liners</span>
+          <span class="category-tag" data-type="dog" data-tag="Disposable Diaper">Disposable Diaper</span>
+          <span class="category-tag" data-type="dog" data-tag="Washable Diaper">Washable Diaper</span>
+          <span class="category-tag" data-type="dog" data-tag="Disposable Pad">Disposable Pad</span>
+          <span class="category-tag" data-type="dog" data-tag="Washable Pad">Washable Pad</span>
+          <span class="category-tag" data-type="dog" data-tag="Crate Mat">Crate Mat</span>
+          <span class="category-tag" data-type="dog" data-tag="Playpen Mat">Playpen Mat</span>
         </div>
       </div>
     </div>
 
+    <!--For Cat  -->
     <div class="category-card">
-      <div class="category-image">
-        <img src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/guinea-pig-paw-pawinspired.jpg?v=1744794386" alt="Small animal paw guinea pig or rabbit foot by Paw Inspired" loading="lazy">
+      <div class="category-image-hover">
+  <div class="image-wrapper">
+    <a id="cat-category-link" href="/collections/dog-products">
+    <img id="cat-category-image" class="image-default" src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/cat-paw-pawinspired.jpg?v=1744794386" alt="Cute cat paw for pet product by Paw Inspired"  loading="lazy"/>
+    <img class="image-hover" src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/we-connect-hand-and-paw-pawinspired.jpg?v=1745225176" alt="High Five" />
+    <div class="dark-overlay"></div>
+  </div>
+  <a href="/collections/cat-products" class="image-link-cover"></a>
       </div>
       <div class="category-content">
-        <h3 class="category-title">FOR SMALL ANIMALS</h3>
+        <h3 class="category-title">CAT</h3>
+        <p class="category-subtitle">Kitten / Adult / Senior</p>
+        <div class="category-tags">
+          <span class="category-tag" data-type="cat" data-tag="Pads">Pads</span>
+          <span class="category-tag" data-type="cat" data-tag="Mats">Mats</span>
+          <span class="category-tag" data-type="cat" data-tag="Liners">Liners</span>
+        </div>
+      </div>
+    </div>
+
+    <!--For Small Pet  -->
+    <div class="category-card">
+      <div class="category-image-hover">
+  <div class="image-wrapper">
+    <a id="small-pet-category-link" href="/collections/small-animal-products">
+    <img id="small-pet-category-image" class="image-default" src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/guinea-pig-paw-pawinspired.jpg?v=1744794386" alt="Small animal paw guinea pig or rabbit foot by Paw Inspired" loading="lazy"/>
+    <img class="image-hover" src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/we-connect-hand-and-paw-pawinspired.jpg?v=1745225176" alt="High Five" />
+    <div class="dark-overlay"></div>
+  </div>
+  <a href="/collections/small-animal-products" class="image-link-cover"></a>
+      </div>
+      <div class="category-content">
+        <h3 class="category-title">SMALL PET</h3>
         <p class="category-subtitle">Guinea Pig / Rabbit / Ferret</p>
         <div class="category-tags">
-          <span class="category-tag active">Toilet</span>
-          <span class="category-tag">Pads</span>
-          <span class="category-tag">Mats</span>
-          <span class="category-tag">Liners</span>
+          <span class="category-tag" data-type="small pet" data-tag="toilet">Toilet</span>
+          <span class="category-tag"data-type="small pet" data-tag="Pads">Pads</span>
+          <span class="category-tag"data-type="small pet" data-tag="Mats">Mats</span>
+          <span class="category-tag"data-type="small pet" data-tag="Liners">Liners</span>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+.paw-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://cdn.shopify.com/s/files/1/0611/7992/0584/files/we-connect-hand-and-paw-pawinspired.jpg?v=1745225176");
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: 2;
+  border-radius: 0.5rem;
+}
+
+.category-image-hover {
+  position: relative;
+  width: 100%;
+  height: auto;
+  z-index: 1;
+}
+
+.category-image-hover:hover #dog-hover-image {
+  opacity: 0;
+}
+
+.category-image-hover:hover .paw-overlay {
+  opacity: 1;
+}
+</style>
 
 {% schema %}
 {
