@@ -1,0 +1,118 @@
+/*── 1) 視頻區 16:7 + 滿屏 + z-index ──*/
+.video-carousel-section {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    background: #fff;
+    overflow: hidden;
+    z-index: 1;
+  }
+  .video-bg {
+    position: absolute; top:0; left:0;
+    width:100%; height:100%;
+    pointer-events: none;
+  }
+  .video-bg iframe {
+    position: absolute;
+    top:50%; left:50%;
+    width:100% !important;
+    height:auto !important;
+    min-height:100% !important;
+    transform: translate(-50%, -50%);
+  }
+  
+  /*── 2) Carousel 容器與箭頭 ──*/
+  .product-carousel {
+    position: absolute;
+    bottom: 4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10; /* 蓋過影片 */
+    text-align: center;
+  }
+  .carousel-arrow {
+    display: inline-block;
+    background: rgba(255,255,255,0.8);
+    border: none;
+    border-radius: 50%;
+    width: 2.8rem; height: 2.8rem;
+    font-size: 1.6rem;
+    cursor: pointer;
+    vertical-align: middle;
+    margin: 0 1rem;
+  }
+  .carousel-track {
+    display: inline-flex;
+    gap: 0.8rem !important;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  /*── 3) 卡片本體（Flex Row）──*/
+  .product-card {
+    display: inline-flex;
+    align-items: center;
+    flex: 0 0 auto;
+    width: 40rem;
+    height: 10rem;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 1rem;
+    z-index: 11; /* 蓋過 track 底圖 */
+  }
+  
+  /*── 4) 去掉所有灰階濾鏡 & 連結下劃線 ──*/
+  .product-carousel img {
+    filter: none !important;
+  }
+  .card-link {
+    text-decoration: none !important;
+    color: inherit !important;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  /*── 5) 主圖 & 色樣位置與大小 ──*/
+  img.main {
+    width: 10rem !important;
+    height: 10rem !important;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+  }
+  img.pattern {
+    width: 1.6rem !important;
+    object-fit: contain; 
+    margin-right: 0.75rem;
+  }
+  
+  /*── 6) 文字區 ──*/
+  .info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 1rem;
+  }
+  .title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: -8px 0 0 !important;
+    color: #000;
+  }
+  .price {
+    font-size: 1.6rem;
+    margin: 2px 0 0;
+    color: #000;
+  }
+  
+  /*── 7) 購物袋按鈕 ──*/
+  .add-to-cart {
+    margin-left: auto;
+    background: transparent;
+    border: none;
+    font-size: 2.4rem;
+    cursor: pointer;
+  }
+  

@@ -1,0 +1,18 @@
+{%- comment -%} snippet: products-carousel.liquid {%- endcomment -%}
+<div class="products-carousel-wrapper">
+    <div class="products-carousel">
+      {%- for item in include.items -%}
+        <div class="product-card">
+          <a href="{{ item.url }}" class="product-image">
+            <img src="{{ item.image }}" alt="{{ item.title }}">
+          </a>
+          <div class="product-info">
+            <a href="{{ item.url }}" class="product-title">{{ item.title }}</a>
+            <span class="product-price">{{ item.price }}</span>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+    <button class="drag-handle" aria-label="Drag me to scroll">DRAG ME →</button>
+  </div>
+  

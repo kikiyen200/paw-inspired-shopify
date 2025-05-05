@@ -1,0 +1,50 @@
+{% comment %}
+  Products Section
+{% endcomment %}
+{% assign products_data = 
+    {
+      "just-in": [
+        { "image":"https://cdn.shopify.com/s/files/1/0611/7992/0584/files/round-playpen-mats-bordercollie-gray-pawinspired.jpg?v=1745222609", "title":"Anxiety Vest",              "price":"$33.99", "url":"/products/anxiety-vest" },
+        { "image":"https://cdn.shopify.com/s/files/1/0611/7992/0584/files/ultra-absorbent-cat-pads.jpg?v=1745220636",      "title":"Ultra Absorbent Cat Pads",   "price":"$24.95", "url":"/products/cat-pads" },
+        { "image":"https://cdn.shopify.com/s/files/1/0611/7992/0584/files/furr-o-burrowing-pet-bed.jpg?v=1745220636",      "title":"Furr-O® Burrowing Pet Bed", "price":"$24.99", "url":"/products/burrowing-pet-bed" },
+        { "image":"https://cdn.shopify.com/s/files/1/0611/7992/0584/files/disposable-male-wraps.jpg?v=1745221638",         "title":"Disposable Male Wraps",      "price":"$22.99", "url":"/products/disposable-male-wraps" }
+      ],
+      "top-picks": [
+        /* ...自行放第二組四筆... */
+      ],
+      "on-sale": [
+        /* ...自行放第三組四筆... */
+      ]
+    }
+  %}
+  
+  <section class="products-section">
+    <div class="products-header">
+      <h2 class="products-title">PRODUCTS</h2>
+      <p class="products-subtitle">Best-Selling Pet Products Loved by Real Pet Parents</p>
+    </div>
+  
+    <!-- Tabs -->
+    <div class="products-tabs">
+      <button class="tab-button active" data-tab="just-in">Just In</button>
+      <button class="tab-button"        data-tab="top-picks">Top Picks</button>
+      <button class="tab-button"        data-tab="on-sale">On Sale</button>
+    </div>
+  
+    <!-- Carousel (預設 Just In) -->
+    {% include 'products-carousel', items: products_data['just-in'] %}
+  
+  </section>
+  
+  
+  {% schema %}
+    {
+      "name": "Section name",
+      "settings": [],
+       "presets": [
+      {
+        "name": "Products"
+      }
+    ]
+    }
+  {% endschema %}

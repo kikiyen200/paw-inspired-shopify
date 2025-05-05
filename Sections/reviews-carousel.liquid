@@ -1,0 +1,104 @@
+{%- comment -%}
+  社群影片 Reviews 輪播 Section
+  可在後台以「區塊 Block」形式新增／編輯每支影片
+{%- endcomment -%}
+
+{{ 'reviews-carousel.css' | asset_url | stylesheet_tag }}
+
+<section class="reviews-carousel-section">
+  <!-- 標題 -->
+  <h2 class="rc-heading">SHARE YOUR PET'S BEST MOMENTS!</h2>
+  <p class="rc-subheading">
+    Tag <strong style="color:#00b4ed;">@pawInspired</strong>
+    +
+    <strong style="color:#00b4ed;">#PawInspiredPets</strong><br>
+    on Instagram
+  </p>
+  <a href="/pages/paw-inspired-social-media-photo-promotion" class="button">
+    Be Featured Next!
+  </a>
+
+  <!-- 輪播容器 -->
+  <div class="reviews-carousel">
+    <button class="rc-arrow prev">&lt;</button>
+    <div class="rc-track">
+      {% for block in section.blocks %}
+        <div class="rc-slide">
+          <div class="rc-inner">
+            <video class="rc-video" muted loop playsinline preload="metadata">
+              <source src="{{ block.settings.video_url }}" type="video/mp4" />
+            </video>
+            <div class="rc-card">
+              <a href="{{ block.settings.product_link }}">
+                <img
+                  src="{{ block.settings.product_image | img_url: '400x' }}"
+                  alt="{{ block.settings.product_title }}"
+                />
+                <div class="rc-info">
+                  <div class="rc-title">{{ block.settings.product_title }}</div>
+                  <div class="rc-price">{{ block.settings.product_price }}</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div><!-- /.rc-track -->
+    <button class="rc-arrow next">&gt;</button>
+  </div><!-- /.reviews-carousel -->
+</section>
+
+{% schema %}
+{
+  "name": "Reviews Carousel",
+  "max_blocks": 10,
+  "settings": [],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "影片 Slide",
+      "settings": [
+        {
+          "id": "video_url",
+          "type": "text",
+          "label": "影片網址 (MP4)"
+        },
+        {
+          "id": "product_image",
+          "type": "image_picker",
+          "label": "商品封面圖"
+        },
+        {
+          "id": "product_link",
+          "type": "url",
+          "label": "商品連結"
+        },
+        {
+          "id": "product_title",
+          "type": "text",
+          "label": "商品名稱"
+        },
+        {
+          "id": "product_price",
+          "type": "text",
+          "label": "商品價格"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews Carousel",
+      "blocks": [
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" },
+        { "type": "slide" }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+{{ 'reviews-carousel.js' | asset_url | script_tag }}

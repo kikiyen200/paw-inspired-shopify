@@ -1,0 +1,114 @@
+/* products.css */
+
+/* 容器 */
+.products-section {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+  .products-title {
+    font-size: 3.2rem;
+    font-weight: bold;
+    color: #00B4ED;
+    margin-bottom: 0.5rem;
+  }
+  .products-subtitle {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 2.5rem;
+  }
+  
+  /* Tabs */
+  .products-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+  .products-tabs .tab-button {
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(0, 180, 237, .4);
+    margin: 0 2rem;                /* 加大間距 */
+    cursor: pointer;
+    transition: color .3s;
+  }
+  .products-tabs .tab-button.active {
+    color: #00B4ED;
+  }
+  
+  /* ---- Carousel & 4col ---- */
+.products-carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    flex-wrap: nowrap;
+  }
+  .products-carousel {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 1rem;  /* 讓進度條有空間 */
+  }
+  .products-carousel::-webkit-scrollbar { display: none; }
+  .product-card {
+    flex: 0 0 25%;
+    box-sizing: border-box;
+  }
+  .product-image img {
+    width: 100%;
+    display: block;
+  }
+  .product-info {
+    text-align: left;
+    margin-top: .5rem;
+  }
+  /* 去掉預設連結底線與藍色 */
+  .product-title {
+    display: inline-block;
+    color: #333;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .product-price {
+    display: block;
+    color: #666;
+    margin-top: .25rem;
+  }
+  
+  /* ---- Drag Handle ---- */
+  .drag-handle {
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,.8);
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: grab;
+    transition: background .2s;
+  }
+  .drag-handle:active {
+    cursor: grabbing;
+    background: rgba(255,255,255,.95);
+  }
+  
+  /* ---- Progress Bar ---- */
+  .products-progress {
+    position: relative;
+    height: 6px;
+    background: #ddd;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .products-progress .progress-fill {
+    height: 100%;
+    background: #00B4ED;
+    width: 0;
+    transition: width .2s;
+  }

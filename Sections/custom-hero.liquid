@@ -1,0 +1,23 @@
+{{ 'custom-hero.css' | asset_url | stylesheet_tag }}
+<div class="hero-with-bg">
+  <div class="hero-with-bg__text">
+    <h2>You are why We are</br>Paw Inspired®</h2>
+    <p>
+      If you are reading this, you should know YOU ARE AMAZING.</br> You have taken a step to give your loved one a little extra care.</br> 
+      Our products are made for you. </br> They are designed to help caring pet parents like yourself on the honorable mission of making their pet’s time on Earth a brighter one.
+    </p>
+    <a href="/collections/all" class="button">CARE STARTS HERE</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Hero",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Custom Hero"
+    }
+  ]
+}
+{% endschema %}
