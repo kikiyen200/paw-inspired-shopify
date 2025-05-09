@@ -4,10 +4,10 @@
   background-position: right 70%; 
   background-size: cover;
 
-  padding-top: 16rem;
-  padding-bottom: 16rem;
-  padding-left: 17rem;
-  padding-right: 8rem;
+  padding-top: 8rem;
+  padding-bottom: 8rem;
+  padding-left: 12rem;
+  padding-right: 0rem;
 
   display: flex;
   align-items: flex-start;      
@@ -15,8 +15,8 @@
 }
 
 .hero-with-bg__text {
-  max-width: 35%;
-  padding: 8rem 16rem;      
+  max-width: 40%;
+  padding: 4rem 0;      
   color: #00b4ed;               
 }
 
@@ -79,5 +79,50 @@
   .hero-with-bg__text {
     max-width: 100%;
     padding: 1rem 0;
+  }
+}
+
+.hero-with-bg__image {
+  display: none !important;
+}
+
+/* —— Mobile Hero —— */
+@media screen and (max-width: 749px) {
+  .hero-with-bg {
+    background: none !important;
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  
+  .hero-with-bg__image {
+    display: block !important;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  .hero-with-bg__text {
+    max-width: 100%;
+    margin: 0 auto 1.5rem;
+    padding: 0;
+  }
+
+  .hero-with-bg__text h2 {
+    font-size: 3.2rem;
+    line-height: 1.2;
+    margin: -70rem 0 1rem;
+  }
+  
+  .hero-with-bg__text p {
+    font-size: 1.6rem;
+    line-height: 1.4;
+    margin: 2rem 0 2rem;
+  }
+  
+  .hero-with-bg__text .button {
+    display: inline-block;
+    font-size: 2rem;
+    padding: 1rem 0 2rem;
+    margin: 0 auto 25rem;
   }
 }

@@ -1,0 +1,225 @@
+.rating-carousel-section {
+    padding: 4rem 1rem;
+    text-align: center;
+  }
+  
+  .rating-heading {
+    font-size: 3.2rem;
+    color: #00b4ed;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  .rating-subheading {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+  }
+  
+  .rating-carousel-section .button {
+    position: relative;          
+    background: transparent;     
+    text-decoration: none; 
+    display: inline-block;
+    padding: 2rem 0;
+    line-height: 2;
+    font-size: 2rem;
+    color: #00b4ed;
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+  .rating-carousel-section .button::after {
+    content: '';
+    position: absolute;          
+    left: 0;
+    bottom: -4px;  
+    top: 100%;
+    margin-top: -1rem;
+    width: 100%;
+    height: 2px;               
+    background-color: #00B4ED;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    margin-top: -3rem;
+    margin-bottom: 8rem;
+  }
+  .rating-carousel-section .button:hover::after,
+  .rating-carousel-section .button:focus::after {
+    transform: scaleX(1);
+  }
+  .rating-carousel {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    margin: 6rem 8rem;
+  }
+  .rating-carousel .rc-track {
+    display: flex;
+    gap: 8rem;              
+    padding-bottom: 2rem;    
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .rating-carousel .rc-track::-webkit-scrollbar {
+    display: flex;
+  }
+  
+  /* .rc-review {
+    flex: 0 0 40%;         
+    scroll-snap-align: center;
+    display: flex;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 2rem;
+    position: relative;
+  }
+  
+  
+  .rc-review-left {
+    position: relative;
+    margin-right: 2rem;
+    min-width: 6rem;
+  }
+  .rc-stamp {
+    position: absolute;
+    top: -1rem; left: -1rem;
+    width: 4rem; height: 4rem;
+  }
+  .rc-date,
+  .rc-author {
+    display: block;
+    font-size: 1.8rem;
+    color: #777;
+    margin-bottom: 0.25rem;
+  }
+  .rc-stars {
+    margin: 0.5rem 0 1rem;
+  }
+  .star {
+    width: 2rem; height: 2rem;
+    fill: #ccc;
+    margin-right: 0.25rem;
+  }
+  .star.on {
+    fill: #00b4ed;
+  }
+  .rc-product-icon {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    width: 2rem; height: 2rem;
+  }
+  
+  .rc-review-text {
+    flex: 1;
+    font-size: 2rem;
+    color: #333;
+    line-height: 1.6;
+  } */
+  .review-card {
+    display: flex;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+  .review-card__media {
+    position: relative;
+    flex: 0 0 40%;
+    min-width: 240px; /* 視你的比例微調 */
+  }
+  .review-card__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  .review-card__stamp {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 3rem;
+    height: 3rem;
+  }
+  .review-card__overlay {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    color: #fff;
+  }
+  .review-card__date,
+  .review-card__author {
+    display: block;
+    font-size: 0.875rem;
+    margin-bottom: 0.25rem;
+  }
+  .review-card__rating {
+    display: flex;
+    gap: 0.25rem;
+    margin: 0.5rem 0;
+  }
+  .review-card__rating .star {
+    width: 1rem;
+    height: 1rem;
+    fill: #00b4ed;
+  }
+  .review-card__rating .star.off {
+    fill: #ccc;
+  }
+  .review-card__link {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: rgba(0,180,237,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .review-card__link svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: #fff;
+  }
+  .review-card__body {
+    flex: 1;
+    padding: 2rem;
+  }
+  .review-card__title {
+    font-size: 1.5rem;
+    color: #00b4ed;
+    margin-bottom: 1rem;
+  }
+  .review-card__text {
+    font-size: 1rem;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .rc-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 4rem;
+    color: #00b4ed;
+    cursor: pointer;
+    z-index: 20;
+    align-content: center;
+  }
+  .prev { left: 4rem; }
+  .next { right: 4rem; }
+  
+  @media (max-width: 768px) {
+    .rc-review { flex: 0 0 80%; }
+    .rating-subheading { font-size: 0.9rem; }
+    .rating-link { font-size: 1.4rem; }
+  }
+  

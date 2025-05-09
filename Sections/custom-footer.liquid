@@ -1,0 +1,301 @@
+<link
+    rel="stylesheet"
+    href="{{ 'custom-footer.css' | asset_url }}"
+  >
+  
+  <footer class="custom-footer">
+  <div class="container">
+    <div class="custom-footer__top">
+      <div class="footer-subscribe">
+        <h3>UNLOCK EXCLUSIVE OFFERS<br>JOIN PAW FAM!</h3>
+        
+        {% if form.posted_successfully? %}
+    <p class="subscribe-form__success">Thanks for subscribing! 🎉</p>
+  {% else %}
+  
+        {% form  'contact', id: 'newsletter_form', class: 'subscribe-form' %}
+  {{ form.errors | default_errors }}
+           <input type="hidden" name="contact[tags]" value="newsletter">
+
+  <input
+    type="email"
+    name="contact[email]"
+    placeholder="Email"
+    required
+  >
+          <button type="submit"><strong>Subscribe&ensp;⟩ </strong></button>
+         {% endform %}
+  {% endif %}
+</div>
+      
+
+      <div class="footer-social-feed">
+          <div class="feed-header">FOLLOW<span style="font-weight:600;">@PawInspired</span>|TAG<span style="font-weight:600;">#PawInspiredPets</span>
+          <a href="https://www.instagram.com/pawinspired/" target="_blank" class="more-link">More Pet Cuteness</a>
+    </div>
+  
+    <div class="feed-images">
+     <a href="https://www.instagram.com/p/CsCBr7wPbZ-/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/puppy-on-washable-dog-pad-paw-inspired.jpg?v=1746578621"
+          alt="Cute puppy sitting on Paw Inspired washable pee pad on carpet and wooden floor."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+      
+      <a href="https://www.instagram.com/p/DCpxuI7BLvW/?img_index=1"
+         target="_blank"
+         class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/cat-sleeping-on-paw-inspired-snuggle-bed.jpg?v=1746579282"
+          alt="Tabby cat peacefully sleeping on a bright pink Paw Inspired® Snuggle Bed on a gray couch."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+  
+      <a href="https://www.instagram.com/p/CyyY8oOihzk/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/senior-dog-in-male-wrap-playing-with-ball.jpg?v=1746578622"
+          alt="Senior dog wearing Paw Inspired male dog wrap while playing with a green toy ball indoors."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+  
+     <a href="https://www.instagram.com/p/C3T3N5LvS9z/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/guinea-pig-in-furro-burrowing-bed-eating-cucumber.jpg?v=1746584908"
+          alt="Adorable guinea pig sitting in a Furro® burrowing pet bed, looking up excitedly at a cucumber treat."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+              
+      <a href="https://www.instagram.com/p/Cstaq42hePf/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/puppy-on-car-seat-cover-mat-paw-inspired.jpg?v=1746578622"
+          alt="White and tan puppy lying on Paw Inspired waterproof car seat cover."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+              
+      <a href="https://www.instagram.com/p/CXBmJSxp_TF/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/dog-next-to-paw-inspired-disposable-diapers-pack.jpg?v=1746578622"
+          alt="Dog sitting beside a package of Paw Inspired Ultra Protection Disposable Dog Diapers under a Christmas tree."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+              
+     <a href="https://www.instagram.com/p/Cgwun75q36G/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/puppy-shaking-hand-on-paw-inspired-washable-pad.jpg?v=1746583791"
+          alt="Adorable dachshund puppy giving paw while sitting on a Paw Inspired® washable pee pad."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+              
+     <a href="https://www.instagram.com/p/ChttiQKuYZO/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/rottweiler-labrador-on-paw-inspired-large-washable-dog-pad.jpg?v=1746584125"
+          alt="Rottweiler and Labrador retriever laying on a large Paw Inspired® washable dog pee pad."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+<!-- duplicated for seamless loop -->
+              <a href="https://www.instagram.com/p/CsCBr7wPbZ-/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/puppy-on-washable-dog-pad-paw-inspired.jpg?v=1746578621"
+          alt="Cute puppy sitting on Paw Inspired washable pee pad on carpet and wooden floor."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+      
+      <a href="https://www.instagram.com/p/DCpxuI7BLvW/?img_index=1"
+         target="_blank"
+         class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/cat-sleeping-on-paw-inspired-snuggle-bed.jpg?v=1746579282"
+          alt="Tabby cat peacefully sleeping on a bright pink Paw Inspired® Snuggle Bed on a gray couch."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+  
+      <a href="https://www.instagram.com/p/CyyY8oOihzk/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/senior-dog-in-male-wrap-playing-with-ball.jpg?v=1746578622"
+          alt="Senior dog wearing Paw Inspired male dog wrap while playing with a green toy ball indoors."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+  
+     <a href="https://www.instagram.com/p/C3T3N5LvS9z/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/guinea-pig-in-furro-burrowing-bed-eating-cucumber.jpg?v=1746584908"
+          alt="Adorable guinea pig sitting in a Furro® burrowing pet bed, looking up excitedly at a cucumber treat."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+              
+      <a href="https://www.instagram.com/p/Cstaq42hePf/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/puppy-on-car-seat-cover-mat-paw-inspired.jpg?v=1746578622"
+          alt="White and tan puppy lying on Paw Inspired waterproof car seat cover."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+              
+      <a href="https://www.instagram.com/p/CXBmJSxp_TF/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/dog-next-to-paw-inspired-disposable-diapers-pack.jpg?v=1746578622"
+          alt="Dog sitting beside a package of Paw Inspired Ultra Protection Disposable Dog Diapers under a Christmas tree."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+              
+     <a href="https://www.instagram.com/p/Cgwun75q36G/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/puppy-shaking-hand-on-paw-inspired-washable-pad.jpg?v=1746583791"
+          alt="Adorable dachshund puppy giving paw while sitting on a Paw Inspired® washable pee pad."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+              
+     <a href="https://www.instagram.com/p/ChttiQKuYZO/" target="_blank" class="feed-item">
+        <img
+          src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/rottweiler-labrador-on-paw-inspired-large-washable-dog-pad.jpg?v=1746584125"
+          alt="Rottweiler and Labrador retriever laying on a large Paw Inspired® washable dog pee pad."
+        >
+        <span class="feed-item__icon">
+          <svg viewBox="0 0 24 24" width="24" height="24">
+            <path fill="#fff" d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5C22 19.55…"/>
+          </svg>
+        </span>
+      </a>
+    </div>
+    </div>          
+  </div>
+              
+  <hr>
+              
+  <div class="custom-footer__middle">
+      <div class="footer-columns">
+        <div class="col">
+          <h4>About Us</h4>
+          <ul>
+            <li><a href="/pages/our-story-updated">Our Story</a></li>
+            <li><a href="/pages/paw-inspired-social-media-photo-promotion">Rewards Program</a></li>
+            <li><a href="/pages/terms-of-service">Terms of Use</a></li>
+            <li><a href="/pages/privacy-policy">Privacy Policy</a></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h4>Shop</h4>
+          <ul>
+            <li><a href="/collections/all">Shop All</a></li>
+            <li><a href="/collections/dog-products">Dog Products</a></li>
+            <li><a href="/collections/cat-products">Cat Products</a></li>
+            <li><a href="/collections/small-animal-products">Small Animals</a></li>
+          </ul>
+        </div>
+        <div class="col">
+          <h4>Help & Info</h4>
+          <ul>
+            <li><a href="/blogs/dogs/how-to-choose-and-put-on-a-disposable-dog-diaper">Size & Fit Guide</a></li>
+            <li><a href="/pages/washing-instructions">Washing & Care</a></li>
+            <!-- <li><a href="/pages/washing-instructions"">FAQs</a></li> -->
+          </ul>
+        </div>
+        <div class="col">
+          <h4>Supports</h4>
+          <ul>
+            <li><a href="/pages/contact">Contact Us</a></li>
+            <!-- <li><a href="/pages/contact">Help Center</a></li> -->
+            <li><a href="/pages/returns">Returns & Refunds</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-cta">
+        <h4>We’re here to brighten their lives</h4>
+        <p class="small">Thanks for scrolling. Time to hug your pet!</p>
+        <div class="footer-icons">
+          {% render 'social-media-icons' %}
+    </div>
+  </div>
+</div>
+              
+<div class="custom-footer__bottom">
+  <p class="copyright"> Made with love by Paw Inspired® | © {{ 'now' | date: '%Y' }} All rights reserved </p>      
+</div>
+              
+  </footer>
+  
+  {% schema %}
+    {
+      "name": "custom-footer",
+      "settings": [],
+      "presets": [
+        {
+          "name": "custom-footer",
+        }
+      ]
+    }
+  {% endschema %}

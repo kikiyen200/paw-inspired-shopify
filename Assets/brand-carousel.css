@@ -8,8 +8,8 @@
 .carousel-track {
   display: flex;
   width: max-content;
-  animation: scroll 40s linear infinite;
-  gap: 8rem;
+  animation: scroll 80s linear infinite;
+  gap: 8rem !important;
   align-items: center;
 }
 
@@ -17,6 +17,7 @@
 max-height: 160px;
 width: auto;
 height: auto;
+margin-right:4rem;
 object-fit: contain;
 filter: grayscale(100%);
 opacity: 0.8;
@@ -41,7 +42,7 @@ transition: opacity 0.3s;
 @media (max-width: 768px) {
   .carousel-track {
     gap: 2rem;
-    animation-duration: 60s;
+    animation-duration: 80s;
   }
 
   .carousel-track img {

@@ -1,0 +1,213 @@
+{% comment %}
+  客戶評價輪播區塊
+{% endcomment %}
+
+<link rel="stylesheet" href="{{ 'rating-carousel.css' | asset_url }}">
+
+<section class="rating-carousel-section">
+  <div class="rating-header">
+    <h2 class="rating-heading">{{ section.settings.title }}</h2>
+    <p class="rating-subheading">{{ section.settings.subtitle }}</p>
+    <a href="{{ section.settings.link_url }}" class="button">
+      {{ section.settings.link_text }}
+    </a>
+  </div>
+  <div class="review-card">
+    <!-- 左半部：圖片＋浮水印＋Meta＋評價星＋購物車連結 -->
+    <div class="review-card__media">
+      <img 
+        src="{{ block.settings.image_url }}" 
+        alt="Review image" 
+        class="review-card__image"
+      >
+      {% if block.settings.stamp_url %}
+        <img 
+          src="{{ block.settings.stamp_url }}" 
+          alt="Approved stamp" 
+          class="review-card__stamp"
+        >
+      {% endif %}
+      <div class="review-card__overlay">
+        <span class="review-card__date">{{ block.settings.date }}</span>
+        <span class="review-card__author">{{ block.settings.author }}</span>
+        <div class="review-card__rating">
+          {% for i in (1..5) %}
+            {% if i <= block.settings.rating %}
+              <!-- 實心星 -->
+              <svg class="star on" viewBox="0 0 24 24">
+                <path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.864 1.472 
+                         8.303L12 18.896l-7.408 4.577 1.472-8.303L0 
+                         9.306l8.332-1.151z"/>
+              </svg>
+            {% else %}
+              <!-- 空心星 -->
+              <svg class="star off" viewBox="0 0 24 24">
+                <path d="M12 17.27l6.18 3.73-1.64-7.19L22 
+                         9.24l-7.19-.62L12 2 9.19 8.62 
+                         2 9.24l5.46 4.57-1.64 7.19z"/>
+              </svg>
+            {% endif %}
+          {% endfor %}
+        </div>
+        {% if block.settings.product_link %}
+          <a 
+            href="{{ block.settings.product_link }}" 
+            class="review-card__link"
+          >
+            <svg viewBox="0 0 24 24">
+              <path d="M7 4h-2l-3 9v2h2v7h2v-7h10v7h2v-7h2v-2l-3-9h-2v-1h-8v1z
+                       m0 0v-1h8v1h-8zm9 9h-10l2.4-7h5.2l2.4 7zm-4-5h-2v3h2v-3z"/>
+            </svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  
+    <!-- 右半部：標題＋文字 -->
+    <div class="review-card__body">
+      <h3 class="review-card__title">{{ block.settings.title }}</h3>
+      <p class="review-card__text">{{ block.settings.text }}</p>
+    </div>
+  </div>
+  
+  {% comment %} <div class="rating-carousel">
+    <button class="rc-arrow prev">&lt;</button>
+    <div class="rc-track">
+      {% for block in section.blocks %}
+        <div class="rc-review">
+          <div class="rc-review-left">
+            {% if block.settings.stamp_image %}
+              <img src="{{ block.settings.stamp_image | img_url: '80x80' }}"
+                   alt="stamp" class="rc-stamp">
+            {% endif %}
+            <span class="rc-date">{{ block.settings.date }}</span>
+            <span class="rc-author">{{ block.settings.author }}</span>
+            <div class="rc-stars">
+              {% for i in (1..5) %}
+                {% if i <= block.settings.rating %}
+                  <!-- 實心星 -->
+                  <svg class="star on" viewBox="0 0 24 24"><path d="M12 .587l3.668 7.568 8.332 1.151-6.064 5.864 1.472 8.303L12 18.896l-7.408 4.577 1.472-8.303L0 9.306l8.332-1.151z"/></svg>
+                {% else %}
+                  <!-- 空心星 -->
+                  <svg class="star off" viewBox="0 0 24 24"><path d="M12 17.27l6.18 3.73-1.64-7.19L22 9.24l-7.19-.62L12 2 9.19 8.62 2 9.24l5.46 4.57-1.64 7.19z"/></svg>
+                {% endif %}
+              {% endfor %}
+            </div>
+            {% if block.settings.product_link %}
+              <a href="{{ block.settings.product_link }}" class="rc-product-icon">
+                <svg viewBox="0 0 24 24"><path d="M7 4h-2l-3 9v2h2v7h2v-7h10v7h2v-7h2v-2l-3-9h-2v-1h-8v1zm0 0v-1h8v1h-8zm9 9h-10l2.4-7h5.2l2.4 7zm-4-5h-2v3h2v-3z"/></svg>
+              </a>
+            {% endif %}
+          </div>
+          <div class="rc-review-text">
+            {{ block.settings.review_text }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <button class="rc-arrow next">&gt;</button>
+  </div> {% endcomment %}
+</section>
+
+{% schema %}
+{
+  "name": "Rating Carousel",
+  "settings": [
+    {
+      "id": "title",
+      "type": "text",
+      "label": "區塊標題",
+      "default": "HEAR FROM PET PARENTS JUST LIKE YOU"
+    },
+    {
+      "id": "subtitle",
+      "type": "textarea",
+      "label": "副標文字",
+      "default": "Because happy pets say it best<br/>Together, Let's Brighten Their Lives."
+    },
+    {
+      "id": "link_text",
+      "type": "text",
+      "label": "連結文字",
+      "default": "4.7 stars from over 144+ reviews"
+    },
+    {
+      "id": "link_url",
+      "type": "url",
+      "label": "連結 URL"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "評價項目",
+      "settings": [
+        {
+          "id": "stamp",
+          "type": "url",
+          "label": "印章圖示"
+        },
+        {
+          "id": "date",
+          "type": "text",
+          "label": "日期",
+          "default": "2 Jan 2025"
+        },
+        {
+          "id": "author",
+          "type": "text",
+          "label": "作者名稱",
+          "default": "Laura Nunes"
+        },
+        {
+          "id": "rating",
+          "type": "number",
+          "label": "星等 (1~5)",
+          "default": 5
+        },
+        {
+          "id": "product_link",
+          "type": "url",
+          "label": "商品連結 (可選)"
+        },
+        {
+          "id": "review_text",
+          "type": "textarea",
+          "label": "評價文字",
+          "default": "Oh my. I got this for guinea pig on Christmas..."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Rating Carousel",
+      "category": "Testimonials",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "stamp": "https://cdn.shopify.com/s/files/1/0611/7992/0584/files/blue-approved-stamp-guinea-pig-paw.png?v=1746512765",
+            "date": "2025-01-02",
+            "author": "Laura Nunes",
+            "rating": 5,
+            "review_text": "Oh my. I got this for guinea pig on Christmas. Ember loves it. This is a great product. It's made with a lot of thought. 2 paws up definitely."
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "stamp": "https://cdn.shopify.com/s/files/1/0611/7992/0584/files/blue-approved-stamp-dog-paw.png?v=1746512765",
+            "date": "2024-11-10",
+            "author": "S. M.",
+            "rating": 5,
+            "review_text": "I have a 15 year old Papillon that pees at night in my bed… I’ve tried disposable diapers, putting reusable pads all over my bed and 9 times out of 10..."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<script src="{{ 'rating-carousel.js' | asset_url }}" defer></script>
