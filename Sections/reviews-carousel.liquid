@@ -1,12 +1,7 @@
-{%- comment -%}
-  社群影片 Reviews 輪播 Section
-  可在後台以「區塊 Block」形式新增／編輯每支影片
-{%- endcomment -%}
 
 {{ 'reviews-carousel.css' | asset_url | stylesheet_tag }}
 
 <section class="reviews-carousel-section">
-  <!-- 標題 -->
   <h2 class="rc-heading">SHARE YOUR PET'S BEST MOMENTS!</h2>
   <p class="rc-subheading">
     Tag <strong style="color:#00b4ed;">@pawInspired</strong>
@@ -18,9 +13,11 @@
     Be Featured Next!
   </a>
 
-  <!-- 輪播容器 -->
   <div class="reviews-carousel">
-    <button class="rc-arrow prev">&lt;</button>
+    <button type="button" class="rc-arrow prev" aria-label="Previous slide">
+      <svg class="rc-arrow prev" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+      <path d="M6 4L10 8L6 12" stroke="#00B4ED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+         </button>
     <div class="rc-track">
       {% for block in section.blocks %}
         <div class="rc-slide">
@@ -39,13 +36,21 @@
                   <div class="rc-price">{{ block.settings.product_price }}</div>
                 </div>
               </a>
+               <a href="/products/furr-o" class="btn">
+                <button class="add-to-cart" aria-label="Add to cart">
+          {% render 'icon-bag' %}
+        </button>
+      </a>
             </div>
           </div>
         </div>
       {% endfor %}
     </div><!-- /.rc-track -->
-    <button class="rc-arrow next">&gt;</button>
-  </div><!-- /.reviews-carousel -->
+        <button type="button" class="rc-arrow next" aria-label="Next slide">
+          <svg class="rc-arrow next" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+      <path d="M6 4L10 8L6 12" stroke="#00B4ED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg
+            </button>
+  </div>
 </section>
 
 {% schema %}

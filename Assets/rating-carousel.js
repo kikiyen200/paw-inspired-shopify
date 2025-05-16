@@ -1,22 +1,36 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const track = document.querySelector('.rating-carousel .rc-track');
-    const slides = Array.from(track.children);
-    const prevBtn = document.querySelector('.rating-carousel .prev');
-    const nextBtn = document.querySelector('.rating-carousel .next');
-    let index = 0;
-  
-    function scrollToSlide(i) {
-      slides[i].scrollIntoView({ behavior: 'smooth', inline: 'center' });
-    }
-  
-    prevBtn.addEventListener('click', () => {
-      index = Math.max(0, index - 1);
-      scrollToSlide(index);
-    });
-  
-    nextBtn.addEventListener('click', () => {
-      index = Math.min(slides.length - 1, index + 1);
-      scrollToSlide(index);
-    });
+document.addEventListener('DOMContentLoaded', () => {
+  const track = document.querySelector('.rating-carousel .rc-track');
+  const prev  = document.querySelector('.rating-carousel .rc-arrow.prev');
+  const next  = document.querySelector('.rating-carousel .rc-arrow.next');
+  if (!track || !prev || !next) return;
+
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const visibleCount = isMobile ? 1 : 2;
+
+  const reviews = Array.from(track.querySelectorAll('.rc-review'));
+  const originalWidth = track.scrollWidth;
+  reviews.slice(0, visibleCount).forEach(card => {
+    track.appendChild(card.cloneNode(true));
   });
-  
+
+  const style = getComputedStyle(track);
+  const gap   = parseInt(style.getPropertyValue('gap'), 10) || 0;
+  const card  = track.querySelector('.rc-review');
+  const step  = card.offsetWidth + gap;
+
+  next.addEventListener('click', () => {
+    track.scrollBy({ left: step * visibleCount, behavior: 'smooth' });
+    setTimeout(() => {
+      if (track.scrollLeft >= originalWidth) {
+        track.scrollLeft -= originalWidth;
+      }
+    }, 300);
+  });
+
+  prev.addEventListener('click', () => {
+    if (track.scrollLeft <= 0) {
+      track.scrollLeft = originalWidth;
+    }
+    track.scrollBy({ left: -step * visibleCount, behavior: 'smooth' });
+  });
+});

@@ -1,151 +1,235 @@
+:root {
+  --slide-small: 13%;   
+  --slide-active: 20%; 
+  --slide-gap: 3rem;    
+}
+
+/* Heading-Section */
 .rc-heading {
-    font-size: 3.2rem;
-    color: #00b4ed;
-    font-weight: 700;
-    margin-bottom: .5rem;
-  }
-  .rc-subheading {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 1rem;
-  }
-  
-  .reviews-carousel-section .button {
-    position: relative;
-    font-size: 2.4rem;
-    color: #00b4ed;
-    font-weight: 300;
-    margin-bottom: 4rem;
-  }
-  .reviews-carousel-section .button::after {
-    content: '';
-    position: absolute;
-    left: 0; right: 0; bottom: 4px;
-    height: 2px;
-    background: #00b4ed;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform .3s;
-  }
-  .reviews-carousel-section .button:hover::after {
-    transform: scaleX(1);
-  }
-  
-  /* 1. Section：移除左右多餘 padding，只留上下間距 */
-  .reviews-carousel-section {
-    padding: 4rem 0;
-    text-align: center;
-    /* Slide 大小變數：base / active */
-    --slide-base: 13%;
-    --slide-active: calc(var(--slide-base) * 1.12);
-  }
-  
-  /* 2. Carousel 外殼：整列水平 + 垂直置中 */
-  .reviews-carousel {
-    position: relative;
-    width: 100%;
-    display: flex;
-    justify-content: center; /* 水平置中 */
-    align-items: center;     /* 垂直置中 */
-    overflow: hidden;
-  }
-  
-  /* 3. 軌道：內容寬度撐開，自動水平置中 */
-  .reviews-carousel .rc-track {
-    display: flex;
-    justify-content: center; /* 讓所有 slide 聚集在中間 */
-    align-items: center;     /* Slide 垂直置中 */
-    gap: 1.5rem;             /* Slide 之間的間距 */
-    overflow: visible;       /* 讓活躍 slide 放大時不被裁切 */
-  }
-  
-  /* 4. 單一 Slide（預設大小） */
-  .reviews-carousel .rc-slide {
-    flex: 0 0 var(--slide-base);
-    width: var(--slide-base);
-    aspect-ratio: 9/16;
-    transition: flex-basis .3s, width .3s;
-    position: relative;
-  }
-  
-  /* 5. 放大後的 Active Slide */
-  .reviews-carousel .rc-slide.active {
-    flex: 0 0 var(--slide-active);
-    width: var(--slide-active);
-    z-index: 2;
-  }
-  
-  /* 6. 影片本體 */
-  .reviews-carousel .rc-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 1rem;
-    display: block;
-  }
-  
-  /* 7. 箭頭：相對於整個 .reviews-carousel 置中定位 */
-  .reviews-carousel .prev,
-  .reviews-carousel .next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3rem;
-    height: 3rem;
-    background: rgba(255,255,255,0.8);
-    border: none;
-    color: #00b4ed;
-    cursor: pointer;
-    z-index: 3;
-  }
-  
-  /* 左箭頭：在 Active Slide 左側半個 gap 處 */
-  .reviews-carousel .prev {
-    left: calc(50% - var(--slide-active)/2 - 0.75rem);
-  }
-  
-  /* 右箭頭：在 Active Slide 右側半個 gap 處 */
-  .reviews-carousel .next {
-    left: calc(50% + var(--slide-active)/2 + 0.75rem);
-  }
-  
-  /* 8. 商品卡（只顯示在 Active Slide 下方） */
-  .reviews-carousel .rc-card {
-    display: none;
-    position: absolute;
-    bottom: -4rem;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(255,255,255,0.9);
-    border-radius: 1rem;
-    padding: .75rem 1rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,.1);
-    width: 90%;
-    max-width: 18rem;
-    text-align: left;
-    z-index: 4;
-  }
-  .reviews-carousel .rc-slide.active .rc-card {
-    display: block;
-  }
-  
-  /* 商品卡內文 */
-  .rc-card img {
-    width: 3rem; height: 3rem; object-fit: cover;
-    border-radius: .5rem; margin-right: .75rem;
-    vertical-align: middle;
-  }
-  .rc-info {
-    display: inline-block;
-    vertical-align: middle;
-  }
-  .rc-title {
-    font-size: 1.6rem;
-    font-weight: 600;
-    margin-bottom: .25rem;
-  }
-  .rc-price {
-    font-size: 1.4rem;
-    color: #555;
-  }
-  
+  font-size: 3.2rem;
+  color: #00b4ed;
+  font-weight: 700;
+  margin-bottom: .5rem;
+}
+
+.rc-subheading {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.reviews-carousel-section .button {
+  position: relative;          
+  background: transparent;     
+  text-decoration: none; 
+  display: inline-block;
+  padding: 2rem 0;
+  line-height: 2;
+  font-size: 2rem;
+  color: #00b4ed;
+  font-weight: 600;
+  margin-bottom: 2rem;
+}
+
+.reviews-carousel-section .button::after {
+  content: '';
+  position: absolute;          
+  left: 0;
+  bottom: -4px;  
+  top: 100%;
+  margin-top: -1rem;
+  width: 100%;
+  height: 2px;               
+  background-color: #00B4ED;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+  margin-top: -3rem;
+  margin-bottom: 8rem;
+}
+
+.reviews-carousel-section .button:hover::after,
+.reviews-carousel-section .button:focus::after {
+  transform: scaleX(1);
+}
+
+/* Carousel */
+.reviews-carousel-section {
+  padding: 4rem 0;
+  text-align: center;
+  --slide-base: 12%;
+  --slide-active: calc(var(--slide-base) * 1.2);
+}
+
+.reviews-carousel {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6rem 0;
+}
+
+.reviews-carousel .rc-review {
+  flex: 0 0 var(--slide-small);
+  scroll-snap-align: center;
+  transition: flex 0.3s ease;
+}
+
+.reviews-carousel .rc-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: 3rem;
+  padding: 6rem 5vw;
+  width: fit-content;
+  min-width: 100vw;
+  justify-content: center;
+}
+
+.reviews-carousel .rc-track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Initial Size */
+.reviews-carousel .rc-slide {
+  flex: 0 0 240px;
+  aspect-ratio: 9/ 16;
+  align-items: center;
+  display: flex;
+  height: 80%;
+  scroll-snap-align: center;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 0.4;
+  justify-content: center;
+}
+
+.reviews-carousel .rc-slide.active {
+  flex: 0 0 300px;
+  opacity: 1;
+  z-index: 2;
+  margin-top: -4rem; 
+}
+
+.reviews-carousel .rc-slide.active video {
+  opacity: 1;
+}
+
+.reviews-carousel .rc-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center; 
+  border-radius: 1rem;
+  display: block;
+}
+
+.reviews-carousel .rc-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: visible;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Arrow */
+.reviews-carousel .rc-arrow {
+  position: absolute;
+  top: 70%;
+  transform: translateY(-70%);
+  width: 6rem; height: 6rem;
+  background: none; border: none;
+  cursor: pointer;
+  z-index: 10;
+  padding: .5rem;
+}
+
+.reviews-carousel .rc-arrow svg {
+  width: 100%; height: 100%;
+  display: block;
+}
+
+.reviews-carousel .rc-arrow.prev {
+  left: calc(40% - 5rem); 
+  transform: translateY(-50%)  rotate(-90deg) !important;
+}
+
+.reviews-carousel .rc-arrow.next {
+  right: calc(40% - 5rem); 
+  transform: translateY(-20%) scaleX(-1) rotate(0) !important;
+}
+
+.reviews-carousel .rc-arrow:hover {
+  transform: translateY(-50%) scale(1.2);
+}
+
+.reviews-carousel .rc-arrow.prev:hover {
+  transform: translateY(-50%) scaleX(-1) scale(1.2);
+}
+
+/* Card */
+
+.reviews-carousel .rc-card {
+  display: none;
+}
+
+.reviews-carousel .rc-slide.active .rc-card {
+  display: block;
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.6);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  z-index: 5;
+}
+
+/* .reviews-carousel .rc-card {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.5);
+  border-radius: 1rem;
+  padding: 0.75rem 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  width: 100%;
+  height: 7rem;
+  max-width: 23rem;
+  margin-top: -12rem;
+  text-align: left;
+  z-index: 4;
+}
+
+.reviews-carousel .rc-slide.active .rc-card {
+  display: block;
+}
+ */
+.rc-card img {
+  width: 5.5rem; height: 5.5rem; object-fit: cover;
+  border-radius: 0.5rem; margin-right: 0.75rem;
+  vertical-align: middle;
+  margin-top: -5rem;
+}
+.rc-info {
+  display: inline-block;
+  vertical-align: middle;
+}
+.rc-title {
+  font-size: 2.6rem !important;
+  font-weight: 600;
+  margin-bottom: .25rem;
+}
+.rc-price {
+  font-size: 1.4rem;
+  color: #555;
+}
+.reviews-carousel .rc-info .btn{
+  width: 2rem;
+  height: 2rem;
+}

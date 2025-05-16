@@ -1,114 +1,217 @@
-/* products.css */
+.products-carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 3rem;
+  padding: 0 4vw;
+  min-width: 100%;
+  width: fit-content;
+  min-height: 480px;
+  scroll-behavior: smooth;
+}
 
-/* 容器 */
-.products-section {
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 4rem 2rem;
-    text-align: center;
-  }
-  .products-title {
-    font-size: 3.2rem;
-    font-weight: bold;
-    color: #00B4ED;
-    margin-bottom: 0.5rem;
-  }
-  .products-subtitle {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 2.5rem;
-  }
-  
-  /* Tabs */
-  .products-tabs {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    margin: 2rem 0;
-  }
-  .products-tabs .tab-button {
-    background: none;
-    border: none;
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: rgba(0, 180, 237, .4);
-    margin: 0 2rem;                /* 加大間距 */
-    cursor: pointer;
-    transition: color .3s;
-  }
-  .products-tabs .tab-button.active {
-    color: #00B4ED;
-  }
-  
-  /* ---- Carousel & 4col ---- */
 .products-carousel-wrapper {
-    position: relative;
-    overflow: hidden;
-    flex-wrap: nowrap;
-  }
-  .products-carousel {
-    display: flex;
-    gap: 1.5rem;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    padding-bottom: 1rem;  /* 讓進度條有空間 */
-  }
-  .products-carousel::-webkit-scrollbar { display: none; }
-  .product-card {
-    flex: 0 0 25%;
-    box-sizing: border-box;
-  }
-  .product-image img {
-    width: 100%;
-    display: block;
-  }
-  .product-info {
-    text-align: left;
-    margin-top: .5rem;
-  }
-  /* 去掉預設連結底線與藍色 */
-  .product-title {
-    display: inline-block;
-    color: #333;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  .product-price {
-    display: block;
-    color: #666;
-    margin-top: .25rem;
-  }
+  width: auto;
+  max-width: calc(480px * 4 + 3 * 4rem); 
+  margin: 0 auto;
+  overflow: hidden;
+  justify-content: center !important;
+  position: relative;
+  padding-bottom: 3rem;
+}
+
+.products-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Card */
+
+.products-carousel .product-card {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.product-card {
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 240px;
+  height: 360px;
+
+  /* flex: 0 0 auto; */
   
-  /* ---- Drag Handle ---- */
-  .drag-handle {
-    position: absolute;
-    top: 50%;
-    right: 1rem;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,.8);
-    border: none;
-    padding: 1rem 1.5rem;
-    border-radius: 50px;
-    font-weight: 700;
-    cursor: grab;
-    transition: background .2s;
-  }
-  .drag-handle:active {
-    cursor: grabbing;
-    background: rgba(255,255,255,.95);
-  }
-  
-  /* ---- Progress Bar ---- */
-  .products-progress {
-    position: relative;
-    height: 6px;
-    background: #ddd;
-    margin: 0 auto;
-    width: 100%;
-  }
-  .products-progress .progress-fill {
-    height: 100%;
-    background: #00B4ED;
-    width: 0;
-    transition: width .2s;
-  }
+  flex-shrink: 0;
+  text-align: left;
+  margin: 0;
+  cursor: pointer;
+}
+
+.product-card a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.product-card .product-image-wrapper {
+  width: 100%;
+  height: 240px;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-card img {
+  max-width: 100%;
+  max-height: 100%;
+  width: 400px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  transition: transform 0.3s ease;
+  display: block;
+  margin: 0 auto; 
+}
+
+.product-card img:hover {
+  transform: scale(1.05);
+}
+
+.product-info {
+  margin-top: 0.75rem;
+}
+
+.product-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  line-height: 1.3;
+  color: #000;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  color: #555;
+  margin-top: 0.25rem;
+}
+
+
+/* Tabs */
+.products-tabs {
+  margin-bottom: 2.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 10rem;
+}
+.tab-button {
+  background: none;
+  border: none;
+  font-size: 5.6rem;
+  font-weight: 700;
+  cursor: pointer;
+  color: rgba(0, 180, 237, 0.5);
+  padding: 0;
+}
+.tab-button.active {
+  color: rgb(0, 180, 237);
+}
+.tab-button + .tab-button {
+  margin-left: 2rem;
+}
+
+/* Drag me */
+.drag-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255,255,255,0.8);
+  padding: 4.8rem 1.5rem;
+  border-radius: 100%;
+  font-size: 2rem;
+  color: #00b4ed;
+  cursor: pointer;
+  pointer-events: auto;
+  z-index: 20;
+}
+
+/* Progress bar */
+.products-progress {
+  position: absolute;
+  bottom: 0;
+  left: 2vw;
+  right: 2vw;
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.08);
+}
+.progress-fill {
+  width: 25%; 
+  height: 100%;
+  border-radius: 2px;
+  background: #00b4ed;
+  transition: width 0.3s ease;
+  z-index: 100;
+}
+
+/* 調整 section 外距 */
+.products-section {
+  padding: 4rem 2rem 6rem;
+}
+.products-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.products-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: rgb(0,180,237);
+  margin-bottom: 0.5rem;
+}
+.products-subtitle {
+  font-size: 2.0rem;
+  color: #333;
+}
+
+.products .arrow {
+  position: absolute;
+  top: 80%;
+  width: 6rem; height: 6rem;
+  background: none;
+  border: none;
+  transform: translateY(-80%);
+  cursor: pointer;
+  z-index: 10;
+  transition: transform 0.2s;
+  padding: .5rem;
+}
+
+.products .arrow svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.products .arrow.prev {
+   left: 1rem;
+  transform: translateY(-50%)  rotate(-90deg) !important;
+}
+
+
+.products .arrow.next {
+  right: 1rem;
+  transform: translateY(-50%) rotate(0) !important;
+}
+
+.products .arrow:hover {
+  transform: translateY(-50%) scale(1.3);
+}
+
+.products .arrow.prev:hover {
+  transform: translateY(-50%) scaleX(-1) scale(1.3);
+}

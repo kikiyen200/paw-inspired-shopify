@@ -1,64 +1,81 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const track = document.querySelector(".rc-track");
-    const slides = Array.from(track.children);
-    const prevBtn = document.querySelector(".rc-arrow.prev");
-    const nextBtn = document.querySelector(".rc-arrow.next");
-  
-    // 偵測哪一個 slide 最接近容器中心
-    function updateActive() {
+document.addEventListener('DOMContentLoaded', initCarousel);
+document.addEventListener('shopify:section:load', initCarousel);
+
+function initCarousel() {
+  document.querySelectorAll('.reviews-carousel').forEach(carousel => {
+    const track = carousel.querySelector('.rc-track');
+    const slides = Array.from(track.querySelectorAll('.rc-slide'));
+    const prev = carousel.querySelector('.rc-arrow.prev');
+    const next = carousel.querySelector('.rc-arrow.next');
+
+    let centerIndex = Math.floor(slides.length / 2);
+
+    function scrollToCenter(index) {
+      const targetSlide = slides[index];
+      if (!targetSlide) return;
+
       const trackRect = track.getBoundingClientRect();
-      const centerX = trackRect.left + trackRect.width / 2;
-      let closest = null, minDist = Infinity;
-  
-      slides.forEach(slide => {
-        const rect = slide.getBoundingClientRect();
-        const slideCenter = rect.left + rect.width / 2;
-        const dist = Math.abs(slideCenter - centerX);
-        if (dist < minDist) {
-          minDist = dist;
-          closest = slide;
+      const targetRect = targetSlide.getBoundingClientRect();
+
+      const scrollLeft =
+        track.scrollLeft +
+        (targetRect.left - trackRect.left) -
+        (track.offsetWidth / 2 - targetSlide.offsetWidth / 2);
+
+      track.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+      setTimeout(updateActiveByCenter, 400);
+    }
+
+    function updateActiveByCenter() {
+      const center = track.scrollLeft + track.offsetWidth / 2;
+      let minDiff = Infinity;
+      let activeIndex = 0;
+
+      slides.forEach((slide, i) => {
+        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
+        const diff = Math.abs(center - slideCenter);
+        if (diff < minDiff) {
+          minDiff = diff;
+          activeIndex = i;
         }
       });
-  
-      slides.forEach(slide => {
-        const video = slide.querySelector("video");
-        if (slide === closest) {
-          slide.classList.add("active");
-          video.play();
+
+      centerIndex = activeIndex;
+
+      slides.forEach((slide, i) => {
+        const video = slide.querySelector('video');
+        if (i === activeIndex) {
+          slide.classList.add('active');
+          video?.play().catch(() => {});
         } else {
-          slide.classList.remove("active");
-          video.pause();
-          video.currentTime = 0;
+          slide.classList.remove('active');
+          if (video) {
+            video.pause();
+            video.currentTime = 0;
+          }
         }
       });
     }
-  
-    // Throttle 函數
-    function throttle(fn, wait = 100) {
-      let last = 0;
-      return function(...args) {
-        const now = Date.now();
-        if (now - last > wait) {
-          last = now;
-          fn.apply(this, args);
-        }
-      };
-    }
-  
-    // 滾動時更新
-    track.addEventListener("scroll", throttle(updateActive, 100));
-    updateActive(); // 初次啟動
-  
-    // 箭頭事件：平滑滾動到上一／下一張
-    prevBtn.addEventListener("click", () => {
-      const idx = slides.findIndex(s => s.classList.contains("active"));
-      const target = slides[Math.max(0, idx - 1)];
-      target.scrollIntoView({ behavior: "smooth", inline: "center" });
+
+    next.addEventListener('click', () => {
+      centerIndex = Math.min(centerIndex + 1, slides.length - 1);
+      scrollToCenter(centerIndex);
     });
-    nextBtn.addEventListener("click", () => {
-      const idx = slides.findIndex(s => s.classList.contains("active"));
-      const target = slides[Math.min(slides.length - 1, idx + 1)];
-      target.scrollIntoView({ behavior: "smooth", inline: "center" });
+
+    prev.addEventListener('click', () => {
+      centerIndex = Math.max(centerIndex - 1, 0);
+      scrollToCenter(centerIndex);
     });
+
+    track.addEventListener('scroll', () => {
+      window.requestAnimationFrame(updateActiveByCenter);
+    });
+
+    window.addEventListener('resize', () => {
+      scrollToCenter(centerIndex);
+    });
+
+    scrollToCenter(centerIndex);
+    updateActiveByCenter();
   });
-  
+}
