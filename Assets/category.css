@@ -1,7 +1,7 @@
 .category-section {
   padding: 4rem 2rem;
   max-width: 1600px;
-  margin: 0 auto;
+  margin: 0 auto 4rem;
 }
 
 .category-header {
@@ -95,7 +95,7 @@
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 4rem;
+  gap: 2rem;
 }
 
 .category-card {
@@ -159,7 +159,7 @@
   font-size: 32px;
   font-weight: 700;
   color: #00B4ED;
-  margin-top: -1rem;
+  margin-top: -0.5rem;
 }
 
 .category-subtitle {
@@ -171,12 +171,13 @@
 }
 
 .category-tag {
-  padding: 4px 10px;
+  padding: 2px 10px;
   border-radius: 24px;
-  border: 1px solid #ddd;
+  border: 1px solid #b8b8b8;
   font-size: 16px;
+  font-weight: 500;
   color: #555;
-  background-color: #f5f5f5;
+  background-color: #fff;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -256,4 +257,8 @@
   left: 0;
   width: 100%;
   height: 100%;
+}
+.image-wrapper img.no-hover + .image-hover,
+.image-wrapper img.no-hover ~ .dark-overlay {
+  display: none !important;
 }
