@@ -1,80 +1,82 @@
-<!-- Video + Carousel -->
 <section class="video-carousel-section">
-    <!-- 背景影片 -->
+  {% if section.settings.section_video_url_web != blank %}
     <div class="video-bg">
       <iframe
-        src="https://www.youtube.com/embed/WydlKWQ6HxM?autoplay=1&mute=1&loop=1&controls=0&playlist=WydlKWQ6HxM&modestbranding=1&rel=0&iv_load_policy=3"
+        id="video-frame"
+        data-web="{{ section.settings.section_video_url_web }}"
+        data-mobile="{{ section.settings.section_video_url_mobile }}"
+        src=""
         frameborder="0"
         allow="autoplay; encrypted-media"
         allowfullscreen
       ></iframe>
     </div>
-  
-    <div class="product-carousel">
-      <!-- 左箭頭 -->
-      <button class="carousel-arrow prev">&lt;</button>
-  
-      <!-- 卡片滾動區 -->
-      <div class="carousel-track">
-        <!-- 卡片 1 -->
-        <div class="product-card">
-          <a href="/products/designer-dog-pads" class="card-link">
-            <img
-              class="main"
-              src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/washable-designer-dog-pad-persian-pawinspired.jpg?v=1746162730"
-              alt="Designer Dog Pads"
-            />
-            <img
-              class="pattern"
-              src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/washable-designer-dog-pad-persian-pattern-pawinspired.jpg?v=1746167943"
-              alt="Pattern 1"
-            />
+  {% endif %}
+
+  <div class="product-carousel">
+    <div class="carousel-track">
+      {% for block in section.blocks %}
+        {% if block.type == 'product_card' %}
+          <div class="product-card card-link" 
+               data-video-web="{{ block.settings.block_video_url_web }}" 
+               data-video-mobile="{{ block.settings.block_video_url_mobile }}">
+            <img class="main" src="{{ block.settings.main_img | img_url: 'medium' }}" alt="{{ block.settings.title }}" />
+            <img class="pattern" src="{{ block.settings.pattern_img | img_url: 'small' }}" alt="Pattern" />
             <div class="info">
-              <div class="title">Designer Dog Pads</div>
-              <div class="price">$35.99</div>
+              <div class="title">{{ block.settings.title }}</div>
+              <div class="price">{{ block.settings.price }}</div>
             </div>
-          </a>
-          <button class="add-to-cart" aria-label="Add to cart">
-            {% render 'icon-bag' %}
-          </button>
-        </div>
-  
-        <!-- 卡片 2 -->
-        <div class="product-card">
-          <a href="/products/crate-mats" class="card-link">
-            <img
-              class="main"
-              src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/washable-crate-mat-darkgray-pawinspired.jpg?v=1746163247"
-              alt="Crate Mats"
-            />
-            <img
-              class="pattern"
-              src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/washable-crate-mat-pattern-pawinspired.jpg?v=1746167943"
-              alt="Pattern 1"
-            />
-            <div class="info">
-              <div class="title">Crate Mats</div>
-              <div class="price">$21.99</div>
-            </div>
-          </a>
-          <button class="add-to-cart" aria-label="Add to cart">
-            {% render 'icon-bag' %}
-          </button>
-        </div>
-  
-        <!-- …更多卡片… -->
-      </div> <!-- /.carousel-track -->
-  
-      <!-- 右箭頭 -->
-      <button class="carousel-arrow next">&gt;</button>
-    </div> <!-- /.product-carousel -->
-  </section>
-  
-  {% schema %}
-  {
-    "name": "Video Carousel",
-    "settings": [],
-    "presets": [{ "name": "Video Carousel" }]
-  }
-  {% endschema %}
-  
+            <a href="{{ block.settings.link }}" class="add-to-cart" aria-label="Go to product">
+              {% render 'icon-bag' %}
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Video Carousel",
+  "settings": [
+    {
+      "type": "url",
+      "id": "section_video_url_web",
+      "label": "Web YouTube Video"
+    },
+    {
+      "type": "url",
+      "id": "section_video_url_mobile",
+      "label": "Mobile YouTube Video"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product_card",
+      "name": "product Card",
+      "settings": [
+        { "type": "image_picker", "id": "main_img", "label": "Product" },
+        { "type": "image_picker", "id": "pattern_img", "label": "Pattern" },
+        { "type": "text", "id": "title", "label": "Title" },
+        { "type": "text", "id": "price", "label": "Price" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "url", "id": "block_video_url_web", "label": "Web YouTube Product Embed" },
+        { "type": "url", "id": "block_video_url_mobile", "label": "Mobile YouTube Product Embed" }
+      ]
+    }
+  ],
+  "max_blocks": 10,
+  "presets": [
+    {
+      "name": "Video Carousel",
+      "blocks": [
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" },
+        { "type": "product_card" }
+      ]
+    }
+  ]
+}
+{% endschema %}

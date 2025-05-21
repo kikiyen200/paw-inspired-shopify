@@ -7,26 +7,6 @@
   z-index: 1;
 }
 
-/* .video-bg {
-  position: relative;
-  width: 100%;
-  padding-top: 40%;
-  overflow: hidden;
-  background: #000;
-}
-
-.video-bg iframe {
-  position: absolute;
-  top: 50%;          
-  left: 50%;
-  transform: translate(-50%, -50%);
-  min-width: 100%;
-  min-height: 100%;
-  width: auto !important;
-  height: auto !important;
-  border: none;
-}
- */
 .video-bg {
   position: absolute; top:0; left:0;
   width:100%; height:100%;
@@ -44,94 +24,173 @@
 
 .product-carousel {
   position: absolute;
-  bottom: 4rem;
+  bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 10; 
   text-align: center;
 }
+
 .carousel-arrow {
-  display: inline-block;
-  background: rgba(255,255,255,0.8);
-  border: none;
-  border-radius: 50%;
-  width: 2.8rem; height: 2.8rem;
-  font-size: 1.6rem;
-  cursor: pointer;
-  vertical-align: middle;
-  margin: 0 1rem;
+  display: none;
 }
-.carousel-track {
-  display: inline-flex;
-  gap: 0.8rem !important;
+
+.video-carousel-section .carousel-track {
+  display: flex;
   overflow-x: auto;
+  animation: scroll 60s linear infinite;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 0;
+  justify-content: flex-start;
+  gap: 1.5rem !important;
   white-space: nowrap;
 }
 
-/*── 3) 卡片本體（Flex Row）──*/
-.product-card {
-  display: inline-flex;
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.video-carousel-section .product-card {
+  display: flex;
   align-items: center;
-  flex: 0 0 auto;
+  justify-content: space-between;
   width: 40rem;
-  height: 10rem;
+  height: 12rem;
   background: #fff;
   border-radius: 1rem;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  padding: 1rem;
-  z-index: 11; /* 蓋過 track 底圖 */
+  padding: 1.5rem;
+  z-index: 11; 
 }
 
-/*── 4) 去掉所有灰階濾鏡 & 連結下劃線 ──*/
 .product-carousel img {
   filter: none !important;
 }
-.card-link {
+
+.video-carousel-section .product-card.card-link {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 35rem !important;
+  height: 10rem !important;
+  padding: 1rem !important;
+  background: #fff !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
   text-decoration: none !important;
   color: inherit !important;
-  display: inline-flex;
-  align-items: center;
+  box-sizing: border-box !important;
 }
 
-/*── 5) 主圖 & 色樣位置與大小 ──*/
-img.main {
+.video-carousel-section .main,
+.video-carousel-section .pattern,
+.video-carousel-section .add-to-cart {
+  flex-shrink: 0 !important;
+}
+
+.video-carousel-section .info {
+  flex: 1 !important;
+  min-width: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  margin-left: 1rem !important;
+}
+
+.video-carousel-section .main {
   width: 10rem !important;
   height: 10rem !important;
   object-fit: cover;
   border-radius: 0.5rem;
   margin-right: 1rem;
 }
-img.pattern {
+
+.video-carousel-section .pattern {
   width: 1.6rem !important;
   object-fit: contain; 
   margin-right: 0.75rem;
 }
 
-/*── 6) 文字區 ──*/
-.info {
+.video-carousel-section .info {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin-left: 1rem;
 }
-.title {
-  font-size: 2rem;
+
+.video-carousel-section .title {
+  font-size: 1.6rem;
   font-weight: 600;
   margin: -8px 0 0 !important;
   color: #000;
 }
-.price {
-  font-size: 1.6rem;
+
+.video-carousel-section .price {
+  font-size: 1.2rem;
   margin: 2px 0 0;
   color: #000;
 }
 
-/*── 7) 購物袋按鈕 ──*/
-.add-to-cart {
+.video-carousel-section .add-to-cart {
   margin-left: auto;
+  margin-top: 1rem;
   background: transparent;
   border: none;
   font-size: 2.4rem;
   cursor: pointer;
+}
+@media screen and (max-width: 768px) {
+  .video-carousel-section {
+    position: relative;
+    padding-bottom: 0;
+    height: 52vh;
+    overflow: hidden;
+  }
+
+  .video-bg,
+  .video-bg iframe {
+    height: 100% !important;
+  }
+
+  .video-bg iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 160% !important;    
+    height: 160% !important;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .product-carousel {
+    transform: none !important;
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 10;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .video-carousel-section .carousel-track {
+    display: flex;
+    justify-content: flex-start;
+    overflow-x: auto;
+    padding: 0 1rem; 
+    scroll-snap-type: x mandatory;
+  }
+  .video-carousel-section .product-card {
+  scroll-snap-align: center; 
+  flex: 0 0 auto; 
+  }
 }
