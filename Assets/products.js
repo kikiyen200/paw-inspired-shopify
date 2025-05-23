@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const name = tab.dataset.tab;
       wrappers.forEach(w => {
         w.style.display = (w.dataset.tab === name) ? 'block' : 'none';
+      //   if (shouldShow) {
+      //   w.scrollLeft = 0; 
+      // }
       });
     });
   });
@@ -21,27 +24,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const drag = wrap.querySelector('.drag-handle');
     const fill = wrap.querySelector('.progress-fill');
 
+    const scrollTarget = wrap;
+
     if (!carousel || !drag || !fill) return;
 
     function updateProgress() {
       const card = carousel.querySelector('.product-card');
       if (!card) return;
-      const total = carousel.scrollWidth - carousel.clientWidth;
-      const percent = total ? (carousel.scrollLeft / total) * 100 : 0;
+      const total = scrollTarget.scrollWidth - scrollTarget.clientWidth;
+      if (total <= 0) {
+        fill.style.width = `100%`;
+        return;
+      }
+      const percent = (scrollTarget.scrollLeft / total) * 100;
       fill.style.width = `${percent}%`;
     }
 
-    carousel.addEventListener('scroll', updateProgress);
+    scrollTarget.addEventListener('scroll', updateProgress);
     updateProgress();
 
-    // 拖拉滑動
-    let isDown = false, startX = 0, scrollLeft = 0;
+    let isDown = false, startX = 0, scrollLeft = 0, clickStart = 0;
 
     drag.addEventListener('mousedown', e => {
       isDown = true;
       startX = e.pageX;
-      scrollLeft = carousel.scrollLeft;
+      scrollLeft = scrollTarget.scrollLeft;
       drag.style.cursor = 'grabbing';
+      clickStart = Date.now();
     });
 
     document.addEventListener('mouseup', () => {
@@ -53,17 +62,28 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!isDown) return;
       e.preventDefault();
       const walk = (e.pageX - startX) * 2;
-      carousel.scrollLeft = scrollLeft - walk;
+      scrollTarget.scrollLeft = scrollLeft - walk;
       updateProgress();
     });
 
-    // ➡ 按下「Drag Me」時，滾動一頁（4卡寬度）
     drag.addEventListener('click', () => {
+      if (Date.now() - clickStart > 300) return;
       const card = carousel.querySelector('.product-card');
       if (!card) return;
       const gap = parseFloat(getComputedStyle(carousel).gap || 16);
       const cardWidth = card.offsetWidth + gap;
-      carousel.scrollBy({ left: cardWidth * 4, behavior: 'smooth' });
+      scrollTarget.scrollBy({ left: cardWidth * 4, behavior: 'smooth' });
+
+      let frameCount = 0;
+      const maxFrames = 30;
+      const trackProgress = () => {
+        updateProgress();
+        frameCount++;
+        if (frameCount < maxFrames) {
+          requestAnimationFrame(trackProgress);
+        }
+      };
+      requestAnimationFrame(trackProgress);
     });
   });
 });
