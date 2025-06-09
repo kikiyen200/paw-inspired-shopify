@@ -6,18 +6,19 @@
   <p class="rc-subheading">
     Tag <strong style="color:#00b4ed;">@pawInspired</strong>
     +
-    <strong style="color:#00b4ed;">#PawInspiredPets</strong><br>
-    on Instagram
+    <strong style="color:#00b4ed;">#PawInspiredPets</strong> on Instagram
   </p>
   <a href="/pages/paw-inspired-social-media-photo-promotion" class="button">
     Be Featured Next!
   </a>
 
   <div class="reviews-carousel">
+    <!-- Previous Button -->
     <button type="button" class="rc-arrow prev" aria-label="Previous slide">
-      <svg class="rc-arrow prev" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
-      <path d="M6 4L10 8L6 12" stroke="#00B4ED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-         </button>
+  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+    <path d="M6 4L10 8L6 12" stroke="#00B4ED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
     <div class="rc-track">
       {% for block in section.blocks %}
         <div class="rc-slide">
@@ -26,14 +27,14 @@
               <source src="{{ block.settings.video_url }}" type="video/mp4" />
             </video>
             <div class="rc-card">
-              <a href="{{ block.settings.product_link }}">
-                <img
+              <img class="rc-thumb" 
                   src="{{ block.settings.product_image | img_url: '400x' }}"
                   alt="{{ block.settings.product_title }}"
                 />
+              <a href="{{ block.settings.product_link }}">
                 <div class="rc-info">
-                  <div class="rc-title">{{ block.settings.product_title }}</div>
-                  <div class="rc-price">{{ block.settings.product_price }}</div>
+                  <div class="rc-title">{{ block.settings.product_title | strip_html }}</div>
+                  <div class="rc-price">{{ block.settings.product_price | strip_html }}</div>
                 </div>
               </a>
                <a href="/products/furr-o" class="btn">
@@ -46,13 +47,18 @@
         </div>
       {% endfor %}
     </div><!-- /.rc-track -->
-        <button type="button" class="rc-arrow next" aria-label="Next slide">
-          <svg class="rc-arrow next" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
-      <path d="M6 4L10 8L6 12" stroke="#00B4ED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg
-            </button>
+      <!-- Next Button -->
+       <button type="button" class="rc-arrow next" aria-label="Next slide">
+  <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30" fill="none">
+    <path d="M6 4L10 8L6 12" stroke="#00B4ED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
   </div>
 </section>
 
+<script src="{{ 'reviews-carousel.js' | asset_url }}" defer></script>
+
+      
 {% schema %}
 {
   "name": "Reviews Carousel",
@@ -105,5 +111,3 @@
   ]
 }
 {% endschema %}
-
-{{ 'reviews-carousel.js' | asset_url | script_tag }}

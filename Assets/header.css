@@ -1,0 +1,21 @@
+header.site-header {
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+  }
+  .show-header .site-header {
+    opacity: 1;
+  }
+  .site-header .logo img {
+    transition: all 0.3s ease;
+    filter: brightness(0) invert(1); /* 白色 logo 效果 */
+  }
+  .site-header.scrolled {
+    background-color: white;
+  }
+  .site-header.scrolled .menu-icon,
+  .site-header.scrolled .icon-search,
+  .site-header.scrolled .icon-user,
+  .site-header.scrolled .icon-cart {
+    color: #00b4ed;
+  }
+  
