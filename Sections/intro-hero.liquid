@@ -1,0 +1,247 @@
+{% schema %}
+{
+  "name": "Intro Hero",
+  "class": "section-intro-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo image",
+      "default": "{{ 'logo-color.svg' | asset_url }}"
+    },
+    {
+      "type": "text",
+      "id": "slogan",
+      "label": "Slogan text",
+      "default": "Together Let’s Brighten Their Lives®"
+    },
+    {
+      "type": "range",
+      "id": "animation_duration",
+      "label": "Logo animation duration (seconds)",
+      "default": 2,
+      "min": 1,
+      "max": 5,
+      "step": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Intro Hero"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="intro-hero-wrapper">
+  <div class="intro-logo">
+    <img src="{{ section.settings.logo_image }}" alt="{{ shop.name }}">
+  </div>
+  
+  <div class="intro-content">
+    <p class="intro-slogan">{{ section.settings.slogan }}</p>
+    <a href="#content" class="intro-cta">Shop What They Need</a>
+  </div>
+
+  <div class="main-content-wrapper" id="content">
+    {{ content_for_layout }}
+  </div>
+</div>
+
+<style>
+  .intro-hero-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #ffffff;
+  }
+
+  .intro-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+  }
+
+  .intro-logo img {
+    width: 100vw;
+    max-width: 800px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .intro-content {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+
+  .intro-content.visible {
+    opacity: 1;
+  }
+
+  .intro-slogan {
+    font-family: 'Bauer Grotesk', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-in-out;
+    color: #1a1a1a;
+    font-weight: 700;
+  }
+
+  .intro-cta {
+    display: inline-block;
+    padding: 1rem 2rem;
+    background-color: #ff6b6b;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    font-family: 'Bauer Grotesk', sans-serif;
+    font-weight: 500;
+  }
+
+  .intro-cta:hover {
+    background-color: #ff5252;
+    transform: translateY(-2px);
+  }
+
+  .main-content-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .main-content-wrapper.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Custom header styles */
+  .custom-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    padding: 1rem 2rem;
+    z-index: 999;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .custom-header .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .custom-header .logo {
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  .custom-header .logo img {
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .custom-header .nav-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .custom-header .nav-links a {
+    color: #1a1a1a;
+    text-decoration: none;
+    font-family: 'Bauer Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.2s ease;
+  }
+
+  .custom-header .nav-links a:hover {
+    color: #ff6b6b;
+  }
+
+  .custom-header .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  .custom-header .mobile-menu-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: #1a1a1a;
+  }
+
+  @media (max-width: 768px) {
+    .custom-header .nav-links {
+      display: none;
+    }
+    
+    .custom-header .mobile-menu-btn {
+      display: block;
+    }
+  }
+</style>
+
+{% javascript %}
+document.addEventListener('DOMContentLoaded', function() {
+  const logo = document.querySelector('.intro-logo');
+  const slogan = document.querySelector('.intro-slogan');
+  const cta = document.querySelector('.intro-cta');
+  const contentWrapper = document.querySelector('.main-content-wrapper');
+  const animationDuration = {{ section.settings.animation_duration }} * 1000;
+
+  // Add animation to logo
+  logo.style.animation = `shrinkLogoToHeader ${animationDuration}ms ease forwards`;
+
+  // Show slogan and CTA after logo animation
+  setTimeout(() => {
+    slogan.style.opacity = '1';
+    slogan.style.transform = 'translateY(0)';
+    cta.classList.add('visible');
+  }, animationDuration);
+
+  // Show main content after delay
+  setTimeout(() => {
+    contentWrapper.classList.add('visible');
+    
+    // Add delay to ensure header appears after content
+    setTimeout(() => {
+      document.body.classList.add('show-header');
+    }, 200);
+  }, animationDuration + 1000);
+
+  // Mobile menu functionality
+  const mobileMenuBtn = document.querySelector('.custom-header .mobile-menu-btn');
+  const navLinks = document.querySelector('.custom-header .nav-links');
+
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', function() {
+      navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+      this.ariaExpanded = this.ariaExpanded === 'true' ? 'false' : 'true';
+    });
+  }
+});
+{% endjavascript %}

@@ -1,0 +1,95 @@
+{% assign tab_names = "just-in,top-picks,on-sale" | split: "," %}
+
+<section class="products-section">
+  <div class="products-header">
+    <h2 class="products-title">PRODUCTS</h2>
+    <p class="products-subtitle">Best-Selling Pet Products Loved by Pet Parents</p>
+  </div>
+
+  <!-- Tabs -->
+  <div class="products-tabs">
+    <button class="tab-button active" data-tab="just-in">Just In</button>
+    <button class="tab-button" data-tab="top-picks">Top Picks</button>
+    <button class="tab-button" data-tab="on-sale">On Sale</button>
+  </div>
+
+  <!-- Product Carousels by Tab -->
+  <button class="carousel-arrow prev">&larr;</button>
+  <div class="products-carousels">
+    {% for tab in tab_names %}
+      <div class="products-carousel-wrapper"
+           data-tab="{{ tab }}"
+           {% unless tab == "just-in" %}style="display:none"{% endunless %}>
+
+        <div class="products-carousel">
+          {% for block in section.blocks %}
+            {% if block.settings.tab == tab %}
+              <div class="product-card">
+                <a href="{{ block.settings.product_url }}">
+                  <img src="{{ block.settings.product_image | img_url: '600x600_crop_center' }}" alt="{{ block.settings.product_title }}">
+                  <div class="product-info">
+                    <div class="product-title">{{ block.settings.product_title }}</div>
+                    <div class="product-price">{{ block.settings.product_price }}</div>
+                  </div>
+                </a>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <button class="carousel-arrow next">&rarr;</button>
+</section>
+
+{% schema %}
+{
+  "name": "Products",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product Card",
+      "settings": [
+        {
+          "type": "select",
+          "id": "tab",
+          "label": "Category",
+          "options": [
+            { "value": "just-in", "label": "Just In" },
+            { "value": "top-picks", "label": "Top Picks" },
+            { "value": "on-sale", "label": "On Sale" }
+          ],
+          "default": "just-in"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product Image"
+        },
+        {
+          "type": "text",
+          "id": "product_title",
+          "label": "Product Title"
+        },
+        {
+          "type": "text",
+          "id": "product_price",
+          "label": "Product Price"
+        },
+        {
+          "type": "url",
+          "id": "product_url",
+          "label": "Product URL"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products",
+      "blocks": []
+    }
+  ]
+}
+{% endschema %}

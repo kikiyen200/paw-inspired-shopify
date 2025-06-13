@@ -9,19 +9,16 @@
   width: fit-content;
   min-height: 400px;
   scroll-behavior: smooth;
-  scrollbar-width: none;
 }
 
 .products-section .products-carousel-wrapper {
   max-width: calc(360px * 4 + 3 * 3rem); 
   margin: 0 auto;
-   overflow-x: scroll !important;
-   -ms-overflow-style: scrollbar;
+  overflow-x: scroll !important;
+  -ms-overflow-style: scrollbar;
   scrollbar-width: auto;  
-  /* overflow-x: auto; */
   position: relative;
   padding: 0 2rem 3rem; 
-  /* scrollbar-width: thin; */
   scrollbar-color: #00b4ed #d9d9d9;
 }
 
@@ -173,7 +170,7 @@
   }
 
   .products-title {
-    font-size: 2.4rem;
+    font-size: 3.2rem;
   }
 
   .products-subtitle {

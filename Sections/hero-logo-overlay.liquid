@@ -136,6 +136,15 @@ body.scrolled header.site-header {
   visibility: visible;
   opacity: 1;
 }
+  header.site-header {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 999 !important;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
 
 .hero-content-scroll {
   position: relative;
@@ -220,44 +229,62 @@ body.scrolled header.site-header .icon {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* Hide header initially */
+.custom-header {
+  opacity: 0;
+  visibility: hidden;
+  display: none;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Show header after animation or on scroll */
+body.show-header .custom-header {
+  opacity: 1;
+  visibility: visible;
+  display: block;
+}
+  
 {% endstylesheet %}
 
 {% javascript %}
 document.addEventListener("DOMContentLoaded", function () {
   const overlay = document.getElementById("heroLogoOverlay");
   const logo = overlay?.querySelector(".splash-logo");
-  const delay = parseInt(document.querySelector(".hero-logo-overlay-wrapper").dataset.delay || 2);
+  const delay = parseInt(document.querySelector(".hero-logo-overlay-wrapper")?.dataset.delay || 2);
 
   document.body.classList.add("no-header");
 
   if (overlay && logo) {
     logo.style.animation = `shrinkLogoToHeader 1s ease ${delay}s forwards`;
-
-    setTimeout(() => {
-      document.body.classList.remove("no-header");
-      document.body.classList.add("logo-staged");
-    }, (delay + 1) * 1000);
   }
 
-  window.addEventListener("scroll", function () {
-    if (window.scrollY > 50) {
-      document.body.classList.add("scrolled");
+  setTimeout(() => {
+    // 移除 logo
+    if (logo && logo.parentElement) {
+      logo.parentElement.remove(); 
     }
-  });
- setTimeout(() => {
-  fetch('/?section_id=header')
-    .then(response => response.text())
-    .then(html => {
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, 'text/html');
-      const header = doc.querySelector('.shopify-section-header');
-      if (header) {
-        document.body.prepend(header);
-      }
 
-      document.body.classList.remove("no-header");
-      document.body.classList.add("logo-staged");
-    });
-}, (delay + 1) * 1000);
+    // 顯示 header-group
+    document.body.classList.remove('no-header');
+    document.body.classList.add('show-header');
+
+    const headerGroup = document.querySelector('.shopify-section.header-group');
+    if (headerGroup) {
+      headerGroup.style.display = 'block';
+
+      // 讓 header 變 fixed
+      const fixedHeader = headerGroup.querySelector('.header');
+      if (fixedHeader) {
+        fixedHeader.style.position = 'fixed';
+        fixedHeader.style.top = '0';
+        fixedHeader.style.width = '100%';
+        fixedHeader.style.zIndex = '999';
+        fixedHeader.style.opacity = '1';
+        fixedHeader.style.visibility = 'visible';
+      }
+    }
+  }, (delay + 1.5) * 1000);
 });
 {% endjavascript %}
+

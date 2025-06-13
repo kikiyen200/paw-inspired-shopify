@@ -328,15 +328,26 @@
       {%- if settings.cart_type == 'drawer' -%}
         {%- render 'cart-drawer' -%}
       {%- endif -%}
-  
-    {% unless template contains 'index' %}
-    {% sections 'header-group' %}
-  {% endunless %}
-  
-      <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-        {{ content_for_layout }}
-      </main>
-  
+
+      {% sections 'header-group' %}
+
+      <style>
+        /* Hide default Shopify header */
+        .header-wrapper {
+          display: none !important;
+        }
+        .header {
+          display: none !important;
+        }
+        .no-header .shopify-section-header,
+        .no-header .header-group {
+        display: none !important;
+        }
+      </style>
+
+  <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+   {{ content_for_layout }}
+  </main>
      {% section 'custom-footer' %}
   
       <ul hidden>
@@ -387,14 +398,55 @@
       </script>
   
       {%- if settings.predictive_search_enabled -%}
-        <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
-      {%- endif -%}
+    <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+  {%- endif -%}
      {{ 'category.js' | asset_url | script_tag }}
      {{ 'size-guide.js' | asset_url | script_tag }}
      {{ 'products.js' | asset_url | script_tag }}
      {{ 'reviews-carousel.js' | asset_url | script_tag }}
      {{ 'video-carousel.js' | asset_url | script_tag }}
      {{ 'theme.js' | asset_url | script_tag }}
+
+      
+     <script>
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.location.pathname === '/' || window.Shopify?.routes?.root === '/') {
+    const overlay = document.getElementById("heroLogoOverlay");
+    const logo = overlay?.querySelector(".splash-logo");
+    const delay = parseInt(document.querySelector(".hero-logo-overlay-wrapper")?.dataset.delay || 2);
+
+    document.body.classList.add("no-header");
+
+    if (overlay && logo) {
+      logo.style.animation = `shrinkLogoToHeader 1s ease ${delay}s forwards`;
+    }
+
+    setTimeout(() => {
+      if (logo && logo.parentElement) {
+        logo.parentElement.remove(); 
+      }
+
+      document.body.classList.remove('no-header');
+      document.body.classList.add('show-header');
+
+      const headerGroup = document.querySelector('.shopify-section.header-group');
+      if (headerGroup) {
+        headerGroup.style.display = 'block';
+
+        const fixedHeader = headerGroup.querySelector('.header');
+        if (fixedHeader) {
+          fixedHeader.style.position = 'fixed';
+          fixedHeader.style.top = '0';
+          fixedHeader.style.width = '100%';
+          fixedHeader.style.zIndex = '999';
+          fixedHeader.style.opacity = '1';
+          fixedHeader.style.visibility = 'visible';
+        }
+      }
+    }, (delay + 1.5) * 1000);
+  }
+});
+</script>
     </body>
     <script async src="https://app.kiwisizing.com/web/js/dist/kiwiSizing/plugin/SizingPlugin.prod.js?v=318"></script>
   </html>

@@ -1,0 +1,144 @@
+{% schema %}
+{
+  "name": "Custom Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "color",
+      "id": "header_background",
+      "label": "Header Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "hover_color",
+      "label": "Hover Color",
+      "default": "#ff6b6b"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Header"
+    }
+  ]
+}
+{% endschema %}
+
+<style>
+  .custom-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: {{ section.settings.header_background }};
+    padding: 1rem 2rem;
+    z-index: 9999 !important;;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+body .shopify-section-header,
+body .shopify-section-header .header,
+body .shopify-section-header .header-wrapper {
+  display: none !important;
+}
+  .custom-header .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .custom-header .logo {
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+
+  .custom-header .logo img {
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .custom-header .nav-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .custom-header .nav-links a {
+    color: {{ section.settings.text_color }};
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 16px;
+    transition: color 0.2s ease;
+  }
+
+  .custom-header .nav-links a:hover {
+    color: {{ section.settings.hover_color }};
+  }
+
+  .custom-header .mobile-menu-btn {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+  }
+
+  .custom-header .mobile-menu-btn svg {
+    width: 24px;
+    height: 24px;
+    fill: {{ section.settings.text_color }};
+  }
+
+  @media (max-width: 768px) {
+    .custom-header .nav-links {
+      display: none;
+    }
+    
+    .custom-header .mobile-menu-btn {
+      display: block;
+    }
+  }
+</style>
+
+<div class="custom-header">
+  <div class="header-content">
+    <div class="logo">
+      <img src="{{ settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}">
+    </div>
+    
+    <nav class="nav-links">
+      <a href="/collections/all">Collections</a>
+      <a href="/collections/new-arrivals">New Arrivals</a>
+      <a href="/collections/sale">Sale</a>
+      <a href="/pages/about">About Us</a>
+    </nav>
+
+    <button class="mobile-menu-btn" aria-label="Menu">
+      <svg viewBox="0 0 24 24">
+        <path d="M3 6h18M3 12h18M3 18h18"></path>
+      </svg>
+    </button>
+  </div>
+</div>
+
+{% javascript %}
+document.addEventListener('DOMContentLoaded', function() {
+  const mobileMenuBtn = document.querySelector('.custom-header .mobile-menu-btn');
+  const navLinks = document.querySelector('.custom-header .nav-links');
+
+  if (mobileMenuBtn && navLinks) {
+    mobileMenuBtn.addEventListener('click', function() {
+      navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+      this.ariaExpanded = this.ariaExpanded === 'true' ? 'false' : 'true';
+    });
+  }
+});
+{% endjavascript %}

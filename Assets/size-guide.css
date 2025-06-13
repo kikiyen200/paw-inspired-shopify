@@ -1,4 +1,10 @@
-/* 彈出視窗背景遮罩 */
+@font-face {
+  font-family: 'Bauer Grotesk';
+  src: url('{{ "BauerGroteskOT.woff2" | asset_url }}') format('woff2');
+  font-weight: 400 900;
+  font-style: normal;
+}
+
 .size-guide-backdrop {
   position: fixed;
   top: 0;
@@ -9,15 +15,14 @@
   z-index: 998;
 }
 
-/* 彈出視窗主體 */
 .size-guide-box {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90vw;
-  max-width: 720px;
-  height: 80vh;
+  max-width: 1000px;
+  height: 65vh;
   background-color: #00B4ED;
   border-radius: 24px;
   padding: 2rem;
@@ -32,110 +37,280 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
-/* 關閉按鈕 */
+.size-guide-box.step-1 {
+  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step01-dog-outline-pawinspired_jpg.jpg?v=1745571501');
+}
+
+.size-guide-box.step-2 {
+  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step02-dog-outline-pawinspired_jpg.jpg?v=1745571501');
+}
+
+.size-guide-box.step-3 {
+  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step03-dog-outline-pawinspired_jpg.jpg?v=1745571501');
+}
+
+.size-guide-box.step-4 {
+  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step04-dog-outline-pawinspired_jpg.jpg?v=1745571501');
+}
+
 .close-size-guide {
   position: absolute;
   top: 1rem;
-  right: 1.5rem;
+  right: 3rem;
   background: none;
   border: none;
-  font-size: 2rem;
+  font-size: 4rem;
   color: #fff;
   cursor: pointer;
+  -webkit-text-stroke: 0.6px #00B4ED;
 }
 
-/* step 內容格式 */
+
 .size-guide-step {
   display: none;
   text-align: center;
-  width: 100%;
+  width: 100
+  padding: 2rem;
 }
 
 .size-guide-step.active {
   display: block;
 }
 
-/* 文字排版 */
 .step-label {
-  font-size: 0.9rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
+  position: absolute;
+  font-size: 1.2rem;
+  font-weight: 600;
   color: #fff;
+  top: 2rem; left: 50%;
+  transform: translateX(-50%);
 }
 
 .step-title {
-  font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 2rem;
+  font-size: 4.5rem;
+  font-weight: 600;
+  margin-top: 8rem;
+  margin-bottom: 4rem;
   color: #fff;
+
+  text-shadow:
+      0 0 0 #00B4ED,
+
+  -1px 0 0 #00B4ED, 1px 0 0 #00B4ED,
+  0 -1px 0 #00B4ED, 0 1px 0 #00B4ED,
+  -1px -1px 0 #00B4ED, 1px -1px 0 #00B4ED,
+  -1px 1px 0 #00B4ED, 1px 1px 0 #00B4ED,
+
+  -2px 0 0 #00B4ED, 2px 0 0 #00B4ED,
+  0 -2px 0 #00B4ED, 0 2px 0 #00B4ED,
+  -2px -1px 0 #00B4ED, 2px -1px 0 #00B4ED,
+  -2px 1px 0 #00B4ED, 2px 1px 0 #00B4ED,
+  -2px -2px 0 #00B4ED, 2px -2px 0 #00B4ED,
+  -2px 2px 0 #00B4ED, 2px 2px 0 #00B4ED,
+
+  -3px 0 0 #00B4ED, 3px 0 0 #00B4ED,
+  0 -3px 0 #00B4ED, 0 3px 0 #00B4ED,
+  -3px -1px 0 #00B4ED, 3px -1px 0 #00B4ED,
+  -3px 1px 0 #00B4ED, 3px 1px 0 #00B4ED,
+  -3px -2px 0 #00B4ED, 3px -2px 0 #00B4ED,
+  -3px 2px 0 #00B4ED, 3px 2px 0 #00B4ED,
+  -3px -3px 0 #00B4ED, 3px -3px 0 #00B4ED,
+  -3px 3px 0 #00B4ED, 3px 3px 0 #00B4ED;
 }
 
-/* 選項按鈕群組 */
-.option-group {
+.option-row .situation {
+  min-width: 180px; 
+  margin: 0;
+  text-align: right;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #999;
+  padding-top: 0.5rem;
+}
+
+.option-row .option-group {
+  flex: 1;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.75rem;
+  gap: 1rem;
+}
+
+.option-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 2rem;
   margin-bottom: 2rem;
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .option-button {
   background: #fff;
-  color: #00B4ED;
-  border: none;
+  color: #999999;
+  border: 2px solid #999999;
   border-radius: 999px;
   padding: 0.75rem 1.25rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s ease;
+  font-size: 1.6rem;
 }
 
-.option-button:hover,
-.option-button.selected {
+.option-button:hover {
+   background: #fff;
+  color: #00B4ED;
+  border: 2px solid #00B4ED;
+}
+
+.option-button.active {
   background: #00B4ED;
   color: #fff;
   border: 2px solid #fff;
 }
 
-/* 導航按鈕 */
 .next-button, .prev-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
-  color: #fff;
+  color: #00b4ed;
   font-weight: bold;
   border: none;
-  font-size: 1rem;
-  margin: 1rem;
+  font-size: 2rem;
+   margin: 0;
   cursor: pointer;
+  padding-top: 6rem;
+
+   text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
 }
 
-/* 結果 */
+.next-button svg,
+.prev-button svg {
+  margin-left: 0.2rem;
+  vertical-align: middle;
+  display: inline-block;
+  
+   text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
+}
+
+.prev-button svg {
+  margin-right: 0.5rem;
+  margin-left: 0;
+  transform: scaleX(-1);
+}
+
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 6rem;
+}
+
+.size-guide-help{
+color: #00b4ed;
+  text-decoration: underline;
+  font-weight: 400;
+  font-size: 1.2rem;
+  font-family: 'Bauer Grotesk', sans-serif !important;
+  position: absolute;
+  bottom: 3rem; left:50%;
+  transform: translateX(-50%);
+}
+
 .result-size {
-  font-size: 4rem;
+  font-size: 10rem;
+  font-weight: 900;
+  margin: 0;
+  color: #00b4ed;
+ text-shadow:
+   0px 0px 0 #fff,
+  -5px -5px 0 #fff,
+  -3px -5px 0 #fff,
+  -1px -5px 0 #fff,
+   1px -5px 0 #fff,
+   3px -5px 0 #fff,
+   5px -5px 0 #fff,
+
+  -5px -3px 0 #fff,
+   5px -3px 0 #fff,
+  -5px -1px 0 #fff,
+   5px -1px 0 #fff,
+
+  -5px  1px 0 #fff,
+   5px  1px 0 #fff,
+  -5px  3px 0 #fff,
+   5px  3px 0 #fff,
+
+  -5px  5px 0 #fff,
+  -3px  5px 0 #fff,
+  -1px  5px 0 #fff,
+   1px  5px 0 #fff,
+   3px  5px 0 #fff,
+   5px  5px 0 #fff;
+  
+}
+
+.result-desc {
+  font-size: 6rem;
   font-weight: 900;
   margin-bottom: 1rem;
+  margin-top: -3rem; 
+  color: #00b4ed;
+ text-shadow:
+   0px 0px 0 #fff,
+  -5px -5px 0 #fff,
+  -3px -5px 0 #fff,
+  -1px -5px 0 #fff,
+   1px -5px 0 #fff,
+   3px -5px 0 #fff,
+   5px -5px 0 #fff,
+
+  -5px -3px 0 #fff,
+   5px -3px 0 #fff,
+  -5px -1px 0 #fff,
+   5px -1px 0 #fff,
+
+  -5px  1px 0 #fff,
+   5px  1px 0 #fff,
+  -5px  3px 0 #fff,
+   5px  3px 0 #fff,
+
+  -5px  5px 0 #fff,
+  -3px  5px 0 #fff,
+  -1px  5px 0 #fff,
+   1px  5px 0 #fff,
+   3px  5px 0 #fff,
+   5px  5px 0 #fff;
+  
+}
+
+.result-note{
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: #999999;
+   margin-bottom: 4rem;
 }
 
 .shop-now-btn {
-  color: #fff;
-  text-decoration: underline;
-  font-weight: bold;
-}
-
-/* 步驟的背景圖 */
-.size-guide-step.step-1 {
-  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step01-dog-outline-pawinspired_jpg.jpg?v=1745571501');
-}
-
-.size-guide-step.step-2 {
-  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step02-dog-outline-pawinspired_jpg.jpg?v=1745571501');
-}
-
-.size-guide-step.step-3 {
-  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step03-dog-outline-pawinspired_jpg.jpg?v=1745571501');
-}
-
-.size-guide-step.step-4 {
-  background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg-step04-dog-outline-pawinspired_jpg.jpg?v=1745571501');
+  color: #00b4ed;
+  text-decoration: none;
+  font-weight: 600;
+   font-family: 'Bauer Grotesk', sans-serif !important;
 }
