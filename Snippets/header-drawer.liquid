@@ -1,0 +1,265 @@
+<header-drawer data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}">
+  <details id="Details-menu-drawer-container" class="menu-drawer-container">
+    
+    <summary
+      class="header__icon header__icon--menu header__icon--summary focus-inset"
+      aria-label="{{ 'sections.header.menu' | t }}"
+      style="margin-top: 3.5rem; display: flex; align-items: center; justify-content: space-between; padding: 3rem 8rem; height: 6rem; width: 100vw; background: transparent; z-index: 9999;">
+
+      <!-- Left：Menu + SHOP -->
+      <div style="display: flex; align-items: center; gap: 3rem;">
+          <div class="custom-hamburger-icon">
+          {% render 'icon-hamburger' %}
+        </div>
+        <a href="/collections/all" class="custom-header-link" style="font-size: 1.6rem; font-weight: 600; text-decoration: none;">SHOP</a>
+        <a href="/pages/our-story-updated" class="custom-header-link" style="font-size: 1.6rem; font-weight: 600; text-decoration: none;">ABOUT</a>
+      </div>
+
+      <!-- Center：Logo -->
+       <a href="/" class="mobile-header-logo" style="display: flex; align-items: center;">
+        <img src="{{ 'logo-white.svg' | asset_url }}" class="logo-white" alt="Paw Inspired" style="display: inline-block;">
+        <img src="{{ 'logo-color.svg' | asset_url }}" class="logo-color" alt="Paw Inspired" style="display: none;">
+      </a>
+
+      <!-- Right：功能 icon -->
+       <div class="custom-header-icons" style="display: flex; align-items: center; gap: 4rem;">
+        {% render 'icon-search' %}
+        {% render 'icon-user' %}
+        {% render 'icon-shoppingbag' %}
+      </div>
+    </summary>
+
+   <div class="menu-drawer">
+    <div class="menu-drawer__top" style="display: flex; justify-content: space-between; align-items: center; padding: 2rem 0;">
+      <a href="/" class="drawer-logo">
+    <img src="{{ 'logo-color.svg' | asset_url }}" alt="Paw Inspired" style="height: 4rem; margin-left: 0;">
+  </a>
+       <button class="drawer-close-button" aria-label="Close Menu" 
+               style="background: none; border: none; font-size: 2.4rem; color: #00b4ed;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+             stroke-width="2" stroke-linecap="butt" stroke-linejoin="butt">
+         <path d="M20 20v-7a4 4 0 0 0-4-4H4"/><path d="M9 14 4 9l5-5"/>
+        </svg>
+       </button>
+    </div>
+  <div class="menu-drawer__inner">
+    <nav class="menu-drawer__navigation" role="navigation">
+      <ul class="menu-drawer__menu list-unstyled">
+  {% for link in linklists['main-menu-2-0'].links %}
+    <li class="menu-drawer__menu-item">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <a href="{{ link.url }}" class="menu-drawer__menu-item-link">
+          {{ link.title }}
+        </a>
+        {% if link.links != blank %}
+          <span class="submenu-toggle">
+            <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                 stroke-width="2" stroke-linecap="miter" stroke-linejoin="miter">
+              <path d="M5 12h14"/><path d="M12 5v14"/>
+            </svg>
+            <svg class="icon-minus" xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                 viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                 stroke-width="2" stroke-linecap="miter" stroke-linejoin="miter">
+              <path d="M5 12h14"/>
+            </svg>
+          </span>
+        {% endif %}
+      </div>
+
+      {% if link.links != blank %}
+        <ul class="menu-drawer__submenu list-unstyled">
+          {% for childlink in link.links %}
+            <li>
+              <a href="{{ childlink.url }}">{{ childlink.title }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>
+
+      <div class="drawer-social-icons">
+        {% render 'social-media-icons' %}
+      </div>
+
+    </nav>
+  </div>
+
+  <div class="menu-drawer__overlay"></div>
+</div>
+  </details>
+</header-drawer>
+
+<style>
+  
+  .logo-white,
+  .logo-color {
+    height: 56px;
+    padding-bottom: 0.5rem;
+  }
+.header.scrolled .logo-white { display: none; }
+.header.scrolled .logo-color { display: inline-block; }
+  .shopify-section-header {
+    background-color: transparent;
+  }
+
+  .shopify-section-header-sticky {
+    background-color: white;
+    z-index:10;
+  }
+
+  .shopify-section-header .logo-white {
+    display: inline-block;
+  }
+
+  .shopify-section-header .logo-color,
+  .shopify-section-header > .logo-color {
+    display: none !important;
+  }
+
+  .shopify-section-header-sticky .logo-white {
+    display: none !important;
+  }
+
+  .shopify-section-header-sticky .logo-color {
+    display: inline-block !important;
+  }
+
+  .custom-hamburger-icon svg {
+    color: #fff;
+  }
+  
+  .custom-header-icons svg {
+    width: 24px;
+    height: 24px;
+    stroke-width: 1.5;
+    color: #fff;
+    stroke: #fff;
+  }
+
+  .custom-header-link {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+  }
+
+  body.show-header header.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+  }
+  
+  .shopify-section-header-sticky .custom-hamburger-icon svg,
+  .shopify-section-header-sticky .custom-header-icons svg,
+  .shopify-section-header-sticky .custom-header-link {
+   color: #00b4ed !important;
+  }
+
+  .menu-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 320px;
+  height: 100vh;
+  background: #fff;
+  z-index: 10000;
+  overflow-y: auto;
+  padding: 2rem;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.menu-drawer__overlay {
+  position: fixed;
+  top: 0;
+  left: 320px;
+  width: calc(100vw - 320px);
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+}
+
+.menu-drawer__menu-item {
+  border-bottom: 1px solid #ddd;
+  padding: 1.4rem 0;
+  position: relative;
+}
+
+.menu-drawer__menu-item-link {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #000;
+  text-decoration: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-drawer__submenu {
+  display: none;
+  margin-top: 1rem;
+  padding-left: 1.6rem;
+}
+
+.menu-drawer__submenu li a {
+  font-size: 1.4rem;
+  color: #666;
+  text-decoration: none;
+  line-height: 2.2rem;
+  display: block;
+}
+
+.menu-drawer__menu-item.open .menu-drawer__submenu {
+  display: block;
+}
+
+.submenu-toggle .icon-minus {
+  display: none;
+}
+.open .submenu-toggle .icon-minus {
+  display: inline;
+}
+.open .submenu-toggle .icon-plus {
+  display: none;
+}
+.submenu-toggle {
+  font-size: 2rem;
+  color: #00b4ed;
+  cursor: pointer;
+  margin-left: auto;
+}
+  
+.drawer-social-icons {
+  display: flex;
+  gap: 2rem;
+  margin-top: 4rem;
+}
+
+.drawer-social-icons a {
+  color: #00b4ed;
+}
+
+.drawer-social-icons svg {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  fill: none;
+}
+  
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.submenu-toggle').forEach(function(toggle) {
+      toggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        const item = this.closest('.menu-drawer__menu-item');
+        item.classList.toggle('open');
+      });
+    });
+  });
+</script>

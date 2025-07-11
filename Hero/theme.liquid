@@ -270,7 +270,6 @@
       --font-body-family: 'Bauer Grotesk', sans-serif !important;
       --font-heading-family: 'Bauer Grotesk', sans-serif !important;
     }
-
   </style>
       {{ 'base.css' | asset_url | stylesheet_tag }}
       {{ 'custom-video-size.css' | asset_url | stylesheet_tag }}
@@ -313,29 +312,38 @@
             a.appendChild(r);
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
       </script>
-      
       {{ 'custom-font.css' | asset_url | stylesheet_tag }}
       {{ 'video-carousel.css' | asset_url | stylesheet_tag }}
        {{ 'reviews-carousel.css' | asset_url | stylesheet_tag }}
        <meta name="theme-logo-white" content="{{ 'logo-white.svg' | asset_url }}">
       <meta name="theme-logo-color" content="{{ 'logo-color.svg' | asset_url }}">
     </head>
-  <div id="scrollHeaderWrapper" class="scroll-header hidden">
-  <section class="shopify-section scroll-header">
-    {% section 'announcement-bar' %}
-    {% section 'header' %}
-  </section>
-</div>
-  <body class="{% if template.name == 'index' %}no-header {% endif %}gradient {{ body_classes }}">
- {% if template.name == 'index' %}
-  {% section 'hero-logo-overlay' %}
+  
+    <body class="gradient {{ body_classes }}">
+        
+      {% if template.name == 'index' %}
   {% section 'custom-header' %}
 {% else %}
-  {% section 'announcement-bar' %}
   {% section 'header' %}
 {% endif %}
-<div id="fixedHeaderContainer" style="display:none;"></div>
-   
+
+      <style>－
+        /* Hide default Shopify header */
+         .shopify-section-header:not(.custom-header) {
+    display: none !important;
+  }
+        /* .header-wrapper {
+          display: none !important;
+        }
+        .header {
+          display: none !important;
+        } */
+        /* .no-header .shopify-section-header,
+        .no-header .header-group {
+        display: none !important;
+        } */
+      </style>
+
   <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
    {{ content_for_layout }}
   </main>
@@ -345,49 +353,49 @@
         <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
         <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
       </ul>
-<script>  
-  window.shopUrl = '{{ request.origin }}';
-  window.routes = {
-    cart_add_url: '{{ routes.cart_add_url }}',
-    cart_change_url: '{{ routes.cart_change_url }}',
-    cart_update_url: '{{ routes.cart_update_url }}',
-    cart_url: '{{ routes.cart_url }}',
-    predictive_search_url: '{{ routes.predictive_search_url }}',
-  };
-
-  window.cartStrings = {
-    error: `{{ 'sections.cart.cart_error' | t }}`,
-    quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
-  };
-
-  window.variantStrings = {
-    addToCart: `{{ 'products.product.add_to_cart' | t }}`,
-    soldOut: `{{ 'products.product.sold_out' | t }}`,
-    unavailable: `{{ 'products.product.unavailable' | t }}`,
-    unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
-  };
-
-  window.quickOrderListStrings = {
-    itemsAdded: `{{ 'sections.quick_order_list.items_added.other' | t: quantity: '[quantity]' }}`,
-    itemAdded: `{{ 'sections.quick_order_list.items_added.one' | t: quantity: '[quantity]' }}`,
-    itemsRemoved: `{{ 'sections.quick_order_list.items_removed.other' | t: quantity: '[quantity]' }}`,
-    itemRemoved: `{{ 'sections.quick_order_list.items_removed.one' | t: quantity: '[quantity]' }}`,
-    viewCart: `{{- 'sections.quick_order_list.view_cart' | t -}}`,
-    each: `{{- 'sections.quick_order_list.each' | t: money: '[money]' }}`,
-  };
-
-  window.accessibilityStrings = {
-    imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
-    shareSuccess: `{{ 'general.share.success_message' | t }}`,
-    pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
-    playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
-    recipientFormExpanded: `{{ 'recipient.form.expanded' | t }}`,
-    recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
-    countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
-  };
-
-</script>
-
+  
+      <script>
+        window.shopUrl = '{{ request.origin }}';
+        window.routes = {
+          cart_add_url: '{{ routes.cart_add_url }}',
+          cart_change_url: '{{ routes.cart_change_url }}',
+          cart_update_url: '{{ routes.cart_update_url }}',
+          cart_url: '{{ routes.cart_url }}',
+          predictive_search_url: '{{ routes.predictive_search_url }}',
+        };
+  
+        window.cartStrings = {
+          error: `{{ 'sections.cart.cart_error' | t }}`,
+          quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
+        };
+  
+        window.variantStrings = {
+          addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+          soldOut: `{{ 'products.product.sold_out' | t }}`,
+          unavailable: `{{ 'products.product.unavailable' | t }}`,
+          unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
+        };
+  
+        window.quickOrderListStrings = {
+          itemsAdded: `{{ 'sections.quick_order_list.items_added.other' | t: quantity: '[quantity]' }}`,
+          itemAdded: `{{ 'sections.quick_order_list.items_added.one' | t: quantity: '[quantity]' }}`,
+          itemsRemoved: `{{ 'sections.quick_order_list.items_removed.other' | t: quantity: '[quantity]' }}`,
+          itemRemoved: `{{ 'sections.quick_order_list.items_removed.one' | t: quantity: '[quantity]' }}`,
+          viewCart: `{{- 'sections.quick_order_list.view_cart' | t -}}`,
+          each: `{{- 'sections.quick_order_list.each' | t: money: '[money]' }}`,
+        };
+  
+        window.accessibilityStrings = {
+          imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
+          shareSuccess: `{{ 'general.share.success_message' | t }}`,
+          pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
+          playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
+          recipientFormExpanded: `{{ 'recipient.form.expanded' | t }}`,
+          recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
+          countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
+        };
+      </script>
+  
       {%- if settings.predictive_search_enabled -%}
     <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
   {%- endif -%}
@@ -398,6 +406,33 @@
      {{ 'video-carousel.js' | asset_url | script_tag }}
      {{ 'theme.js' | asset_url | script_tag }}
 
+      
+     <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const splash = document.getElementById("splash-screen");
+
+    const shouldPlaySplash = window.scrollY === 0;
+
+    if (splash && shouldPlaySplash) {
+      setTimeout(() => {
+        splash.classList.add("fade-out");
+        document.querySelector("header").classList.remove("hidden");
+      }, 2500);
+    } else {
+      splash?.remove();
+      document.querySelector("header")?.classList.remove("hidden");
+    }
+
+    window.addEventListener("scroll", () => {
+      const header = document.querySelector("header");
+      if (window.scrollY > 80) {
+        header?.classList.add("scrolled");
+      } else {
+        header?.classList.remove("scrolled");
+      }
+    });
+  });
+</script>
     </body>
     <script async src="https://app.kiwisizing.com/web/js/dist/kiwiSizing/plugin/SizingPlugin.prod.js?v=318"></script>
   </html>

@@ -49,13 +49,30 @@
     </div>
     
     <div class="hero-content-scroll">
-      <p class="splash-slogan">{{ section.settings.slogan }}</p>
-      <a href="#MainContent" class="cta-button">Shop What They Need</a>
+      <p class="splash-slogan" style="animation-delay: {{ section.settings.delay | plus: 1.5 }}s">
+        {{ section.settings.slogan }}
+      </p>
+      <a class="cta-button" 
+         style="animation-delay: {{ section.settings.delay | plus: 2 }}s">
+         Shop What They Need
+      </a>
+     <div class="scroll-down-indicator" 
+          style="animation-delay: {{ section.settings.delay | plus: 2.5 }}s">
+       <svg xmlns="http://www.w3.org/2000/svg" 
+            width="24" height="24" viewBox="0 0 24 24" 
+            fill="none" stroke="currentColor" stroke-width="2" 
+            stroke-linecap="butt" stroke-linejoin="butt" 
+            class="chevrons-icon">
+         <path d="m7 6 5 5 5-5"/><path d="m7 13 5 5 5-5"/>
+       </svg>
+     </div>
     </div>
   </div>
 </div>
 
 {% stylesheet %}
+  
+/* background container: video+hero-logo-overlay */
 .hero-logo-overlay-wrapper {
   position: relative;
   width: 100%;
@@ -78,7 +95,8 @@
   left: 0;
   z-index: 0;
 }
-
+  
+/* Logo animation: initial */
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -88,69 +106,31 @@
   z-index: 1;
   pointer-events: none;
 }
+  
+/* Mobile */
+@media (max-width: 767px) {
+  .splash-logo {
+    animation-name: shrinkLogoToFixedMobile !important;
+  }
 
-.splash-logo {
-  width: 100vw;
-  max-width: 800px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  position: fixed;
+  @keyframes shrinkLogoToFixedMobile {
+    0% {
+      top: 50%;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+      top: 2rem;
+      transform: translateX(-50%) scale(0.35); 
+    }
+  }
+}
+  
+/* Slogan, CTA */
+.hero-content-scroll {
+  position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(1);
-  z-index: 20;
-  transform-origin: center top;
-  animation: shrinkLogoToHeader 1s ease forwards;
-  animation-delay: 1.5s;
-  animation-fill-mode: forwards;
-}
-
-body.scrolled .splash-logo {
-  display: none;
-}
-
-@keyframes shrinkLogoToHeader {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    transform: translate(-50%, -500px) scale(0.25);
-  }
-}
-  @keyframes shrinkLogoToHeaderMobile {
-  0% {
-    transform: translate(-50%, -50%) scale(1);
-  }
-  100% {
-    transform: translate(-50%, -400px) scale(0.4); 
-  }
-}
-
-body:not(.scrolled) header.site-header {
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.6s ease;
-}
-body.scrolled header.site-header {
-  visibility: visible;
-  opacity: 1;
-}
-  header.site-header {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
-  z-index: 999 !important;
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-
-.hero-content-scroll {
-  position: relative;
-  top: 60%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, 0); 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -160,11 +140,11 @@ body.scrolled header.site-header {
 }
 
 .hero-content-scroll .splash-slogan {
-  font-size: 6.2rem;
+  font-size: 6.5rem;
   color: white;
   font-weight: 600;
   opacity: 0;
-  animation: fadeInSlogan 1s ease 3s forwards;
+  animation: fadeInSlogan 0.5s ease 1.2s forwards;
   animation-fill-mode: forwards;
 }
 
@@ -173,45 +153,26 @@ body.scrolled header.site-header {
   color: #fff;
   font-weight: 600;
   text-transform: uppercase;
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   text-decoration: underline;
   opacity: 0;
-  animation: fadeInSlogan 1s ease 3.6s forwards;
+  animation: fadeInSlogan 1s ease 3s forwards;
   animation-fill-mode: forwards;
 }
-
+  
+/* scrolled, logo-staged */
 body.no-header .shopify-section-header {
   display: none;
 }
-
-body.logo-staged header.site-header {
-  display: flex;
-  background: transparent;
-  color: white;
-}
-body.logo-staged header.site-header svg,
-body.logo-staged header.site-header .icon {
-  color: white;
-  fill: white;
-}
-
-body.scrolled header.site-header {
-  background: white;
-  color: black;
-}
-body.scrolled header.site-header .site-header__logo svg,
-body.scrolled header.site-header .icon {
-  color: #00b4ed;
-  fill: #00b4ed;
-}
-
-  @media (max-width: 767px) {
+  
+@media (max-width: 767px) {
   .hero-content-scroll .splash-slogan {
     font-size: 3.6rem; 
     line-height: 1.2;
   }
-     .splash-logo {
-    animation-name: shrinkLogoToHeaderMobile !important;
+      .splash-logo {
+    animation: shrinkLogoToFixedMobile 2s ease forwards;
+    animation-delay: 2s;
   }
      .hero-logo-overlay-wrapper {
     height: 65vh;
@@ -230,61 +191,92 @@ body.scrolled header.site-header .icon {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Hide header initially */
-.custom-header {
+/* double-arrows  */
+.scroll-down-indicator {
+  margin-top: 1rem;
+  text-align: center;
+  animation: fadeInUp 1s ease forwards;
   opacity: 0;
-  visibility: hidden;
-  display: none;
-  transition: all 0.3s ease-in-out;
 }
 
-/* Show header after animation or on scroll */
-body.show-header .custom-header {
-  opacity: 1;
-  visibility: visible;
-  display: block;
+.scroll-down-indicator .chevrons-icon {
+  width: 32px !important;
+  height: auto;
+  color: #fff;
+  animation: bounceDown 1s infinite;
 }
-  
+  @keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+  @keyframes bounceDown {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
 {% endstylesheet %}
 
-{% javascript %}
+<script>
 document.addEventListener("DOMContentLoaded", function () {
-  const overlay = document.getElementById("heroLogoOverlay");
-  const logo = overlay?.querySelector(".splash-logo");
-  const delay = parseInt(document.querySelector(".hero-logo-overlay-wrapper")?.dataset.delay || 2);
+  if (window.location.pathname !== "/") return;
+
+  const logo = document.querySelector(".splash-logo");
+  const delay = 1.5 * 1000;
 
   document.body.classList.add("no-header");
 
-  if (overlay && logo) {
-    logo.style.animation = `shrinkLogoToHeader 1s ease ${delay}s forwards`;
-  }
+  logo?.addEventListener("animationend", () => {
+    console.log("🌟 Logo Finished");
+
+    const overlay = document.getElementById("heroLogoOverlay");
+    if (overlay) overlay.remove();
+
+    const customHeader = document.getElementById("customHeaderWrapper");
+    if (customHeader) {
+      customHeader.classList.remove("hidden");
+      customHeader.style.display = "block";
+    }
+
+    let hasSwitched = false;
+    window.addEventListener("scroll", function () {
+      if (window.scrollY > 30 && !hasSwitched) {
+        hasSwitched = true;
+
+        console.log("⬇️ Slide to let header appear");
+
+        const announcement = document.querySelector(".announcement-bar");
+        if (announcement) {
+          announcement.classList.remove("hidden");
+          announcement.style.display = "block";
+        }
+
+        const mainHeader = document.getElementById("scrollHeaderWrapper");
+        if (mainHeader) {
+          mainHeader.classList.add("show");
+        }
+
+        if (customHeader) {
+          customHeader.style.display = "none";
+        }
+
+        console.log("✅ Switch to header.liquid + announcement-bar");
+      }
+    });
+  });
 
   setTimeout(() => {
-    // 移除 logo
-    if (logo && logo.parentElement) {
-      logo.parentElement.remove(); 
-    }
-
-    // 顯示 header-group
-    document.body.classList.remove('no-header');
-    document.body.classList.add('show-header');
-
-    const headerGroup = document.querySelector('.shopify-section.header-group');
-    if (headerGroup) {
-      headerGroup.style.display = 'block';
-
-      // 讓 header 變 fixed
-      const fixedHeader = headerGroup.querySelector('.header');
-      if (fixedHeader) {
-        fixedHeader.style.position = 'fixed';
-        fixedHeader.style.top = '0';
-        fixedHeader.style.width = '100%';
-        fixedHeader.style.zIndex = '999';
-        fixedHeader.style.opacity = '1';
-        fixedHeader.style.visibility = 'visible';
-      }
-    }
-  }, (delay + 1.5) * 1000);
+    document.body.classList.remove("no-header");
+    document.body.classList.add("show-header");
+  }, delay);
 });
-{% endjavascript %}
-
+</script>

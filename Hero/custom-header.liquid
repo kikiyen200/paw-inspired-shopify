@@ -1,0 +1,50 @@
+{% schema %}
+{
+  "name": "Custom Header",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "color",
+      "id": "header_background",
+      "label": "Header Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "hover_color",
+      "label": "Hover Color",
+      "default": "#ff6b6b"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Header"
+    }
+  ]
+}
+{% endschema %}
+
+{% render 'header-drawer' %}
+<style>
+.shopify-section.custom-header {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  transition: opacity 0.3s ease-in-out;
+}
+body.show-header .shopify-section.custom-header {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+</style>

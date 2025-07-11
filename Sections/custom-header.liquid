@@ -30,115 +30,72 @@
 }
 {% endschema %}
 
+<!-- Custom Header: Appears after splash logo animation -->
+<div id="customHeaderWrapper" class="custom-header hidden">
+<header class="header">
+{% render 'header-drawer' %}
+</header>
+</div>
+
 <style>
-  .custom-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background-color: {{ section.settings.header_background }};
-    padding: 1rem 2rem;
-    z-index: 9999 !important;;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-  }
-body .shopify-section-header,
-body .shopify-section-header .header,
-body .shopify-section-header .header-wrapper {
+  body.no-header .custom-header {
   display: none !important;
 }
-  .custom-header .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .custom-header .logo {
-    height: 40px;
-    display: flex;
-    align-items: center;
-  }
-
-  .custom-header .logo img {
-    height: 100%;
-    object-fit: contain;
-  }
-
-  .custom-header .nav-links {
-    display: flex;
-    gap: 2rem;
-  }
-
-  .custom-header .nav-links a {
-    color: {{ section.settings.text_color }};
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 16px;
-    transition: color 0.2s ease;
-  }
-
-  .custom-header .nav-links a:hover {
-    color: {{ section.settings.hover_color }};
-  }
-
-  .custom-header .mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem;
-  }
-
-  .custom-header .mobile-menu-btn svg {
-    width: 24px;
-    height: 24px;
-    fill: {{ section.settings.text_color }};
-  }
-
-  @media (max-width: 768px) {
-    .custom-header .nav-links {
-      display: none;
-    }
-    
-    .custom-header .mobile-menu-btn {
-      display: block;
-    }
+  
+  .shopify-section.custom-header {
+  display: none;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  pointer-events: none;
+  transition: opacity 0.3s ease-in-out;
+}
+  
+  body.show-header .shopify-section.custom-header {
+    display: block;
+    opacity: 1;
+    pointer-events: auto;
   }
 </style>
 
-<div class="custom-header">
-  <div class="header-content">
-    <div class="logo">
-      <img src="{{ settings.logo | image_url: width: 200 }}" alt="{{ shop.name }}">
-    </div>
-    
-    <nav class="nav-links">
-      <a href="/collections/all">Collections</a>
-      <a href="/collections/new-arrivals">New Arrivals</a>
-      <a href="/collections/sale">Sale</a>
-      <a href="/pages/about">About Us</a>
-    </nav>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const headerContainer = document.createElement('div');
+    headerContainer.id = 'fixedHeaderContainer';
+    headerContainer.style.position = 'fixed';
+    headerContainer.style.top = '0';
+    headerContainer.style.left = '0';
+    headerContainer.style.width = '100%';
+    headerContainer.style.zIndex = '9999';
+    headerContainer.style.display = 'none';
 
-    <button class="mobile-menu-btn" aria-label="Menu">
-      <svg viewBox="0 0 24 24">
-        <path d="M3 6h18M3 12h18M3 18h18"></path>
-      </svg>
-    </button>
-  </div>
-</div>
+    document.body.appendChild(headerContainer);
 
-{% javascript %}
-document.addEventListener('DOMContentLoaded', function() {
-  const mobileMenuBtn = document.querySelector('.custom-header .mobile-menu-btn');
-  const navLinks = document.querySelector('.custom-header .nav-links');
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 30) {
+        if (!headerContainer.innerHTML) {
+          fetch('/?section_id=announcement-bar')
+            .then(response => response.text())
+            .then(html => {
+              const announcementBar = new DOMParser().parseFromString(html, 'text/html').body.firstElementChild;
+              headerContainer.appendChild(announcementBar);
 
-  if (mobileMenuBtn && navLinks) {
-    mobileMenuBtn.addEventListener('click', function() {
-      navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
-      this.ariaExpanded = this.ariaExpanded === 'true' ? 'false' : 'true';
+              return fetch('/?section_id=header');
+            })
+            .then(response => response.text())
+            .then(html => {
+              const header = new DOMParser().parseFromString(html, 'text/html').body.firstElementChild;
+              headerContainer.appendChild(header);
+              headerContainer.style.display = 'block';
+            });
+        } else {
+          headerContainer.style.display = 'block';
+        }
+      } else {
+        headerContainer.style.display = 'none';
+      }
     });
-  }
-});
-{% endjavascript %}
+  });
+</script>
