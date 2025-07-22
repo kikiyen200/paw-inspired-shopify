@@ -270,7 +270,10 @@
       --font-body-family: 'Bauer Grotesk', sans-serif !important;
       --font-heading-family: 'Bauer Grotesk', sans-serif !important;
     }
-
+    
+    main {
+      padding-top: calc(var(--announcement-height, 40px) + var(--header-height, 80px));
+    }
   </style>
       {{ 'base.css' | asset_url | stylesheet_tag }}
       {{ 'custom-video-size.css' | asset_url | stylesheet_tag }}
@@ -320,21 +323,21 @@
        <meta name="theme-logo-white" content="{{ 'logo-white.svg' | asset_url }}">
       <meta name="theme-logo-color" content="{{ 'logo-color.svg' | asset_url }}">
     </head>
-  <div id="scrollHeaderWrapper" class="scroll-header hidden">
-  <section class="shopify-section scroll-header">
+    
+  <body class="{% if template.name == 'index' %}no-header{% else %}show-header{% endif %} gradient {{ body_classes }}">
+  {% if template.name == 'index' %}
+    {% section 'hero-logo-overlay' %}
+    {% section 'custom-header' %}
+    <div id="scrollHeaderWrapper" class="scroll-header hidden">
+      {% section 'announcement-bar' %}
+      {% section 'header' %}
+    </div>
+  {% else %}
     {% section 'announcement-bar' %}
     {% section 'header' %}
-  </section>
-</div>
-  <body class="{% if template.name == 'index' %}no-header {% endif %}gradient {{ body_classes }}">
- {% if template.name == 'index' %}
-  {% section 'hero-logo-overlay' %}
-  {% section 'custom-header' %}
-{% else %}
-  {% section 'announcement-bar' %}
-  {% section 'header' %}
-{% endif %}
-<div id="fixedHeaderContainer" style="display:none;"></div>
+  {% endif %}
+
+  <div id="fixedHeaderContainer" style="display:none;"></div>
    
   <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
    {{ content_for_layout }}

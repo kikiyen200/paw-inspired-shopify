@@ -1,0 +1,29 @@
+{% schema %}
+  {
+    "name": "scroll-header",
+    "settings": []
+  }
+{% endschema %}
+
+<header class="header">
+  <div class="header-inner">
+    {% render 'header-drawer' %}
+  </div>
+</header>
+
+<style>
+  .header {
+    background: #fff;
+    width: 100%;
+    z-index: 9999;
+    padding: 2rem 3rem;
+  }
+
+  .header-inner svg,
+  .header-inner .icon,
+  .header-inner .custom-header-link {
+    color: #00b4ed;
+    stroke: #00b4ed;
+    fill: #00b4ed;
+  }
+</style>

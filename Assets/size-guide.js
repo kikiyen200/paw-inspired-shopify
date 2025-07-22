@@ -147,10 +147,15 @@ document.addEventListener('DOMContentLoaded', function () {
         if (isStep3) {
           button.classList.toggle('active');
         } else {
-          if (group) {
+          if (stepClass?.contains('step-2')) {
+           step.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('active'));
+          } else if (group) {
             group.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('active'));
           }
           button.classList.add('active');
+          if (stepClass?.contains('step-1')) {
+          nextStep();
+          }
         }
       });
     });

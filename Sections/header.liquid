@@ -20,6 +20,11 @@
       "id": "hover_color",
       "label": "Hover Color",
       "default": "#ff6b6b"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
     }
   ],
   "presets": [
@@ -30,88 +35,38 @@
 }
 {% endschema %}
 
-<section class="shopify-section scroll-header-section" id="ScrollHeaderSection">
-  <!-- Header: Appears after splash logo animation -->
-  <div id="scrollHeaderWrapper" class="scroll-header hidden">
-    <header class="header">
-      <div class="header-inner">
-        {% render 'header-drawer' %}
-      </div>
-    </header>
+<header class="header shopify-section-header">
+  <div class="header-inner">
+    {% render 'header-drawer', 
+       header_type: 'header',
+       main_menu: settings.main_menu
+    %}
   </div>
-</section>
+</header>
 
 <style>
-  .scroll-header {
-  display: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-  .scroll-header .header-inner {
-  background-color: #000;
+  .shopify-section-header {
+    background-color: {{ section.settings.header_background }};
+  }
+
+ .shopify-section-header .custom-header-icons svg {
+  stroke: #00b4ed !important;
+  fill: none !important;
 }
 
-.scroll-header.show {
-  display: block;
-  opacity: 1;
+  .shopify-section-header .custom-hamburger-icon svg {
+  fill: #00b4ed !important;
 }
-  .scroll-header.hidden {
-  display: none;
-  opacity: 0;
-}
-  
-  body.show-header .shopify-section.scroll-header {
-    display: block;
-    opacity: 1;
-    pointer-events: auto;
-  }
-  
-  .shopify-section.scroll-header svg,
-  .shopify-section.scroll-header .icon {
-    color: #00b4ed;
-    fill: #00b4ed;
-  }
-  .shopify-section.scroll-header .site-header__logo {
+
+
+  .shopify-section-header .site-header__logo {
     margin-top: 3.5rem;
   }
+  
+  header.shopify-section-header-sticky .logo-color {
+  display: inline-block !important;
+}
+header.shopify-section-header-sticky .logo-white {
+  display: none !important;
+}
 </style>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const headerContainer = document.createElement('div');
-    headerContainer.id = 'fixedHeaderContainer';
-    headerContainer.style.position = 'fixed';
-    headerContainer.style.top = '0';
-    headerContainer.style.left = '0';
-    headerContainer.style.width = '100%';
-    headerContainer.style.zIndex = '9999';
-    headerContainer.style.display = 'none';
-
-    document.body.appendChild(headerContainer);
-
-    window.addEventListener('scroll', function () {
-      if (window.scrollY > 30) {
-        if (!headerContainer.innerHTML.trim()) {
-          fetch('/?section_id=announcement-bar')
-            .then(response => response.text())
-            .then(html => {
-              const announcementBar = new DOMParser().parseFromString(html, 'text/html').body.firstElementChild;
-              headerContainer.appendChild(announcementBar);
-
-              return fetch('/?section_id=header');
-            })
-            .then(response => response.text())
-            .then(html => {
-              const header = new DOMParser().parseFromString(html, 'text/html').body.firstElementChild;
-              headerContainer.appendChild(header);
-              headerContainer.style.display = 'block';
-            });
-        } else {
-          headerContainer.style.display = 'block';
-        }
-      } else {
-        headerContainer.style.display = 'none';
-      }
-    });
-  });
-</script>
