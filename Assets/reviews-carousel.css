@@ -9,13 +9,14 @@
   font-size: 3.2rem;
   color: #00b4ed;
   font-weight: 700;
-  margin: 6rem 0;
+  margin: 6rem 0 2rem;
 }
 
 .rc-subheading {
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: #333;
   margin-bottom: 1rem;
+  line-height: 1.2;
 }
 
 .reviews-carousel-section .button {
@@ -38,7 +39,7 @@
   top: 100%;
   margin-top: -1rem;
   width: 100%;
-  height: 2px;               
+  height: 2px;
   background-color: #00B4ED;
   transform: scaleX(0);
   transform-origin: left;
@@ -76,14 +77,19 @@
 
 .reviews-carousel .rc-track {
   display: flex;
+  padding: 6rem 0; 
+  margin: 0 auto;
+  width: 100%;
+
+  gap: 6rem;
+
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  gap: 3rem;
-  padding: 6rem 5vw;
-  margin: 0 auto;
-   width: max-content; 
-  justify-content: flex-start; 
+
+  --rc-active-w: 300px;
+  scroll-padding-inline: calc((100% - var(--rc-active-w)) / 2);
+  scrollbar-gutter: stable both-edges;     
 }
 
 .reviews-carousel .rc-track::-webkit-scrollbar {
@@ -92,8 +98,9 @@
 
 .reviews-carousel .rc-track::before,
 .reviews-carousel .rc-track::after {
-  content: '';
-  flex: 0 0 50%; 
+  content: "";
+  flex: 0 0 50%;
+  pointer-events: none;
 }
 
 /* Initial Size */
@@ -143,7 +150,7 @@
 /* Arrow */
 .reviews-carousel .rc-arrow {
   position: absolute;
-  top: 75%;
+  top: 76%;
   transform: translateY(-75%);
   width: 6rem; height: 6rem;
   background: none; border: none;
@@ -158,12 +165,12 @@
 }
 
 .reviews-carousel .rc-arrow.prev {
-  left: calc(50% - 150px);
+  left: calc(50% - 120px);
   transform: translate(-160%, -50%)  rotate(180deg) !important;
 }
 
 .reviews-carousel .rc-arrow.next {
-  left: calc(50% + 90px);
+  left: calc(50% + 120px);
   transform: translate(60%, -50%) rotate(-180deg) scaleX(-1) !important;
 }
 
@@ -229,10 +236,18 @@
   color: #000;
   margin-top: 0.2rem;
 }
+ .reviews-carousel .rc-card .add-to-cart{
+  -webkit-appearance: none;
+  appearance: none;  
+  background: transparent !important;
+}
+
 .reviews-carousel .rc-info .btn{
   width: 2rem;
   height: 2rem;
   cursor: pointer;
+  background: transparent !important;
+  background-color: transparent !important;
 }
 
 .rc-info a {

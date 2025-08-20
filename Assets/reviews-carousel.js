@@ -2,80 +2,101 @@ document.addEventListener('DOMContentLoaded', initCarousel);
 document.addEventListener('shopify:section:load', initCarousel);
 
 function initCarousel() {
-  document.querySelectorAll('.reviews-carousel').forEach(carousel => {
+  document.querySelectorAll('.reviews-carousel').forEach((carousel) => {
     const track = carousel.querySelector('.rc-track');
+    if (!track) return;
+
     const slides = Array.from(track.querySelectorAll('.rc-slide'));
+    if (!slides.length) return;
+
     const prev = carousel.querySelector('.rc-arrow.prev');
     const next = carousel.querySelector('.rc-arrow.next');
 
-    let centerIndex = Math.floor(slides.length / 2);
+    let centerIndex = Math.min(2, slides.length - 1);
 
-    function scrollToCenter(index) {
-      const targetSlide = slides[index];
-      if (!targetSlide) return;
+    const leftInTrack = (el) => {
+      const er = el.getBoundingClientRect();
+      const tr = track.getBoundingClientRect();
+      return (er.left - tr.left) + track.scrollLeft;
+    };
 
-      const trackRect = track.getBoundingClientRect();
-      const targetRect = targetSlide.getBoundingClientRect();
+    const withNoSnap = (fn) => {
+      const prevSnap = track.style.scrollSnapType;
+      track.style.scrollSnapType = 'none';
+      fn();
+      setTimeout(() => { track.style.scrollSnapType = prevSnap || ''; }, 320);
+    };
 
-      const scrollLeft =
-        track.scrollLeft +
-        (targetRect.left - trackRect.left) -
-        (track.offsetWidth / 2 - targetSlide.offsetWidth / 2);
+    function setActive(index) {
+      slides.forEach((s, i) => {
+        const v = s.querySelector('video');
+        if (i === index) {
+          s.classList.add('active');
+          v?.play().catch(()=>{});
+        } else {
+          s.classList.remove('active');
+          if (v) { v.pause(); v.currentTime = 0; }
+        }
+      });
+      centerIndex = index;
+    }
 
-      track.scrollTo({ left: scrollLeft, behavior: 'smooth' });
-      setTimeout(updateActiveByCenter, 400);
+    function centerByIndex(index, { smooth = true } = {}) {
+      const slide = slides[index];
+      if (!slide) return;
+
+      setActive(index);
+
+      const doCenter = () => {
+        const left = leftInTrack(slide) - (track.clientWidth - slide.clientWidth) / 2;
+        track.scrollTo({ left, behavior: smooth ? 'smooth' : 'auto' });
+      };
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          withNoSnap(doCenter);
+        });
+      });
+
+      const onEnd = (e) => {
+        if (!e || e.target === slide) {
+          withNoSnap(doCenter);
+          slide.removeEventListener('transitionend', onEnd);
+        }
+      };
+      slide.addEventListener('transitionend', onEnd);
+      setTimeout(() => { withNoSnap(doCenter); slide.removeEventListener('transitionend', onEnd); }, 420);
     }
 
     function updateActiveByCenter() {
-      const center = track.scrollLeft + track.offsetWidth / 2;
-      let minDiff = Infinity;
-      let activeIndex = 0;
-
-      slides.forEach((slide, i) => {
-        const slideCenter = slide.offsetLeft + slide.offsetWidth / 2;
-        const diff = Math.abs(center - slideCenter);
-        if (diff < minDiff) {
-          minDiff = diff;
-          activeIndex = i;
-        }
+      const mid = track.scrollLeft + track.clientWidth / 2;
+      let best = 0, min = Infinity;
+      slides.forEach((s, i) => {
+        const cx = leftInTrack(s) + s.clientWidth / 2;
+        const d = Math.abs(cx - mid);
+        if (d < min) { min = d; best = i; }
       });
-
-      centerIndex = activeIndex;
-
-      slides.forEach((slide, i) => {
-        const video = slide.querySelector('video');
-        if (i === activeIndex) {
-          slide.classList.add('active');
-          video?.play().catch(() => {});
-        } else {
-          slide.classList.remove('active');
-          if (video) {
-            video.pause();
-            video.currentTime = 0;
-          }
-        }
-      });
+      if (best !== centerIndex) setActive(best);
     }
 
-    next.addEventListener('click', () => {
-      centerIndex = Math.min(centerIndex + 1, slides.length - 1);
-      scrollToCenter(centerIndex);
+    prev?.addEventListener('click', () => {
+      const i = Math.max(0, centerIndex - 1);
+      centerByIndex(i);
     });
-
-    prev.addEventListener('click', () => {
-      centerIndex = Math.max(centerIndex - 1, 0);
-      scrollToCenter(centerIndex);
+    next?.addEventListener('click', () => {
+      const i = Math.min(slides.length - 1, centerIndex + 1);
+      centerByIndex(i);
     });
 
     track.addEventListener('scroll', () => {
-      window.requestAnimationFrame(updateActiveByCenter);
+      cancelAnimationFrame(track.__rcRaf);
+      track.__rcRaf = requestAnimationFrame(updateActiveByCenter);
     });
 
     window.addEventListener('resize', () => {
-      scrollToCenter(centerIndex);
+      centerByIndex(centerIndex, { smooth: false });
     });
 
-    scrollToCenter(centerIndex);
-    updateActiveByCenter();
+    centerByIndex(centerIndex, { smooth: false });
   });
 }

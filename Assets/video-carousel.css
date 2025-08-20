@@ -38,21 +38,12 @@
 .video-carousel-section .carousel-track {
   display: flex;
   overflow-x: auto;
-  animation: scroll 60s linear infinite;
+  animation: none;
+  transform: none;
   scroll-snap-type: x mandatory;
   scroll-padding-left: 0;
   justify-content: flex-start;
   gap: 1.5rem !important;
-  white-space: nowrap;
-}
-
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
 }
 
 .video-carousel-section .product-card {
@@ -78,7 +69,7 @@
   flex-wrap: nowrap !important;
   align-items: center !important;
   justify-content: space-between !important;
-  width: 35rem !important;
+  width: 33rem !important;
   height: 10rem !important;
   padding: 1rem !important;
   background: #fff !important;
@@ -100,7 +91,7 @@
   min-width: 0 !important;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: center !important;
+  justify-content: left !important;
   margin-left: 1rem !important;
 }
 
@@ -122,19 +113,21 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: left;
   margin-left: 1rem;
 }
 
 .video-carousel-section .title {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 600;
+  text-align: left;
   margin: -8px 0 0 !important;
   color: #000;
 }
 
 .video-carousel-section .price {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
+  text-align: left;
   margin: 2px 0 0;
   color: #000;
 }
@@ -151,7 +144,7 @@
   .video-carousel-section {
     position: relative;
     padding-bottom: 0;
-    height: 52vh;
+    height: 46vh;
     overflow: hidden;
   }
 
@@ -164,8 +157,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 160% !important;    
-    height: 160% !important;
+    width: 180% !important;    
+    height: 180% !important;
     transform: translate(-50%, -50%);
     object-fit: cover;
     pointer-events: none;
@@ -186,7 +179,7 @@
     display: flex;
     justify-content: flex-start;
     overflow-x: auto;
-    padding: 0 1rem; 
+    padding: 0; 
     scroll-snap-type: x mandatory;
   }
   .video-carousel-section .product-card {

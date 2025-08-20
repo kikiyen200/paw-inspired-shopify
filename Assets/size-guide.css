@@ -66,11 +66,11 @@ html {
 
 .close-size-guide {
   position: absolute;
-  top: 1rem;
-  right: 3rem;
+  top: 0.8rem;
+  right: 2rem;
   background: none;
   border: none;
-  font-size: 4rem;
+  font-size: 3rem;
   color: #fff;
   cursor: pointer;
   -webkit-text-stroke: 0.6px #00B4ED;
@@ -90,10 +90,10 @@ html {
 
 .step-label {
   position: absolute;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #fff;
-  top: 2rem; left: 50%;
+  top: 0.8rem; left: 50%;
   transform: translateX(-50%);
   text-shadow:
     -1px -1px 0 #00B4ED,
@@ -143,7 +143,7 @@ html {
   min-width: 180px; 
   margin: 0;
   text-align: right;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #999;
   padding-top: 0.5rem;
@@ -248,7 +248,7 @@ html {
 }
 
 .size-guide-help{
-color: #00b4ed;
+  color: #00b4ed;
   text-decoration: underline;
   font-weight: 700;
   font-size: 1.4rem;
@@ -259,7 +259,7 @@ color: #00b4ed;
 }
 
 .result-size {
-  font-size: 8rem;
+  font-size: 10rem;
   font-weight: 900;
   margin: 0;
   color: #00b4ed;
@@ -325,13 +325,6 @@ color: #00b4ed;
   
 }
 
-/* .result-note{
-  font-size: 1.6rem;
-  line-height: 1.2;
-  color: #999999;
-   margin-bottom: 4rem;
-}
- */
 .shop-now-btn {
   font-family: 'Bauer Grotesk', sans-serif !important;
   font-weight: 600;
@@ -390,6 +383,11 @@ padding-right: 0;
   text-align: right;
   justify-self: end;
   white-space: nowrap;
+  text-shadow:
+    -1px -1px 0 #fff,
+    1px -1px 0 #fff,
+    -1px 1px 0 #fff,
+    1px 1px 0 #fff;
 }
 
 .feedback-form select,
@@ -410,7 +408,7 @@ padding-right: 0;
   justify-content: space-between;
   gap: 1rem;
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .submit-feedback {
@@ -452,19 +450,22 @@ padding-right: 0;
   }
 
 .step3-step-note{
-  color: #888;
-  margin-top: -2rem;
+  color: #fff;
+  margin-top: -3rem;
   margin-bottom: 0;
+  font-size:1rem;
 }
   
   .size-guide-box {
     width: 90vw;
+    height: 70vh;
     padding: 1rem 1.5rem;
   }
 
   .step-title {
-    font-size: 2.6rem;
+    font-size: 2rem;
     text-align: center;
+    margin: 3rem 0;
   }
 
   .option-row {
@@ -472,6 +473,11 @@ padding-right: 0;
     flex-direction: column;
     align-items: center;
     gap: 0.6rem;
+  }
+  
+  .option-row.step2-option-group {
+    margin: -1.4rem 0 auto;
+    gap: 0.4rem;
   }
 
   .option-group{
@@ -484,9 +490,9 @@ padding-right: 0;
   .option-button {
     width: 100%;
     max-width: 320px;
-    min-height: 40px;
+    min-height: 36px;
     padding: 0.5rem;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     line-height: 1.3;
     text-align: center;
     border-radius: 999px;
@@ -503,7 +509,7 @@ padding-right: 0;
     display: flex;
     justify-content: center;
     gap: 2rem;
-    margin-top: 0;
+    margin-top: -3rem;
   }
 
   .next-button, .prev-button {
@@ -514,7 +520,7 @@ padding-right: 0;
     color: #00b4ed;
     font-weight: bold;
     border: none;
-    font-size: 1.6rem;
+    font-size: 1.3rem;
     margin: 0;
     cursor: pointer;
     padding-top: 4rem;
@@ -527,9 +533,15 @@ padding-right: 0;
 
   .size-guide-step.step-3 .situation {
     text-align: center;
-    font-weight: 600;
-    font-size: 1.4rem;
-    margin: 1rem 0;
+    font-weight: 400;
+    font-size: 1.2rem;
+    margin: 0;
+    color: #00b4ed;
+    text-shadow:
+      -1px -1px 0 #fff,
+      1px -1px 0 #fff,
+      -1px 1px 0 #fff,
+      1px 1px 0 #fff;
   }
 
 .size-guide-step.step-3 .option-button {
@@ -538,22 +550,29 @@ padding-right: 0;
   margin: 0 auto;
   display: block;
 }
-  
-  .size-guide-help {
-    font-size: 1.3rem;
-    margin: 1.5rem auto 0 auto;
-    text-align: center;
-    display: block;
-    width: 100%; 
-  }
+
+.size-guide-step .step-3 .option-row .option-group{
+  margin-top:-0.5rem;
+}
+
+.size-guide-help {
+  font-size: 1.2rem;
+  margin: 1.5rem auto 0 auto;
+  text-align: center;
+  display: block;
+  width: 100%;
+  bottom: 1rem;
+}
 
 .result-size {
   font-size: 6rem;
   font-weight: 900;
+}
   
-  .result-desc {
-  font-size: 2rem;
-  }
+.result-desc{
+  font-size: 2.2rem;
+  margin-top: -2.3rem; 
+}
   
  .size-guide-step.step-4 .step-note {
   margin-top: 2rem !important;

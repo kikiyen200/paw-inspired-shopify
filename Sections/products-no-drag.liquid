@@ -24,15 +24,30 @@
         <div class="products-carousel">
           {% for block in section.blocks %}
             {% if block.settings.tab == tab %}
-              <div class="product-card">
-                <a href="{{ block.settings.product_url }}">
-                  <img src="{{ block.settings.product_image | img_url: '600x600_crop_center' }}" alt="{{ block.settings.product_title }}">
-                  <div class="product-info">
-                    <div class="product-title">{{ block.settings.product_title }}</div>
-                    <div class="product-price">{{ block.settings.product_price }}</div>
-                  </div>
-                </a>
-              </div>
+              {% assign product = all_products[block.settings.product_item] %}
+              {% if product %}
+                <div class="product-card">
+                  <a href="{{ product.url }}">
+                    <div class="product-image-wrapper">
+                      <img src="{{ block.settings.product_image | image_url: width: 600, height: 600, crop: 'center' }}" alt="{{ product.title }}">
+                      {% if block.settings.hover_image %}
+                        <img class="product-image hover-image" src="{{ block.settings.hover_image | image_url: width: 600, height: 600, crop: 'center' }}" alt="{{ product.title }} hover">
+                      {% endif %}
+                    </div>
+                    <div class="product-info">
+                      <div class="product-title">{{ product.title }}</div>
+                      <div class="product-price">
+                        {% if product.compare_at_price > product.price %}
+                          <span class="original-price" style="text-decoration: line-through; color: #999;">{{ product.compare_at_price | money }}</span>
+                          <span class="sale-price" style="color: red; margin-left: 0.5rem;">{{ product.price | money }}</span>
+                        {% else %}
+                          {{ product.price | money }}
+                        {% endif %}
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              {% endif %}
             {% endif %}
           {% endfor %}
         </div>
@@ -63,24 +78,19 @@
           "default": "just-in"
         },
         {
+          "type": "product",
+          "id": "product_item",
+          "label": "Select Product"
+        },
+        {
           "type": "image_picker",
           "id": "product_image",
           "label": "Product Image"
         },
         {
-          "type": "text",
-          "id": "product_title",
-          "label": "Product Title"
-        },
-        {
-          "type": "text",
-          "id": "product_price",
-          "label": "Product Price"
-        },
-        {
-          "type": "url",
-          "id": "product_url",
-          "label": "Product URL"
+          "type": "image_picker",
+          "id": "hover_image",
+          "label": "Hover Image"
         }
       ]
     }

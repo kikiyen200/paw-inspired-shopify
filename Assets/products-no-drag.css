@@ -16,9 +16,11 @@
     margin: 0 auto;
     overflow-x: scroll !important;
     -ms-overflow-style: scrollbar;
+    overflow-y: scroll; 
+    overflow-x: scroll; 
     scrollbar-width: auto;  
     position: relative;
-    padding: 0 2rem 3rem; 
+    padding: 0 5rem 2rem; 
     scrollbar-color: #00b4ed #d9d9d9;
   }
   
