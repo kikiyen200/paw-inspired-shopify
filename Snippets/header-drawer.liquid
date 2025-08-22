@@ -2,7 +2,7 @@
   data-header-type="{% if header_type == 'custom-header' %}custom-header{% else %}default{% endif %}"
   class="header header-main"
 >
-  <details id="Details-menu-drawer-container" class="menu-drawer-container">
+  <details id="Details-menu-drawer-container" class="menu-drawer-container" style="margin-left: -4.3rem;">
     <summary
       class="header__icon header__icon--menu header__icon--summary focus-inset"
       aria-label="{{ 'sections.header.menu' | t }}"
@@ -137,81 +137,90 @@
   </details>  
   <!-- icons (include search button) -->
   <div class="custom-header-icons" style="display: flex; align-items: center; gap: 2rem;">
-        <button class="header__icon js-open-search" aria-label="{{ 'general.search.search' | t }}">
-         {% render 'icon-search' %}
-        </button>
-        <a href="/account/login" class="header__icon" aria-label="Account">
-         {% render 'icon-user' %}
-        </a>
-        <a href="/cart" class="header__icon" aria-label="Cart">
-         {% render 'icon-shoppingbag' %}
-        </a>
-  </div>
-  {%- if settings.predictive_search_enabled -%}
-  <!-- Search modal & drawer same level -->    
-  <details-modal id="HeaderSearch" class="header__search">
-  <details>
-    <summary class="visually-hidden">{{ 'general.search.search' | t }}</summary>
-    {%- render 'header-search', input_id: 'Search-In-Modal-1' -%}
-  </details>
-</details-modal>
-{%- endif -%}
+  <button class="header__icon js-open-search" aria-label="{{ 'general.search.search' | t }}" type="button">
+    {% render 'icon-search' %}
+  </button>
+  <a href="/account/login" class="header__icon" aria-label="Account">
+    {% render 'icon-user' %}
+  </a>
+  <a href="/cart" class="header__icon header__icon--cart" aria-label="Cart">
+    {% render 'cart-icon-bubble' %}
+  </a>
+</div>
+{% render 'header-search', input_id: 'Search-In-Modal-1' %}
 </header-drawer> 
 
 <style>
   /* Search-icons */
-
-   .menu-drawer-container > summary {
-   position: relative; 
-   z-index: 10; 
-   width: 100vw;
-   align-items: center;
-   justify-content: space-between;
-   padding: 3rem 8rem;
-   background: transparent;
-   display: flex;
+  .menu-drawer-container > summary {
+    position: relative; 
+    z-index: 10; 
+    width: 100vw;
+    align-items: center;
+    justify-content: space-between;
+    padding: 3rem 8rem;
+    background: transparent;
+    display: flex;
   }
 
   .header-main .custom-header-icons {
-  position: absolute;
-  top: 4.5rem;      /* 依你的設計可微調 */
-  right: 8rem;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  z-index: 10002; 
-}
+    position: absolute;
+    top: 5rem; 
+    right: 8rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    z-index: 10002; 
+  }
 
-  .header-main > details-modal.header__search {
-  position: static;  
-  z-index: auto;
-}
-   .header__search > summary.header__icon {
+  .menu-drawer__overlay {
+    z-index: 9998;
+  }
+
+  .js-open-search {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+  }
+
+  .js-open-search svg {
+    width: 24px;
+    height: 24px;
+    stroke: #00b4ed;
+  }
+
+  .header__search > summary.header__icon {
     width: 40px;
     height: 40px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
   }
-   .header-main[data-header-type="custom-header"] .custom-header-icons,
-   .header-main[data-header-type="custom-header"] .header__search summary {
+
+  .header-main[data-header-type="custom-header"] .custom-header-icons,
+  .header-main[data-header-type="custom-header"] .header__search summary {
     color: #fff;      
   }
 
-   .shopify-section-header-sticky .custom-header-icons,
-   .shopify-section-header-sticky .header__search summary,
-   .header-main:not([data-header-type="custom-header"]) .custom-header-icons,
-   .header-main:not([data-header-type="custom-header"]) .header__search summary {
+  .shopify-section-header-sticky .custom-header-icons,
+  .shopify-section-header-sticky .header__search summary,
+  .header-main:not([data-header-type="custom-header"]) .custom-header-icons,
+  .header-main:not([data-header-type="custom-header"]) .header__search summary {
     color: #00b4ed;    
   }
 
-   .mobile-header-logo {
-   position: absolute;
-   left: 50%;
-   transform: translateX(-50%);
-   display: flex;
-   align-items: center;
-   z-index: 10;
+  .mobile-header-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    z-index: 10;
   }
   
   .logo-white,
@@ -238,8 +247,8 @@
   }
   .shopify-section-header-sticky .logo-color {
     display: inline-block !important;
-     position: relative;
-    z-index:100;
+    position: relative;
+    z-index: 100;
   }
   .shopify-section-header {
     background-color: transparent;
@@ -256,10 +265,10 @@
     text-decoration: none;
   }
   .header-link {
-  font-size: 1.6rem;
-  font-weight: 600;
-  color: #00b4ed;
-  text-decoration: none;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #00b4ed;
+    text-decoration: none;
   }
 
   body.show-header header.header {
@@ -270,325 +279,318 @@
   }
   
   .menu-drawer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 320px;
-  height: 100vh;
-  background: #fff;
-  z-index: 10000;
-  overflow-y: auto;
-  padding: 2rem;
-  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 100vh;
+    background: #fff;
+    z-index: 10000;
+    overflow-y: auto;
+    padding: 2rem;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
   }
 
   .menu-drawer__overlay {
-  position: fixed;
-  top: 0;
-  left: 320px;
-  width: calc(100vw - 320px);
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.1);
-  z-index: 9999;
+    position: fixed;
+    top: 0;
+    left: 320px;
+    width: calc(100vw - 320px);
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 9998;
   }
+
   summary.header__icon.header__icon--menu.header__icon--summary.focus-inset::before {
-  background: transparent !important;
+    background: transparent !important;
   }
 
   .menu-drawer__menu-item {
-  padding: 1rem 0;
-  position: relative;
+    padding: 1rem 0;
+    position: relative;
   }
 
   .menu-drawer__menu-item-link {
-  position: relative;
-  font-size: 1.6rem;
-  font-weight: 500;
-  color: #000;
-  text-decoration: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #000;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .menu-drawer__menu-item-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #00B4ED;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.3s ease;
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #00B4ED;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
   }
 
   .menu-drawer__menu-item.open .menu-drawer__menu-item-link::after {
-  transform: scaleX(1);
+    transform: scaleX(1);
   }
   
   .menu-drawer__submenu {
-  display: none;
-  margin-top: 1rem;
-  padding-left: 0;
+    display: none;
+    margin-top: 1rem;
+    padding-left: 0;
   }
 
   .menu-drawer__menu-item.open .menu-drawer__submenu {
-  display: block;
+    display: block;
   }
   
   .menu-drawer__submenu li a {
-  font-size: 1.6rem;
-  color: #000;
-  text-decoration: none;
-  line-height: 2.2rem;
-  display: block;
-  margin-top: 1.5rem;
+    font-size: 1.6rem;
+    color: #000;
+    text-decoration: none;
+    line-height: 2.2rem;
+    display: block;
+    margin-top: 1.5rem;
   }
   
   .submenu-heading {
-  display: flex;
-  align-items: center;
-  margin-top: 1.5rem;
-  font-weight: bold;
-  font-size: 1rem;
-  color: #000;
+    display: flex;
+    align-items: center;
+    margin-top: 1.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #000;
   }
 
   .menu-drawer__submenu .submenu-heading .submenu-title {
-  font-weight: bold;
-  font-size: 1.8rem;
-  color: #000;
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: #000;
   }
 
   .submenu-title {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
   }
 
   .submenu-title svg {
-  width: 20px;
-  height: 20px;
-  stroke: #00B4ED;
-  flex-shrink: 0;
-  align-items: center;
-  justify-content: center;
-  vertical-align: middle;
-  margin-right:0.6rem;
+    width: 20px;
+    height: 20px;
+    stroke: #00B4ED;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    margin-right: 0.6rem;
   }
 
   .submenu-subitems {
-  list-style: none;
-  padding-left: 5rem;
-  margin-top: 0.5rem;
+    list-style: none;
+    padding-left: 5rem;
+    margin-top: 0.5rem;
   }
   
   .submenu-toggle .icon-minus {
-  display: none;
+    display: none;
   }
 
   .open .submenu-toggle .icon-minus {
-  display: inline;
+    display: inline;
   }
 
   .open .submenu-toggle .icon-plus {
-  display: none;
+    display: none;
   }
   
   .submenu-toggle {
-  font-size: 2rem;
-  color: #00b4ed;
-  cursor: pointer;
-  margin-left: auto;
+    font-size: 2rem;
+    color: #00b4ed;
+    cursor: pointer;
+    margin-left: auto;
   }
 
   .drawer-close-button {
-  position: relative;
-  z-index: 9999;
-  background: none;
-  border: none;
-  padding: 1.5rem;
-  cursor: pointer;
+    position: relative;
+    z-index: 9999;
+    background: none;
+    border: none;
+    padding: 1.5rem;
+    cursor: pointer;
   }
   
   .drawer-close-button svg,
   .menu-drawer__menu-item svg {
-  width: 24px;
-  height: 24px;
-  stroke: #00b4ed;
-  stroke-width: 2;
+    width: 24px;
+    height: 24px;
+    stroke: #00b4ed;
+    stroke-width: 2;
   }
 
   .header__icon {
-  background: transparent;
-  border: none;
-  padding: 0;
-  margin: 0;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
   }
 
-  /* drawer-social-icons */
   .drawer-social-wrapper {
-  width: 100%;
-  padding: 0;
-  margin-top: 0;
-  display: flex;
-  justify-content: center;
-  text-align: center;
+    width: 100%;
+    padding: 0;
+    margin-top: 0;
+    display: flex;
+    justify-content: center;
+    text-align: center;
   }
   .drawer-social-icons {
-  width: 100%;
+    width: 100%;
   }
   
   .drawer-social-icons .footer-icons {
-  width: 100%;
-  max-width: 320px; 
-  margin: 0 auto;   
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  gap: 3rem;
+    width: 100%;
+    max-width: 320px; 
+    margin: 0 auto;   
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 3rem;
   }
 
   .drawer-social-icons .footer-icons a {
-  display: inline-flex;
-  align-items: center;
+    display: inline-flex;
+    align-items: center;
   }
 
   .drawer-social-icons .footer-icons svg {
-  width: 28px;
-  height: 28px;
-  fill: #00b4ed !important;
-  stroke: none !important;
+    width: 28px;
+    height: 28px;
+    fill: #00b4ed !important;
+    stroke: none !important;
   }
 
   @media screen and (max-width: 768px) {
     summary.header__icon {
-    margin: 3.5rem 0 0 !important;
+      margin: 3.5rem 0 0 !important;
     }
     
     summary.header__icon--menu {
-    padding: 1rem 1.2rem !important;
-    height: auto;
+      padding: 1rem 1.2rem !important;
+      height: auto;
     }
 
     .custom-header-link,
     .header-link {
-    display: none !important;
+      display: none !important;
     }
 
     .mobile-header-logo img {
-    height: 40px;
-    padding-bottom: 0;
-    transform: translateX(-5px); 
+      height: 40px;
+      padding-bottom: 0;
+      transform: translateX(-5px); 
     }
 
     .mobile-header-logo {
-    top: 50%;
-    transform: translate(-50%, -50%);
-    height: auto;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      height: auto;
     }
-   .custom-hamburger-icon svg {
-    color: #fff;
-    margin-top: 1rem;
+    .custom-hamburger-icon svg {
+      color: #fff;
+      margin-top: 1rem;
     }
-   .custom-header-icons svg {
-    width: 24px;
-    height: 24px;
-    stroke-width: 1.5;
-    color: #fff;
-    stroke: #fff;
+    .custom-header-icons svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 1.5;
+      color: #fff;
+      stroke: #fff;
     }
     .header-main .custom-header-icons {
-    right: 1rem;
-    gap: 0!important;
+      right: 1rem;
+      gap: 0 !important;
     }
 
-   .custom-header-icons svg,
-   .custom-header-icons img {
-   width: 80%;
-   max-width: 50%;
-   height: auto;
-   flex: 0 0 100% !important;
-   justify-content: flex-end;
-   }
-   
-   a[aria-label="Account"] {
-   display: none !important;
-   }
+    .custom-header-icons svg,
+    .custom-header-icons img {
+      width: 80%;
+      max-width: 50%;
+      height: auto;
+      flex: 0 0 100% !important;
+      justify-content: flex-end;
+    }
+    
+    a[aria-label="Account"] {
+      display: none !important;
+    }
   }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    const observer = new MutationObserver(() => {
-      // Return
-      document.querySelectorAll('[data-close-drawer]').forEach((btn) => {
-        if (!btn.dataset.bound) {
-          btn.dataset.bound = 'true';
-          btn.addEventListener('click', () => {
-            const drawer = btn.closest('details.menu-drawer-container');
-            if (drawer && drawer.hasAttribute('open')) {
-              drawer.removeAttribute('open');
-            }
-          });
-        }
-      });
-
-      // Submenu
-      document.querySelectorAll('.submenu-toggle').forEach((toggle) => {
-        if (!toggle.dataset.bound) {
-          toggle.dataset.bound = 'true';
-          toggle.addEventListener('click', function () {
-            const parentLi = toggle.closest('li.menu-drawer__menu-item');
-            const submenu = parentLi.querySelector('.menu-drawer__submenu');
-            if (submenu) {
-              const isOpen = submenu.classList.contains('open');
-              submenu.classList.toggle('open', !isOpen);
-              parentLi.classList.toggle('open', !isOpen);
-            }
-          });
-        }
-      });
+  const observer = new MutationObserver(() => {
+    // Drawer close button
+    document.querySelectorAll('[data-close-drawer]').forEach((btn) => {
+      if (!btn.dataset.bound) {
+        btn.dataset.bound = 'true';
+        btn.addEventListener('click', () => {
+          const drawer = btn.closest('details.menu-drawer-container');
+          if (drawer && drawer.hasAttribute('open')) {
+            drawer.removeAttribute('open');
+          }
+        });
+      }
     });
-    observer.observe(document.body, { childList: true, subtree: true });
-    setTimeout(() => observer.takeRecords(), 0);
+
+    // Submenu toggle
+    document.querySelectorAll('.submenu-toggle').forEach((toggle) => {
+      if (!toggle.dataset.bound) {
+        toggle.dataset.bound = 'true';
+        toggle.addEventListener('click', function () {
+          const parentLi = toggle.closest('li.menu-drawer__menu-item');
+          const submenu = parentLi.querySelector('.menu-drawer__submenu');
+          if (submenu) {
+            const isOpen = submenu.classList.contains('open');
+            submenu.classList.toggle('open', !isOpen);
+            parentLi.classList.toggle('open', !isOpen);
+          }
+        });
+      }
+    });
   });
-// Search
-document.addEventListener('DOMContentLoaded', () => {
-  const buttons = document.querySelectorAll('.js-open-search'); // 以防將來有多個
-  const modal   = document.getElementById('HeaderSearch');
+  observer.observe(document.body, { childList: true, subtree: true });
+  setTimeout(() => observer.takeRecords(), 0);
 
-  // 除錯：確認有抓到元素
-  console.log('[search-bind]', { btnCount: buttons.length, modal: !!modal });
+  // Search functionality
+  const btn = document.querySelector('.js-open-search');
+  const modal = document.querySelector('details-modal.header__search');
+  const details = modal?.querySelector('details');
+  const summary = modal?.querySelector('summary');
 
-  if (!buttons.length || !modal) return;
-
-  const detailsEl = modal.querySelector('details');
-  const summaryEl = modal.querySelector('summary');
-
-  buttons.forEach((btn) => {
-    btn.type = 'button';
+  if (btn && modal && details && summary) {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
-      e.stopPropagation();
-
-      // 用點 summary 的方式觸發開啟，讓內建腳本接手處理
-      if (detailsEl && !detailsEl.hasAttribute('open')) {
-        summaryEl?.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+      const isOpen = details.hasAttribute('open');
+      if (!isOpen) {
+        details.setAttribute('open', '');
+        summary.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('overflow-hidden');
+        const input = details.querySelector('input[type="search"]');
+        if (input) input.focus();
+      } else {
+        details.removeAttribute('open');
+        summary.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('overflow-hidden');
       }
-
-      // 開了就把焦點放到輸入框
-      requestAnimationFrame(() => {
-        modal.querySelector('input[type="search"]')?.focus();
-      });
     });
-  });
+  }
 });
 </script>
