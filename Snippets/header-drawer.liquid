@@ -2,7 +2,7 @@
   data-header-type="{% if header_type == 'custom-header' %}custom-header{% else %}default{% endif %}"
   class="header header-main"
 >
-  <details id="Details-menu-drawer-container" class="menu-drawer-container" style="margin-left: -4.3rem;">
+  <details id="Details-menu-drawer-container" class="menu-drawer-container" style="margin-left:0;">
     <summary
       class="header__icon header__icon--menu header__icon--summary focus-inset"
       aria-label="{{ 'sections.header.menu' | t }}"
@@ -22,27 +22,39 @@
       </div>
     
       {% assign header_type = header_type | default: 'header' %}
-      <a href="/" class="mobile-header-logo" style="display: flex; align-items: center;">
+      <a href="/" class="mobile-header-logo">
         {% if header_type == 'custom-header' %}
           <img src="{{ 'logo-white.svg' | asset_url }}" class="logo-white" alt="Paw Inspired">
         {% else %}
           <img src="{{ 'logo-color.svg' | asset_url }}" class="logo-color" alt="Paw Inspired">
         {% endif %}
       </a>
+      <div class="custom-header-icons">
+        <!-- Account -->
+        <a href="/account/login" class="header__icon" aria-label="Account">
+          {% render 'icon-user' %}
+        </a>
+        <!-- Cart -->
+        <a href="/cart" class="header__icon header__icon--cart" aria-label="Cart">
+        {% render 'cart-icon-bubble' %}
+        </a>
+      </div>
+      {% render 'header-search', input_id: 'Search-In-Modal' %}
     </summary>
-   
+
     <!-- Menu Drawer -->
     <div class="menu-drawer">
       <div class="menu-drawer__top" style="display: flex; justify-content: space-between; align-items: center; padding: 2rem 0 1rem 0;">
         <a href="/" class="drawer-logo">
           <img src="{{ 'logo-color.svg' | asset_url }}" alt="Paw Inspired" style="height: 4rem; margin-left: 0;">
         </a>
-        <button class="drawer-close-button" data-close-drawer aria-label="Close Menu" 
-                style="background: none; border: none; font-size: 2.4rem; color: #00b4ed; padding-top: 1.5rem;">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
-               viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-               stroke-width="2" stroke-linecap="butt" stroke-linejoin="butt">
-            <path d="M20 20v-7a4 4 0 0 0-4-4H4"/><path d="M9 14 4 9l5-5"/>
+        <button class="drawer-close-button" data-close-drawer>
+         <svg xmlns="http://www.w3.org/2000/svg" 
+             width="24" height="24" viewBox="0 0 24 24" 
+             fill="none" stroke="currentColor" stroke-width="2" 
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 14 4 9l5-5"/>
+          <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/>
           </svg>
         </button>
       </div>
@@ -135,71 +147,25 @@
       <div class="menu-drawer__overlay"></div>
     </div>
   </details>  
-  <!-- icons (include search button) -->
-  <div class="custom-header-icons" style="display: flex; align-items: center; gap: 2rem;">
-  <button class="header__icon js-open-search" aria-label="{{ 'general.search.search' | t }}" type="button">
-    {% render 'icon-search' %}
-  </button>
-  <a href="/account/login" class="header__icon" aria-label="Account">
-    {% render 'icon-user' %}
-  </a>
-  <a href="/cart" class="header__icon header__icon--cart" aria-label="Cart">
-    {% render 'cart-icon-bubble' %}
-  </a>
-</div>
-{% render 'header-search', input_id: 'Search-In-Modal-1' %}
 </header-drawer> 
 
 <style>
-  /* Search-icons */
   .menu-drawer-container > summary {
     position: relative; 
-    z-index: 10; 
-    width: 100vw;
-    align-items: center;
-    justify-content: space-between;
-    padding: 3rem 8rem;
     background: transparent;
-    display: flex;
   }
 
   .header-main .custom-header-icons {
-    position: absolute;
-    top: 5rem; 
-    right: 8rem;
+    position: relative;
     display: flex;
     align-items: center;
     gap: 2rem;
     z-index: 10002; 
+    left: 70rem;
   }
 
   .menu-drawer__overlay {
     z-index: 9998;
-  }
-
-  .js-open-search {
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-  }
-
-  .js-open-search svg {
-    width: 24px;
-    height: 24px;
-    stroke: #00b4ed;
-  }
-
-  .header__search > summary.header__icon {
-    width: 40px;
-    height: 40px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
   }
 
   .header-main[data-header-type="custom-header"] .custom-header-icons,
@@ -477,6 +443,7 @@
     stroke: none !important;
   }
 
+  
   @media screen and (max-width: 768px) {
     summary.header__icon {
       margin: 3.5rem 0 0 !important;
@@ -534,63 +501,38 @@
   }
 </style>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-  const observer = new MutationObserver(() => {
-    // Drawer close button
-    document.querySelectorAll('[data-close-drawer]').forEach((btn) => {
-      if (!btn.dataset.bound) {
-        btn.dataset.bound = 'true';
-        btn.addEventListener('click', () => {
-          const drawer = btn.closest('details.menu-drawer-container');
-          if (drawer && drawer.hasAttribute('open')) {
-            drawer.removeAttribute('open');
-          }
-        });
-      }
-    });
-
-    // Submenu toggle
-    document.querySelectorAll('.submenu-toggle').forEach((toggle) => {
-      if (!toggle.dataset.bound) {
-        toggle.dataset.bound = 'true';
-        toggle.addEventListener('click', function () {
-          const parentLi = toggle.closest('li.menu-drawer__menu-item');
-          const submenu = parentLi.querySelector('.menu-drawer__submenu');
-          if (submenu) {
-            const isOpen = submenu.classList.contains('open');
-            submenu.classList.toggle('open', !isOpen);
-            parentLi.classList.toggle('open', !isOpen);
-          }
-        });
-      }
-    });
+<script> 
+  document.addEventListener('DOMContentLoaded', function () { const observer = new MutationObserver(() => { 
+    // Return
+  document.querySelectorAll('[data-close-drawer]').forEach((btn) => { 
+    if (!btn.dataset.bound) { 
+      btn.dataset.bound = 'true'; 
+      btn.addEventListener('click', () => { 
+        const drawer = btn.closest('details.menu-drawer-container'); 
+        if (drawer && drawer.hasAttribute('open')) { 
+          drawer.removeAttribute('open'); 
+        } 
+      }); 
+    } 
+  }); 
+  // Submenu 
+  document.querySelectorAll('.submenu-toggle').forEach((toggle) => { 
+    if (!toggle.dataset.bound) { 
+      toggle.dataset.bound = 'true'; 
+      toggle.addEventListener('click', function () { 
+        const parentLi = toggle.closest('li.menu-drawer__menu-item'); 
+        const submenu = parentLi.querySelector('.menu-drawer__submenu'); 
+        if (submenu) { 
+          const isOpen = submenu.classList.contains('open'); 
+          submenu.classList.toggle('open', !isOpen); 
+          parentLi.classList.toggle('open', !isOpen); 
+        } 
+      }); 
+    } 
+  }); 
+}); 
+observer.observe(document.body, { childList: true, subtree: true }); 
+setTimeout(() => observer.takeRecords(), 0); 
   });
-  observer.observe(document.body, { childList: true, subtree: true });
-  setTimeout(() => observer.takeRecords(), 0);
 
-  // Search functionality
-  const btn = document.querySelector('.js-open-search');
-  const modal = document.querySelector('details-modal.header__search');
-  const details = modal?.querySelector('details');
-  const summary = modal?.querySelector('summary');
-
-  if (btn && modal && details && summary) {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const isOpen = details.hasAttribute('open');
-      if (!isOpen) {
-        details.setAttribute('open', '');
-        summary.setAttribute('aria-expanded', 'true');
-        document.body.classList.add('overflow-hidden');
-        const input = details.querySelector('input[type="search"]');
-        if (input) input.focus();
-      } else {
-        details.removeAttribute('open');
-        summary.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('overflow-hidden');
-      }
-    });
-  }
-});
 </script>

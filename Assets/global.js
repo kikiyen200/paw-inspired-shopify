@@ -7,21 +7,6 @@ function getFocusableElements(container) {
 }
 
 document.querySelectorAll('[id^="Details-"] summary').forEach((summary) => {
-  if (summary.closest('details-modal.header__search')) return; // 排除搜尋 modal 的 summary
-  summary.setAttribute('role', 'button');
-  summary.setAttribute('aria-expanded', summary.parentNode.hasAttribute('open'));
-
-  if (summary.nextElementSibling.getAttribute('id')) {
-    summary.setAttribute('aria-controls', summary.nextElementSibling.id);
-  }
-
-  summary.addEventListener('click', (event) => {
-    event.currentTarget.setAttribute('aria-expanded', !event.currentTarget.closest('details').hasAttribute('open'));
-  });
-
-  if (summary.closest('header-drawer, menu-drawer')) return;
-  summary.parentElement.addEventListener('keyup', onKeyUpEscape);
-
   summary.setAttribute('role', 'button');
   summary.setAttribute('aria-expanded', summary.parentNode.hasAttribute('open'));
 
@@ -36,7 +21,7 @@ document.querySelectorAll('[id^="Details-"] summary').forEach((summary) => {
   if (summary.closest('header-drawer, menu-drawer')) return;
   summary.parentElement.addEventListener('keyup', onKeyUpEscape);
 });
-
+ 
 const trapFocusHandlers = {};
 
 function trapFocus(container, elementToFocus = container) {
@@ -372,8 +357,7 @@ class MenuDrawer extends HTMLElement {
 
   bindEvents() {
     this.querySelectorAll('summary').forEach((summary) => {
-      if (summary.closest('details-modal')) return; // ← ← 關鍵：排除搜尋 modal 的 summary
-      if (summary.classList.contains('modal__toggle') || summary.classList.contains('header__icon--search')) return;
+      if (summary.closest('details-modal') && !summary.classList.contains('js-search-toggle')) return;
       summary.addEventListener('click', this.onSummaryClick.bind(this));
     });
 
@@ -1282,13 +1266,3 @@ class ProductRecommendations extends HTMLElement {
 
   customElements.define('product-recommendations', ProductRecommendations);
 
-  document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('details-modal.header__search').forEach((modal) => {
-    const details = modal.querySelector('details');
-    const summary = modal.querySelector('summary');
-    if (!details || !summary) return;
-    summary.addEventListener('click', () => {
-      details.querySelector('input[type="search"]')?.focus();
-    });
-  });
-});
