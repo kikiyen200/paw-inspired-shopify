@@ -1,189 +1,484 @@
 document.addEventListener('DOMContentLoaded', function () {
     const popup = document.querySelector('.size-guide-popup');
+    const sizeGuideBox = document.querySelector('.size-guide-box');
     const steps = document.querySelectorAll('.size-guide-step');
-    const nextBtns = document.querySelectorAll('[data-next]');
-    const prevBtns = document.querySelectorAll('[data-prev]');
+    const genderButtons = document.querySelectorAll('.option-button');
+    const nextButtons = document.querySelectorAll('.next-button');
+    const prevButtons = document.querySelectorAll('.prev-button');
     const closeBtn = document.querySelector('.close-size-guide');
-    let currentStep = 0;
+
+    let selectedGender = '';
     let hasSubmittedSizeOnly = false;
+
+    // Gender selection
+    genderButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            genderButtons.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+
+            selectedGender = this.dataset.value;
+
+            const targetStep = selectedGender === 'male' ? 'step-2-male' : 'step-2-female';
+            showStep(targetStep);
+        });
+    });
+
+    // Navigation buttons
+    nextButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const target = this.dataset.target;
+            if (target && validateCurrentStep()) {
+                showStep(target);
+                if (target === 'step-3') {
+                    calculateSize();
+                }
+            }
+        });
+    });
+
+    prevButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const target = this.dataset.target;
+            if (target) {
+                showStep(target);
+            }
+        });
+    });
   
-    function showStep(index) {
-      currentStep = index;
-      steps.forEach((step, i) => {
-        step.classList.toggle('active', i === index);
-      });
-      const box = document.querySelector('.size-guide-box');
-      box.classList.remove('step-1', 'step-2', 'step-3');
-      box.classList.add(`step-${index + 1}`);
+    function showStep(stepClass) {
+        steps.forEach(step => step.classList.remove('active'));
+        const targetStep = document.querySelector('.' + stepClass);
+        if (targetStep) {
+            targetStep.classList.add('active');
+        }
+
+        updateBackground(stepClass);
     }
-  
-    function nextStep() {
-      if (currentStep < steps.length - 1) {
-        currentStep++;
-        showStep(currentStep);
-      }
-      if (currentStep === 2) {
-        calculateSize();
-      }
+
+    function updateBackground(stepClass) {
+        sizeGuideBox.className = 'size-guide-box';
+
+        if (stepClass === 'step-1') {
+            sizeGuideBox.classList.add('step-1-bg');
+        } else if (stepClass === 'step-2-female') {
+            sizeGuideBox.classList.add('step-2-female-bg');
+        } else if (stepClass === 'step-2-male') {
+            sizeGuideBox.classList.add('step-2-male-bg');
+        } else if (stepClass === 'step-3') {
+            if (selectedGender === 'female') {
+                sizeGuideBox.classList.add('step-3-female-bg');
+            } else {
+                sizeGuideBox.classList.add('step-3-male-bg');
+            }
+        }
     }
-  
-    function prevStep() {
-      if (currentStep > 0) {
-        currentStep--;
-        showStep(currentStep);
-      }
-    }
-  
-    function openPopup() {
-      popup.style.display = 'flex';
-      showStep(currentStep);
-      bindOptionButtonEvents();
-    }
-  
-    function closePopup() {
-      popup.style.display = 'none';
-      currentStep = 0;
-      showStep(currentStep);
+
+    function validateCurrentStep() {
+        const currentActiveStep = document.querySelector('.size-guide-step.active');
+        
+        if (currentActiveStep.classList.contains('step-2-female')) {
+            const breed = document.getElementById('breed-female').value;
+            const weight = document.querySelector('input[name="weight"]').value;
+            return breed && weight;
+        } else if (currentActiveStep.classList.contains('step-2-male')) {
+            const breed = document.getElementById('breed-male').value;
+            const waist = document.querySelector('input[name="waist"]').value;
+            return breed && waist;
+        }
+        
+        return true;
     }
   
     function calculateSize() {
-      const gender = document.querySelector('.step-1 .option-button.active')?.dataset.value;
-      const breed = document.querySelector('.step-2 .form-row')?.dataset.value;
-      const weight = document.querySelector('.step-2 .form-row')?.dataset.value;
-      let resultSize = 'M';
+        const resultSizeEl = document.querySelector('.result-size');
+        const shopNowBtn = document.querySelector('.shop-now-btn');
+        let resultSize = 'M';
+        let breed = '';
+        let measurement = '';
+        let measurementType = '';
+
+        if (selectedGender === 'female') {
+            const weight = parseFloat(document.querySelector('input[name="weight"]').value);
+            breed = document.getElementById('breed-female').value;
+            measurement = weight;
+            measurementType = 'weight';
+
+            // Female dog diaper sizing based on weight (lbs)
+            if (weight >= 1 && weight <= 3) {
+                resultSize = 'XXS';
+            } else if (weight >= 4 && weight <= 7) {
+                resultSize = 'XS';
+            } else if (weight >= 8 && weight <= 15) {
+                resultSize = 'S';
+            } else if (weight >= 16 && weight <= 30) {
+                resultSize = 'M';
+            } else if (weight >= 31 && weight <= 50) {
+                resultSize = 'M+';
+            } else if (weight >= 51 && weight <= 65) {
+                resultSize = 'L';
+            } else if (weight >= 66 && weight <= 140) {
+                resultSize = 'XL';
+            } else {
+                // Default for out of range
+                resultSize = weight < 1 ? 'XXS' : 'XL';
+            }
+
+            // Product links for female diapers
+            const productLinks = {
+                'XXS': 'https://pawinspired.com/products/disposable-dog-diapers?variant=44676932075720',
+                'XS': 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254294216',
+                'S': 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254359752',
+                'M': 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254425288',
+                'M+': 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254490824',
+                'L': 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254523592',
+                'XL': 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254589128'
+            };
+
+            if (shopNowBtn && femaleProductLinks[resultSize]) {
+                shopNowBtn.href = femaleProductLinks[resultSize];
+            }
+
+        } else if (selectedGender === 'male') {
+            const waist = parseFloat(document.querySelector('input[name="waist"]').value);
+            breed = document.getElementById('breed-male').value;
+            measurement = waist;
+            measurementType = 'waist';
+
+            // Male dog wrap sizing based on waist (inches)
+            if (waist >= 6 && waist < 12) {
+                resultSize = 'XS';
+            } else if (waist >= 12 && waist < 18) {
+                resultSize = 'S';
+            } else if (waist >= 18 && waist < 23.5) {
+                resultSize = 'M';
+            } else if (waist >= 23.5 && waist <= 31.5) {
+                resultSize = 'L';
+            } else {
+                // Default for out of range
+                resultSize = waist < 6 ? 'XS' : 'L';
+            }
+
+            // Link to male wraps product page
+            const productLinks = {
+                'XS': 'https://www.pawinspired.com/products/disposable-male-wraps?variant=42130809225416',
+                'S': 'https://www.pawinspired.com/products/disposable-male-wraps?variant=43089194516680',
+                'M': 'https://www.pawinspired.com/products/disposable-male-wraps?variant=42130809290952',
+                'L': 'https://www.pawinspired.com/products/disposable-male-wraps?variant=43089196318920',
+            };
+
+
+            if (shopNowBtn && maleProductLinks[resultSize]) {
+                shopNowBtn.href = maleProductLinks[resultSize];
+            }
+
+            // Update display
+            if (resultSizeEl) {
+                resultSizeEl.textContent = resultSize;
+            }
+        }
+
+        // Submit data to Google Sheets 
+        const uniqueKey = `pawSize_${selectedGender}_${breed}_${measurement}_${resultSize}`;
+        if (!hasSubmittedSizeOnly && !localStorage.getItem(uniqueKey)) {
+            const data = {
+                Gender: selectedGender || '',
+                'Suggested Size': resultSize,
+                Breed: getBreedName(breed),
+                Weight: selectedGender === 'female' ? `${measurement} lbs` : '',
+                'Waist Size': selectedGender === 'male' ? `${measurement} inches` : '',
+                Timestamp: new Date().toISOString()
+            };
+
+            fetch('https://docs.google.com/spreadsheets/d/1eLGI4RaYUFiTWuc5nMtQbdxE3bBI8HOLJmMhPsa6YlY/edit?gid=1723888274#gid=1723888274', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
   
-      if (gender && weight) {
-        if (weight === '1,2,3') resultSize = 'XXS';
-        else if (weight === '4,5,6,7') resultSize = 'XS';
-        else if (weight === '8,9,10,11,12,13,14,15') resultSize = 'S';
-        else if (weight === '16,17,18,19,20,21,22,23,24,25,26,27,28,29,30') resultSize = 'M';
-        else if (weight === '31,32,33,34,35,36,37,38,39,40,41,41,42,43,44,45,46,47,48,49,50') resultSize = 'M+';
-        else if (weight === '51,52,53,54,55,56,57,58,59,60,61,62,63,64,65') resultSize = 'L';
-        else if (weight === '66-140') resultSize = 'XL';
-      }
-  
-      const resultSizeEl = document.querySelector('.result-size');
-      const shopNowBtn = document.querySelector('.shop-now-btn');
-  
-      if (resultSizeEl) resultSizeEl.textContent = resultSize;
-  
-      const productLinks = {
-        XXS: 'https://pawinspired.com/products/disposable-dog-diapers?variant=44676932075720',
-        XS: 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254294216',
-        S: 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254359752',
-        M: 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254425288',
-        'M+': 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254490824',
-        L: 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254523592',
-        XL: 'https://pawinspired.com/products/disposable-dog-diapers?variant=42132254589128'
-      };
-  
-      if (shopNowBtn && productLinks[resultSize]) {
-        shopNowBtn.href = productLinks[resultSize];
-      }
-  
-      const uniqueKey = `pawSize_${gender}_${breed}_${weight}_${resultSize}`;
-      if (!hasSubmittedSizeOnly && !localStorage.getItem(uniqueKey)) {
-        const data = {
-          Gender: gender || '',
-          'Suggested Size': resultSize,
-          Breed: '',
-          Weight: resultDesc
-        };
-  
-        fetch('https://script.google.com/macros/s/AKfycbyjfabCyA4WOuwvGd_XBs6DhXMmxTUANgqEWKnWVQUKje5m2IO94JQmm4XImWfEOSVh/exec', {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-  
-        hasSubmittedSizeOnly = true;
-        localStorage.setItem(uniqueKey, '1');
-      }
+            hasSubmittedSizeOnly = true;
+            localStorage.setItem(uniqueKey, '1');
+        }
     }
-  
-    nextBtns.forEach(btn => btn.addEventListener('click', nextStep));
-    prevBtns.forEach(btn => btn.addEventListener('click', prevStep));
+
+    // Helper function to convert breed value to readable name
+    function getBreedName(breedValue) {
+        const breedMap = {
+            'other': 'Other/Not Listed',
+            'australian': 'Australian Shepherd',
+            'basset': 'Basset Hound',
+            'beagle': 'Beagle',
+            'bichonsFrise': 'Bichons Frise',
+            'borderCollie': 'Border Collie',
+            'boston': 'Boston Terrier',
+            'boxer': 'Boxer',
+            'bulldogUS': 'Bulldog (American)',
+            'bulldogUK': 'Bulldog (English)',
+            'cat': 'Cat',
+            'kingCharles': 'Cavalier King Charles Spaniel',
+            'chihuahua': 'Chihuahua',
+            'cocker': 'Cocker Spaniel',
+            'corgi': 'Corgi',
+            'dachshundMini': 'Dachshund (Mini)',
+            'dachshundStandard': 'Dachshund (Standard)',
+            'doberman': 'Doberman Pinscher',
+            'french': 'French Bulldog',
+            'german': 'German Shepherd',
+            'golden': 'Golden Retriever',
+            'labrador': 'Labrador Retriever',
+            'lhasaApso': 'Lhasa Apso',
+            'maltese': 'Maltese',
+            'miniature': 'Miniature Pinscher',
+            'pitBull': 'Pit Bull',
+            'pomeranian': 'Pomeranian',
+            'poodleMini': 'Poodle (Mini)',
+            'poodleToy': 'Poodle (Toy)',
+            'pug': 'Pug',
+            'rottweiler': 'Rottweiler',
+            'russell': 'Russell Terrier',
+            'schnauzerMini': 'Schnauzer (Mini)',
+            'schnauzerStandard': 'Schnauzer (Standard)',
+            'shibaInu': 'Shiba Inu',
+            'shihTzu': 'Shih Tzu',
+            'silky': 'Silky Terrier',
+            'teacup': 'Teacup Breeds',
+            'yorkshire': 'Yorkshire Terrier'
+        };
+        
+        return breedMap[breedValue] || breedValue;
+    }
+
+    // Close popup function
+    function closePopup() {
+        if (popup) {
+            popup.style.display = 'none';
+        }
+    }
+
+    // Open popup function
+    function openPopup() {
+        if (popup) {
+            popup.style.display = 'block';
+        }
+    }
+
+    // Event listeners
     if (closeBtn) closeBtn.addEventListener('click', closePopup);
     document.querySelectorAll('[data-open-size-guide]').forEach(btn => {
-      btn.addEventListener('click', openPopup);
+        btn.addEventListener('click', openPopup);
     });
-  
+
     function bindOptionButtonEvents() {
-      document.querySelectorAll('.option-button:not([data-bound])').forEach(button => {
-        button.setAttribute('data-bound', 'true');
-        button.addEventListener('click', () => {
-          const step = button.closest('.size-guide-step');
-          const stepClass = step?.classList;
-          const isStep3 = stepClass?.contains('step-3') && stepClass.contains('active');
-          const group = button.closest('.option-group, .step2-option-group');
-  
-          if (isStep3) {
-            button.classList.toggle('active');
-          } else {
-            if (stepClass?.contains('step-2')) {
-             step.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('active'));
-            } else if (group) {
-              group.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('active'));
-            }
-            button.classList.add('active');
-            if (stepClass?.contains('step-1')) {
-            nextStep();
-            }
-          }
+        document.querySelectorAll('.option-button:not([data-bound])').forEach(button => {
+            button.setAttribute('data-bound', 'true');
+            button.addEventListener('click', () => {
+                const step = button.closest('.size-guide-step');
+                const stepClass = step?.classList;
+                const isStep3 = stepClass?.contains('step-3') && stepClass.contains('active');
+                const group = button.closest('.option-group, .step2-option-group');
+
+                if (isStep3) {
+                    button.classList.toggle('active');
+                } else {
+                    if (stepClass?.contains('step-2')) {
+                        step.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('active'));
+                    } else if (group) {
+                        group.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('active'));
+                    }
+                    button.classList.add('active');
+                    if (stepClass?.contains('step-1')) {
+                        // Auto proceed to next step when gender is selected
+                        setTimeout(() => {
+                            const targetStep = selectedGender === 'male' ? 'step-2-male' : 'step-2-female';
+                            showStep(targetStep);
+                        }, 300);
+                    }
+                }
+            });
         });
-      });
     }
-  
-    const feedbackToggle = document.getElementById("toggle-feedback-form");
-    const feedbackForm = document.getElementById("feedback-form");
-  
-    if (feedbackToggle && feedbackForm) {
-      feedbackToggle.addEventListener("click", function () {
-        feedbackForm.style.display = "block";
-        feedbackToggle.style.display = "none";
-      });
-    }
-  
-    const submitBtn = document.querySelector('.submit-feedback');
-    if (submitBtn) {
-      const newSubmitBtn = submitBtn.cloneNode(true);
-      submitBtn.replaceWith(newSubmitBtn);
-  
-      newSubmitBtn.addEventListener('click', function () {
-        const gender = document.querySelector('.step-1 .option-button.active')?.dataset.value || '';
-        const weight = document.querySelector('.step-2 .option-button.active')?.dataset.value || '';
-        const useCases = Array.from(document.querySelectorAll('.step-3 .option-button.active')).map(btn => btn.dataset.value);
-        const suggestedSize = document.querySelector('.result-size')?.textContent?.trim() || '';
-        const suggestedSizeDesc = document.querySelector('.result-desc')?.textContent?.trim() || '';
-  
-        const data = {
-          UUID: uuid,
-          Type: 'feedback',
-          Source: getURLParameter?.('source') || 'Web',
-          'Order ID': getURLParameter('orderId') || '',
-          Email: document.querySelector('input[name="email"]')?.value || '',
-          Gender: gender,
-          Situation: useCases.join(', '),
-          'Suggested Size': suggestedSize,
-          'Used Size': document.querySelector('select[name="UsedSize"]')?.value || '',
-          'Fit Feedback': document.querySelector('select[name="feedback"]')?.value || '',
-          'Product Used': document.querySelector('select[name="ProductUsed"]')?.value || '',
-          Breed: document.querySelector('input[name="breed"]')?.value || '',
-          Weight: document.querySelector('select[name="weight"]')?.value || ''
-        };
-  
-        fetch('https://script.google.com/macros/s/AKfycbyjfabCyA4WOuwvGd_XBs6DhXMmxTUANgqEWKnWVQUKje5m2IO94JQmm4XImWfEOSVh/exec', {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+    
+    // Initialize option button events
+    bindOptionButtonEvents();
+
+    class CustomSelect {
+            constructor(element) {
+                this.element = element;
+                this.selected = element.querySelector('.select-selected');
+                this.items = element.querySelector('.select-items');
+                this.options = element.querySelectorAll('.select-items div:not(.disabled)');
+                this.value = '';
+                this.placeholder = 'My pet is a...';
+                
+                this.init();
+            }
+
+            init() {
+                // 點擊選中區域展開/收合
+                this.selected.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    this.toggle();
+                });
+
+                // 點擊選項
+                this.options.forEach(option => {
+                    option.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        this.selectOption(option);
+                    });
+                });
+
+                // 點擊外部關閉
+                document.addEventListener('click', () => {
+                    this.close();
+                });
+
+                // 鍵盤支援
+                this.element.addEventListener('keydown', (e) => {
+                    this.handleKeyDown(e);
+                });
+
+                // 讓容器可以獲得焦點
+                this.element.setAttribute('tabindex', '0');
+            }
+
+            toggle() {
+                if (this.items.classList.contains('select-hide')) {
+                    this.open();
+                } else {
+                    this.close();
+                }
+            }
+
+            open() {
+                this.closeAllSelects();
+                this.items.classList.remove('select-hide');
+                this.selected.classList.add('select-arrow-active');
+                this.element.classList.add('focused');
+            }
+
+            close() {
+                this.items.classList.add('select-hide');
+                this.selected.classList.remove('select-arrow-active');
+                this.element.classList.remove('focused');
+            }
+
+            closeAllSelects() {
+                // 關閉頁面上所有其他的自訂下拉選單
+                document.querySelectorAll('.select-items').forEach(item => {
+                    item.classList.add('select-hide');
+                });
+                document.querySelectorAll('.select-selected').forEach(selected => {
+                    selected.classList.remove('select-arrow-active');
+                });
+                document.querySelectorAll('.custom-select').forEach(select => {
+                    select.classList.remove('focused');
+                });
+            }
+
+            selectOption(option) {
+                if (option.classList.contains('disabled')) return;
+
+                const value = option.getAttribute('data-value');
+                const text = option.textContent;
+
+                // 更新選中狀態
+                this.options.forEach(opt => opt.classList.remove('same-as-selected'));
+                option.classList.add('same-as-selected');
+
+                // 更新顯示文字
+                this.selected.textContent = text;
+                this.selected.classList.remove('placeholder');
+                this.value = value;
+
+                // 觸發change事件
+                const changeEvent = new CustomEvent('change', {
+                    detail: { value: value, text: text }
+                });
+                this.element.dispatchEvent(changeEvent);
+
+                this.close();
+            }
+
+            handleKeyDown(e) {
+                switch(e.key) {
+                    case 'Enter':
+                    case ' ':
+                        e.preventDefault();
+                        this.toggle();
+                        break;
+                    case 'Escape':
+                        this.close();
+                        break;
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        if (this.items.classList.contains('select-hide')) {
+                            this.open();
+                        } else {
+                            this.focusNextOption();
+                        }
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        if (!this.items.classList.contains('select-hide')) {
+                            this.focusPrevOption();
+                        }
+                        break;
+                }
+            }
+
+            focusNextOption() {
+                // 鍵盤導航邏輯（簡化版本）
+                const currentIndex = Array.from(this.options).findIndex(opt => 
+                    opt.classList.contains('same-as-selected'));
+                const nextIndex = (currentIndex + 1) % this.options.length;
+                this.selectOption(this.options[nextIndex]);
+            }
+
+            focusPrevOption() {
+                const currentIndex = Array.from(this.options).findIndex(opt => 
+                    opt.classList.contains('same-as-selected'));
+                const prevIndex = currentIndex <= 0 ? this.options.length - 1 : currentIndex - 1;
+                this.selectOption(this.options[prevIndex]);
+            }
+
+            // 獲取選中的值
+            getValue() {
+                return this.value;
+            }
+
+            // 設置值
+            setValue(value) {
+                const option = Array.from(this.options).find(opt => 
+                    opt.getAttribute('data-value') === value);
+                if (option) {
+                    this.selectOption(option);
+                }
+            }
+
+            // 重置為placeholder
+            reset() {
+                this.options.forEach(opt => opt.classList.remove('same-as-selected'));
+                this.selected.textContent = this.placeholder;
+                this.selected.classList.add('placeholder');
+                this.value = '';
+            }
+        }
+
+        // 初始化所有自訂下拉選單
+        document.addEventListener('DOMContentLoaded', function() {
+            const customSelects = document.querySelectorAll('.custom-select');
+            const selectInstances = [];
+
+            customSelects.forEach(selectElement => {
+                const instance = new CustomSelect(selectElement);
+                selectInstances.push(instance);
+            });
+
+            // Demo: 監聽選擇變化
+            document.getElementById('breed-select').addEventListener('change', function(e) {
+                document.getElementById('selected-value').textContent = 
+                    `${e.detail.text} (${e.detail.value})`;
+            });
         });
-  
-        alert("High paw! 🐾 You're one of over 10,000 pet parents helping us create a better fit for every pup.");
-      });
-    } else {
-      console.warn('🚫 Submit button not found in DOM!');
-    }
-  });
-  
+});

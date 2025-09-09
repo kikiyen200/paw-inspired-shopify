@@ -5,7 +5,7 @@ html {
   
 @font-face {
     font-family: 'Bauer Grotesk';
-    src: url('{{ "BauerGroteskOT.woff2" | asset_url }}') format('woff2');
+    src: url('BauerGroteskOT.woff2') format('woff2');
     font-weight: 400 900;
     font-style: normal;
 }
@@ -27,7 +27,6 @@ html {
     background-position: center;
     background-size: cover;
     color: #fff;
-    font-family: 'Bauer Grotesk', sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -38,42 +37,47 @@ html {
     background-size: cover;
 }
 
-.size-guide-box.step-1 {
+.size-guide-box.step-1-bg {
     background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg1-gender-paw-inspired-web.jpg?v=1757319946');
 }
 
-.size-guide-box.step-2 .female {
+.size-guide-box.step-2-female-bg {
     background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg2-breed-weight-paw-inspired-web.jpg?v=1757319946');
 }
 
-.size-guide-box.step-2 .male {
+.size-guide-box.step-2-male-bg {
     background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg2-waist-paw-inspired-web.jpg?v=1757319946');
 }
   
-.size-guide-box.step-3 .female {
+.size-guide-box.step-3-female-bg {
     background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg3-disposable-dog-diaper-result-paw-inspired-web.jpg?v=1757319947');
 }
 
-.size-guide-box.step-3 .male {
+.size-guide-box.step-3-male-bg {
     background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg3-male-wrap-result-paw-inspired-web.jpg?v=1757319947');
 }
 
-.close-size-guide svg {
+.close-size-guide {
     position: absolute;
-    top: 0.8rem;
+    top: 2rem;
     right: 2rem;
     background: none;
     border: none;
     color: #878787;
     cursor: pointer;
+    z-index: 1000;
 }
 
 .size-guide-step {
     display: none;
     text-align: center;
-    width: 100;
+    width: 100%;
     padding: 2rem;
   }
+
+.size-guide-step.active { 
+    display: block; 
+}
 
 .step-label {
     position: absolute;
@@ -85,10 +89,10 @@ html {
 }
 
 .step-title {
-    font-size: 4.5rem;
+    font-size: 4.8rem;
     font-weight: 600;
-    margin-top: 8rem;
-    margin-bottom: 4rem;
+    margin-top: 6rem;
+    margin-bottom: 2rem;
     color: #00b4ed;
 }  
 
@@ -99,22 +103,241 @@ html {
     justify-content: center;
 }
 
-.option-button {
+.option-button,
+.shop-now-btn {
     background: #00b4ed;
     color: #fff;
-    border: 2px solid #00b4ed;
+    border: 4px solid #00b4ed;
     border-radius: 999px;
     padding: 0.75rem 1.25rem;
+    margin: 4rem 0; 
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s ease;
-    font-size: 1.8rem;
+    transition: all 0.2s ease;
+    font-size: 2.4rem;
+    text-decoration: none; 
+    display: inline-block; 
 }
 
-.option-button:hover {
+.option-button:hover,
+.shop-now-btn:hover,
+.option-button.active {
    background: #fff;
    color: #00B4ED;
-   border: 2px solid #00B4ED;
+   border: 4px solid #00B4ED;
+}
+
+.form-row .custom-select {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.form-row .select-selected {
+    background-color: white;
+    padding: 0.75rem 1.25rem;
+    border: 4px solid #00B4ED;
+    border-radius: 999px;
+    cursor: pointer;
+    user-select: none;
+    font-family: "Bauer Grotesk";
+    font-size: 2.4rem;
+    color: #333;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.form-row .select-selected::after {
+    content: '';
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border: 8px solid transparent;
+    border-top-color: #00B4ED;
+    transition: transform 0.3s ease;
+}
+
+.form-row .select-selected.select-arrow-active::after {
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.form-row.select-selected.placeholder {
+    color: #d6d6d6 !important;
+}
+
+.form-row .select-selected:hover {
+    border-color: #00B4ED;
+}
+
+.form-row .select-selected:focus,
+.form-row .custom-select.focused 
+.form-row .select-selected {
+    outline: none;
+    border-color: #00B4ED;
+    box-shadow: 0 0 0 3px rgba(0, 180, 237, 0.1);
+}
+
+.form-row .select-items {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    background-color: white;
+    border: 4px solid #00B4ED;
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.form-row .select-hide {
+    display: none;
+}
+
+.form-row.select-items div {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-family: "Bauer Grotesk";
+    font-size: 1.6rem;
+    color: #333;
+    text-align: left;
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.form-row .select-items div:last-child {
+    border-bottom: none;
+}
+
+.form-row.select-items div:hover {
+    background-color: #f0f9ff;
+    color: #00B4ED;
+}
+
+.form-row.select-items div.same-as-selected {
+    background-color: #00B4ED;
+    color: white;
+}
+
+.form-row.select-items div.disabled {
+    color: #999;
+    cursor: not-allowed;
+    background-color: #f8f8f8;
+    font-style: italic;
+}
+
+.form-row .select-items div.disabled:hover {
+    background-color: #f8f8f8;
+    color: #999;
+}
+
+.form-row .select-items::-webkit-scrollbar {
+    width: 6px;
+}
+
+.form-row .select-items::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.form-row .select-items::-webkit-scrollbar-thumb {
+    background: #00B4ED;
+    border-radius: 3px;
+}
+
+.form-row .select-items::-webkit-scrollbar-thumb:hover {
+    background: #00B4ED;
+}
+
+.form-row {
+    margin: 15px 0;
+    position: relative;
+    width: 100%;
+}
+
+.form-row input {
+    width: 100%;
+    max-width: 300px;
+    padding: 0.75rem 1.25rem;
+    border: 4px solid #00B4ED;
+    border-radius: 999px;
+    font-size: 2.4rem;
+    text-align: center;
+}
+
+.form-row select, 
+select {
+    font-family: "Bauer Grotesk" !important;
+    font-size: 2.4rem !important;
+    font-weight: normal;
+    
+    width: 100%;
+    max-width: 300px;
+    padding: 0.75rem 3rem 0.75rem 1.25rem; 
+    
+    border: 4px solid #00B4ED;
+    border-radius: 999px;
+    background-color: white;
+    color: #333;
+    
+    text-align: center;
+    
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%2300B4ED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,9 12,15 18,9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 1.25rem center; 
+    background-size: 2rem; 
+    
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.form-row select option,
+select option {
+    font-family: "Bauer Grotesk" !important;
+    font-size: 1.6rem !important;
+    padding: 8px 16px;
+    background-color: white;
+    color: #333;
+    text-align: left;
+}
+
+.form-row select option:disabled,
+select option:disabled {
+    color: #d6d6d6;
+    font-style: italic;
+    font-size: 2rem;
+}
+
+.form-row select:focus,
+select:focus {
+    outline: none;
+    border-color: #00b4ed;
+    box-shadow: 0 0 0 3px rgba(0, 180, 237, 0.1);
+}
+
+.form-row select:hover,
+select:hover {
+    border-color: #00b4ed;
+}
+
+/* IE */
+.form-row select::-ms-expand,
+select::-ms-expand {
+    display: none;
 }
 
 .next-button, 
@@ -132,27 +355,18 @@ html {
     padding-top: 4rem;
 }
   
-.next-button svg,
-.prev-button svg {
-    margin-left: 0.2rem;
-    vertical-align: middle;
-    display: inline-block;
-}
-  
-.prev-button svg {
-    margin-right: 0.5rem;
-    margin-left: 0;
-    transform: scaleX(-1);
-}
-  
 .button-group {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 2rem;
-    margin-top: 6rem;
+    margin: 1rem auto 0 auto; 
+    width: 100%;
+    max-width: none;
 }
 
 .size-guide-help{
+    display: block;
     color: #00b4ed;
     text-decoration: underline;
     font-size: 1.4rem;
@@ -163,10 +377,10 @@ html {
 }
 
 .step-note{
+    text-align: center;
     color: #00b4ed;
-    margin-top: -3rem;
-    margin-bottom: 0;
-    font-size:1rem;
+    margin-bottom: 3rem;
+    font-size: 1.8rem;
 }
 
 .result-size {
@@ -176,21 +390,6 @@ html {
     color: #00b4ed;
 }
 
-.shop-now-btn {
-    background: #00B4ED; 
-    color: #fff; 
-    border: 2px solid #00B4ED; 
-    border-radius: 999px; 
-    padding: 0.75rem 1.25rem; 
-    font-weight: 700; 
-    font-size: 2rem; 
-    text-decoration: none; 
-    display: inline-block; 
-    margin: 4rem 0; 
-    cursor: pointer; 
-    transition: all 0.2s ease;
-}
-
 @media screen and (max-width: 768px) {
     .size-guide-box {
         width: 90vw;
@@ -198,23 +397,23 @@ html {
         padding: 1rem 1.5rem;
     }
 
-    .size-guide-box.step-1 {
+    .size-guide-box.step-1-bg {
         background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg1-gender-paw-inspired.jpg?v=1757319937');
     }
     
-    .size-guide-box.step-2 .female {
+    .size-guide-box.step-2-female-bg {
         background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg2-breed-weight-paw-inspired.jpg?v=1757319937');
     }
     
-    .size-guide-box.step-2 .male {
+    .size-guide-box.step-2-male-bg {
         background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg2-waist-paw-inspired.jpg?v=1757319937');
     }
       
-    .size-guide-box.step-3 .female {
+    .size-guide-box.step-3-female-bg {
         background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg3-disposable-dog-diaper-result-paw-inspired.jpg?v=1757319937');
     }
     
-    .size-guide-box.step-3 .male {
+    .size-guide-box.step-3-male-bg {
         background-image: url('https://cdn.shopify.com/s/files/1/0611/7992/0584/files/size-guide-bg3-male-wrap-result-paw-inspired.jpg?v=1757319937');
     }
 
@@ -231,7 +430,8 @@ html {
         margin-top: -3rem;
     }
     
-    .next-button, .prev-button {
+    .next-button, 
+    .prev-button {
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -256,5 +456,33 @@ html {
     .result-size {
         font-size: 6rem;
         font-weight: 900;
+    }
+
+    .form-row select,
+    select {
+        font-size: 2rem;
+        padding: 0.65rem 2.5rem 0.65rem 1rem;
+        background-position: right 1rem center;
+        background-size: 1.8rem;
+    }
+    
+    .form-row select option,
+    select option {
+        font-size: 2rem;
+    }
+
+    .select-selected {
+        font-size: 2rem;
+        padding: 0.65rem 2.5rem 0.65rem 1rem;
+    }
+
+    .select-selected::after {
+        right: 1rem;
+        border-width: 6px;
+    }
+
+    .select-items div {
+        font-size: 1.4rem;
+        padding: 10px 14px;
     }
 }
