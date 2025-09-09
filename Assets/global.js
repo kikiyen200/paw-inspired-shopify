@@ -348,7 +348,7 @@ class MenuDrawer extends HTMLElement {
   constructor() {
     super();
 
-    this.mainDetailsToggle = this.querySelector('details');
+     this.mainDetailsToggle = this.querySelector('details');
 
     this.addEventListener('keyup', this.onKeyUp.bind(this));
     this.addEventListener('focusout', this.onFocusOut.bind(this));
@@ -356,14 +356,13 @@ class MenuDrawer extends HTMLElement {
   }
 
   bindEvents() {
-    this.querySelectorAll('summary').forEach((summary) => {
-      if (summary.closest('details-modal') && !summary.classList.contains('js-search-toggle')) return;
-      summary.addEventListener('click', this.onSummaryClick.bind(this));
-    });
-
+    this.querySelectorAll('summary').forEach((summary) =>
+      summary.addEventListener('click', this.onSummaryClick.bind(this))
+    );
     this.querySelectorAll(
-      'button:not(.localization-selector):not(.country-selector__close-button):not(.country-filter__reset-button):not(.js-open-search)'
-    ).forEach((button) => button.addEventListener('click', this.onCloseButtonClick.bind(this)));
+      'button:not(.localization-selector):not(.country-selector__close-button):not(.country-filter__reset-button)'
+    ).forEach((button) => button.addEventListener('click', this.onCloseButtonClick.bind(this))
+    );
   }
 
   onKeyUp(event) {
@@ -379,6 +378,16 @@ class MenuDrawer extends HTMLElement {
 
   onSummaryClick(event) {
     const summaryElement = event.currentTarget;
+    console.log('onSummaryClick 被觸發，summary:', summaryElement);
+
+    if (summaryElement.closest('.header__search') || 
+      summaryElement.classList.contains('header__icon--search') ||
+      summaryElement.querySelector('[data-search-trigger]')) {
+    console.log('跳過搜尋相關的 summary');
+    return;
+  }
+    console.log('繼續執行菜單邏輯');
+    
     const detailsElement = summaryElement.parentNode;
     const parentMenuElement = detailsElement.closest('.has-submenu');
     const isOpen = detailsElement.hasAttribute('open');
@@ -443,10 +452,19 @@ class MenuDrawer extends HTMLElement {
   }
 
   onCloseButtonClick(event) {
-  const detailsElement = event.currentTarget.closest('details');
-  if (!detailsElement) return;
-  this.closeSubmenu(detailsElement);
+    const detailsElement = event.currentTarget.closest('details');
+    this.closeSubmenu(detailsElement);
   }
+
+  closeSubmenu(detailsElement) {
+    const parentMenuElement = detailsElement.closest('.submenu-open');
+    parentMenuElement && parentMenuElement.classList.remove('submenu-open');
+    detailsElement.classList.remove('menu-opening');
+    detailsElement.querySelector('summary').setAttribute('aria-expanded', false);
+    removeTrapFocus(detailsElement.querySelector('summary'));
+    this.closeAnimation(detailsElement);
+  }
+
   closeAnimation(detailsElement) {
     let animationStart;
 
@@ -479,6 +497,7 @@ class HeaderDrawer extends MenuDrawer {
   }
 
   openMenuDrawer(summaryElement) {
+    if (!this.mainDetailsToggle) return;
     this.header = this.header || document.querySelector('.section-header');
     this.borderOffset =
       this.borderOffset || this.closest('.header-wrapper').classList.contains('header-wrapper--border-bottom') ? 1 : 0;
@@ -1265,4 +1284,3 @@ class ProductRecommendations extends HTMLElement {
 }
 
   customElements.define('product-recommendations', ProductRecommendations);
-

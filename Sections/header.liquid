@@ -37,16 +37,18 @@
 
 <header class="header shopify-section-header">
   <div class="header-inner">
-    {% render 'header-drawer', 
-       header_type: 'header',
-       main_menu: settings.main_menu
-    %}
+  {% render 'header-drawer', 
+   header_type: 'header',
+   main_menu: settings.menu
+%}
   </div>
 </header>
 
 <style>
   .shopify-section-header {
-    background-color: {{ section.settings.header_background }};
+    background-color: var(--header-bg-glass) !important;
+    backdrop-filter: blur(var(--header-blur));
+    -webkit-backdrop-filter: blur(var(--header-blur)); 
   }
 
  .shopify-section-header .custom-header-icons svg {

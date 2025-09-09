@@ -1,0 +1,193 @@
+<div class="size-guide-popup" style="display: none;">
+    <div class="size-guide-box">
+        <button class="close-size-guide" aria-label="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                 width="24" height="24" viewBox="0 0 24 24" 
+                 fill="none" stroke="currentColor" 
+                 stroke-width="2" stroke-linecap="round" 
+                 stroke-linejoin="round">
+                <path d="M18 6 6 18"/>
+                <path d="m6 6 12 12"/>
+            </svg>
+        </button>
+        <!-- Step 1: Gender -->
+        <div class="size-guide-step step-1">
+            <p class="step-label">STEP 1 OF 3</p>
+            <h2 class="step-title">What's your dog’s gender?</h2>
+            <div class="option-group">
+                <button class="option-button" data-value="male">
+                        Male
+                </button>
+                <button class="option-button" data-value="female">
+                        Female
+                </button>
+            </div>
+        </div>
+        <!-- Step 2: Weight -->
+        <div class="size-guide-step step-2">
+            <p class="step-label">STEP 2 OF 3</p>
+            <h2 class="step-title">What breed is your dog?</h2>
+                <div class="form-row">
+                    <select name="breed">
+                        <option value="" disabled selected>
+                            My pet is a...
+                        </option>
+                        <option value="other">
+                            Other/ Not Listed
+                        </option>
+                        <option value="australian">
+                            Australian Shepherd
+                        </option>
+                        <option value="basset">
+                            Basset Hound
+                        </option>
+                        <option value="beagle">
+                            Beagle
+                        </option>
+                        <option value="bichonsFrise">
+                            Bichons Frise
+                        </option>
+                        <option value="borderCollie">
+                            Border Collie
+                        </option>
+                        <option value="boston">
+                            Boston Terrier
+                        </option>
+                        <option value="boxer">
+                            Boxer
+                        </option>
+                        <option value="bulldogUS">
+                            Bulldog (American)
+                        </option>
+                        <option value="bulldogUK">
+                            Bulldog (English)
+                        </option>
+                        <option value="cat">
+                            Cat
+                        </option>
+                        <option value="kingCharles">
+                            Cavalier King Charles Spaniel
+                        </option>
+                        <option value="chihuahua">
+                            Chihuahua
+                        </option>
+                        <option value="cocker">
+                            Cocker Spaniel
+                        </option>
+                        <option value="corgi">
+                            Corgi
+                        </option>
+                        <option value="dachshundMini">
+                            Dachshund (Mini)
+                        </option>
+                        <option value="dachshundStandard">
+                            Dachshund (Standard)
+                        </option>
+                        <option value="doberman">
+                            Doberman Pinscher
+                        </option>
+                        <option value="french">
+                            French Bulldog
+                        </option>
+                        <option value="german">
+                            German Shepherd
+                        </option>
+                        <option value="golden">
+                            Golden Retriever
+                        </option>
+                        <option value="labrador">
+                            Labrador Retriever
+                        </option>
+                        <option value="lhasaApso">
+                            Lhasa Apso
+                        </option>
+                        <option value="maltese">
+                            Maltese
+                        </option>
+                        <option value="miniature">
+                            Miniature Pinscher
+                        </option>
+                        <option value="pitBull">
+                            Pit Bull
+                        </option>
+                        <option value="pomeranian">
+                            Pomeranian
+                        </option>
+                        <option value="poodleMini">
+                            Poodle (Mini)
+                        </option>  
+                        <option value="poodleToy">
+                            Poodle (Toy)
+                        </option>
+                        <option value="pug">
+                            Pug
+                        </option>
+                        <option value="rottweiler">
+                            Rottweiler
+                        </option>
+                        <option value="russell">
+                            Russell Terrier
+                        </option>
+                        <option value="schnauzerMini">
+                            Schnauzer (Mini)
+                        </option>
+                        <option value="schnauzerStandard">
+                            Schnauzer (Standard)
+                        </option>
+                        <option value="shibaInu">
+                            Shiba Inu
+                        </option>
+                        <option value="shihTzu">
+                            Shih Tzu
+                        </option>
+                        <option value="silky">
+                            Silky Terrier
+                        </option>
+                        <option value="teacup">
+                            Teacup Breeds
+                        </option>
+                        <option value="yorkshire">
+                            Yorkshire Terrier
+                        </option>
+                    </select>
+                </div>
+            <h2 class="step-title">How much does your dog weight?</h2>
+                <div class="form-row">
+                    <input type="text" name="weight" placeholder="lbs" />
+                </div>
+            <div class="button-group">
+                <button class="prev-button" data-prev>
+                    <svg class="see-all-icon" xmlns="http://www.w3.org/2000/svg" 
+                         width="20" height="20" viewBox="0 0 16 16" fill="none">
+                        <path d="M6 4L10 8L6 12" stroke="#00B4ED" 
+                              stroke-width="1.5" stroke-linecap="round" 
+                              stroke-linejoin="round"/>
+                    </svg>
+                    BACK
+                </button>
+                <button class="next-button" data-next>
+                    NEXT
+                    <svg class="see-all-icon" xmlns="http://www.w3.org/2000/svg" 
+                         width="20" height="20" viewBox="0 0 16 16" fill="none">
+                        <path d="M6 4L10 8L6 12" stroke="#00B4ED" stroke-width="1.5" 
+                              stroke-linecap="round" stroke-linejoin="round"/>
+                     </svg>
+                </button>
+            </div>
+            <a href="https://pawinspired.com/blogs/dogs/how-to-choose-and-put-on-a-disposable-dog-diaper" class="size-guide-help diaper">
+                Need more help?
+            </a> 
+        </div>
+        <!-- Step 3: Result -->
+        <div class="size-guide-step step-3">
+            <p class="step-label">STEP 3 OF 3</p>
+            <p class="step-note">Based on your dog’s info, we recommend size:</p>
+            <h2 class="result-size">M</h2>
+            <a href="/products/disposable-dog-diapers" class="shop-now-btn">
+                <span class="shop-now-text">
+                    SHOP NOW
+                </span>
+            </a>
+        </div>
+    </div>
+</div>

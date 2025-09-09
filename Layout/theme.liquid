@@ -1,475 +1,611 @@
-<!doctype html>
-  <html class="no-js" lang="{{ request.locale.iso_code }}">
-    <head>
-      {{ 'brand-carousel.css' | asset_url | stylesheet_tag }} 
-      {{ 'custom-hero.css' | asset_url | stylesheet_tag }}
-      {{ 'products.css' | asset_url | stylesheet_tag }}
-      {{ 'size-guide.css' | asset_url | stylesheet_tag }}
-      {{ 'category.css' | asset_url | stylesheet_tag }}
-      
-      <meta charset="utf-8">
-      <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      <meta name="theme-color" content="">
+<header-drawer data-breakpoint="{% if section.settings.menu_type_desktop == 'drawer' %}desktop{% else %}tablet{% endif %}"
+  data-header-type="{% if header_type == 'custom-header' %}custom-header{% else %}default{% endif %}"
+  class="header header-main"
+>
+  <details id="Details-menu-drawer-container" class="menu-drawer-container" style="margin-left:0;">
+    <summary
+      class="header__icon header__icon--menu header__icon--summary focus-inset"
+      aria-label="{{ 'sections.header.menu' | t }}"
+      style="margin-top: 4.5rem; display: flex; align-items: center; justify-content: space-between; padding: 3rem 8rem; height: 6rem; width: 100vw; z-index: 9999;"
+    >
+      <div style="display: flex; align-items: center; gap: 3rem;">
+        <div class="custom-hamburger-icon">
+          {% render 'icon-hamburger' %}
+        </div>
 
-      <!-- Hide Smile launcher early to prevent initial flash -->
-     <style id="hide-smile-launcher-early">
-    #smile-lite-launcher-frame,
-    #smile-lite-launcher-frame-container,
-    #smile-ui-lite-launcher,
-    #smile-ui-launcher,
-    #smile-floating-button,
-    .smile-launcher,
-    .smile-launcher-frame,
-    .smile-launcher-frame-container,
-    a[data-smile-button],
-    button[data-smile-button] {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-    }
-    </style>
+        <a href="/collections/all" class="{% if header_type == 'custom-header' %}custom-header-link{% else %}header-link{% endif %}" 
+           style="font-size: 1.6rem; font-weight: 600; text-decoration: none;">SHOP
+        </a>
+        <a href="/pages/our-story-updated" class="{% if header_type == 'custom-header' %}custom-header-link{% else %}header-link{% endif %}" 
+           style="font-size: 1.6rem; font-weight: 600; text-decoration: none;">ABOUT
+        </a>
+      </div>
+    
+      {% assign header_type = header_type | default: 'header' %}
+      <a href="/" class="mobile-header-logo">
+        {% if header_type == 'custom-header' %}
+          <img src="{{ 'logo-white.svg' | asset_url }}" class="logo-white" alt="Paw Inspired">
+        {% else %}
+          <img src="{{ 'logo-color.svg' | asset_url }}" class="logo-color" alt="Paw Inspired">
+        {% endif %}
+      </a>
+      <div class="custom-header-icons">
+        <button type="button" class="header__icon search-trigger" aria-label="Search" data-search-trigger>
+         {% render 'icon-search' %}
+        </button>
+        <a href="/account/login" class="header__icon" aria-label="Account">
+          {% render 'icon-user' %}
+        </a>
+        <a href="/cart" class="header__icon header__icon--cart" aria-label="Cart">
+          {% render 'cart-icon-bubble' %}
+        </a>
+      </div>
+        <div id="HeaderSearch">
+      {% render 'header-search', input_id: 'Search-In-Modal' %}
+      </div>
+    </summary>
+    
 
-       {{ content_for_header }}
-      <link rel="canonical" href="{{ canonical_url }}">
-  
-      {%- if settings.favicon != blank -%}
-        <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
-      {%- endif -%}
-  
-      {%- unless settings.type_header_font.system? and settings.type_body_font.system? -%}
-        <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-      {%- endunless -%}
-  
-      <title>
-        {{ page_title }}
-        {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
-        {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-        {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
-      </title>
-  
-      {% if page_description %}
-        <meta name="description" content="{{ page_description | escape }}">
-      {% endif %}
-  
-      {% render 'meta-tags' %}
-      {% render 'kiwiSizing' %}
-  
-      <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
-      <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
-      <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
-      {%- if settings.animations_reveal_on_scroll -%}
-        <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
-      {%- endif -%}
-  
-      {{ content_for_header }}
-  
-      {%- liquid
-        assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
-        assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
-        assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
-      %}
-  
-      {% style %}
-        {{ settings.type_body_font | font_face: font_display: 'swap' }}
-        {{ body_font_bold | font_face: font_display: 'swap' }}
-        {{ body_font_italic | font_face: font_display: 'swap' }}
-        {{ body_font_bold_italic | font_face: font_display: 'swap' }}
-        {{ settings.type_header_font | font_face: font_display: 'swap' }}
-  
-        {% for scheme in settings.color_schemes -%}
-          {% assign scheme_classes = scheme_classes | append: ', .color-' | append: scheme.id %}
-          {% if forloop.index == 1 -%}
-            :root,
-          {%- endif %}
-          .color-{{ scheme.id }} {
-            --color-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
-          {% if scheme.settings.background_gradient != empty %}
-            --gradient-background: {{ scheme.settings.background_gradient }};
-          {% else %}
-            --gradient-background: {{ scheme.settings.background }};
-          {% endif %}
-  
-          {% liquid
-            assign background_color = scheme.settings.background
-            assign background_color_brightness = background_color | color_brightness
-            if background_color_brightness <= 26
-              assign background_color_contrast = background_color | color_lighten: 50
-            elsif background_color_brightness <= 65
-              assign background_color_contrast = background_color | color_lighten: 5
-            else
-              assign background_color_contrast = background_color | color_darken: 25
-            endif
-          %}
-  
-          --color-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
-          --color-background-contrast: {{ background_color_contrast.red }},{{ background_color_contrast.green }},{{ background_color_contrast.blue }};
-          --color-shadow: {{ scheme.settings.shadow.red }},{{ scheme.settings.shadow.green }},{{ scheme.settings.shadow.blue }};
-          --color-button: {{ scheme.settings.button.red }},{{ scheme.settings.button.green }},{{ scheme.settings.button.blue }};
-          --color-button-text: {{ scheme.settings.button_label.red }},{{ scheme.settings.button_label.green }},{{ scheme.settings.button_label.blue }};
-          --color-secondary-button: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
-          --color-secondary-button-text: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
-          --color-link: {{ scheme.settings.secondary_button_label.red }},{{ scheme.settings.secondary_button_label.green }},{{ scheme.settings.secondary_button_label.blue }};
-          --color-badge-foreground: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
-          --color-badge-background: {{ scheme.settings.background.red }},{{ scheme.settings.background.green }},{{ scheme.settings.background.blue }};
-          --color-badge-border: {{ scheme.settings.text.red }},{{ scheme.settings.text.green }},{{ scheme.settings.text.blue }};
-          --payment-terms-background-color: rgb({{ scheme.settings.background.rgb }});
-        }
-        {% endfor %}
-  
-        {{ scheme_classes | prepend: 'body' }} {
-          color: rgba(var(--color-foreground), 0.75);
-          background-color: rgb(var(--color-background));
-        }
-  
-        :root {
-          --font-body-family: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
-          --font-body-style: {{ settings.type_body_font.style }};
-          --font-body-weight: {{ settings.type_body_font.weight }};
-          --font-body-weight-bold: {{ settings.type_body_font.weight | plus: 300 | at_most: 1000 }};
-  
-          --font-heading-family: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
-          --font-heading-style: {{ settings.type_header_font.style }};
-          --font-heading-weight: {{ settings.type_header_font.weight }};
-  
-          --font-body-scale: {{ settings.body_scale | divided_by: 100.0 }};
-          --font-heading-scale: {{ settings.heading_scale | times: 1.0 | divided_by: settings.body_scale }};
-  
-          --media-padding: {{ settings.media_padding }}px;
-          --media-border-opacity: {{ settings.media_border_opacity | divided_by: 100.0 }};
-          --media-border-width: {{ settings.media_border_thickness }}px;
-          --media-radius: {{ settings.media_radius }}px;
-          --media-shadow-opacity: {{ settings.media_shadow_opacity | divided_by: 100.0 }};
-          --media-shadow-horizontal-offset: {{ settings.media_shadow_horizontal_offset }}px;
-          --media-shadow-vertical-offset: {{ settings.media_shadow_vertical_offset }}px;
-          --media-shadow-blur-radius: {{ settings.media_shadow_blur }}px;
-          --media-shadow-visible: {% if settings.media_shadow_opacity > 0 %}1{% else %}0{% endif %};
-  
-          --page-width: {{ settings.page_width | divided_by: 10 }}rem;
-          --page-width-margin: {% if settings.page_width == '1600' %}2{% else %}0{% endif %}rem;
-  
-          --product-card-image-padding: {{ settings.card_image_padding | divided_by: 10.0 }}rem;
-          --product-card-corner-radius: {{ settings.card_corner_radius | divided_by: 10.0 }}rem;
-          --product-card-text-alignment: {{ settings.card_text_alignment }};
-          --product-card-border-width: {{ settings.card_border_thickness | divided_by: 10.0 }}rem;
-          --product-card-border-opacity: {{ settings.card_border_opacity | divided_by: 100.0 }};
-          --product-card-shadow-opacity: {{ settings.card_shadow_opacity | divided_by: 100.0 }};
-          --product-card-shadow-visible: {% if settings.card_shadow_opacity > 0 %}1{% else %}0{% endif %};
-          --product-card-shadow-horizontal-offset: {{ settings.card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
-          --product-card-shadow-vertical-offset: {{ settings.card_shadow_vertical_offset | divided_by: 10.0 }}rem;
-          --product-card-shadow-blur-radius: {{ settings.card_shadow_blur | divided_by: 10.0 }}rem;
-  
-          --collection-card-image-padding: {{ settings.collection_card_image_padding | divided_by: 10.0 }}rem;
-          --collection-card-corner-radius: {{ settings.collection_card_corner_radius | divided_by: 10.0 }}rem;
-          --collection-card-text-alignment: {{ settings.collection_card_text_alignment }};
-          --collection-card-border-width: {{ settings.collection_card_border_thickness | divided_by: 10.0 }}rem;
-          --collection-card-border-opacity: {{ settings.collection_card_border_opacity | divided_by: 100.0 }};
-          --collection-card-shadow-opacity: {{ settings.collection_card_shadow_opacity | divided_by: 100.0 }};
-          --collection-card-shadow-visible: {% if settings.collection_card_shadow_opacity > 0 %}1{% else %}0{% endif %};
-          --collection-card-shadow-horizontal-offset: {{ settings.collection_card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
-          --collection-card-shadow-vertical-offset: {{ settings.collection_card_shadow_vertical_offset | divided_by: 10.0 }}rem;
-          --collection-card-shadow-blur-radius: {{ settings.collection_card_shadow_blur | divided_by: 10.0 }}rem;
-  
-          --blog-card-image-padding: {{ settings.blog_card_image_padding | divided_by: 10.0 }}rem;
-          --blog-card-corner-radius: {{ settings.blog_card_corner_radius | divided_by: 10.0 }}rem;
-          --blog-card-text-alignment: {{ settings.blog_card_text_alignment }};
-          --blog-card-border-width: {{ settings.blog_card_border_thickness | divided_by: 10.0 }}rem;
-          --blog-card-border-opacity: {{ settings.blog_card_border_opacity | divided_by: 100.0 }};
-          --blog-card-shadow-opacity: {{ settings.blog_card_shadow_opacity | divided_by: 100.0 }};
-          --blog-card-shadow-visible: {% if settings.blog_card_shadow_opacity > 0 %}1{% else %}0{% endif %};
-          --blog-card-shadow-horizontal-offset: {{ settings.blog_card_shadow_horizontal_offset | divided_by: 10.0 }}rem;
-          --blog-card-shadow-vertical-offset: {{ settings.blog_card_shadow_vertical_offset | divided_by: 10.0 }}rem;
-          --blog-card-shadow-blur-radius: {{ settings.blog_card_shadow_blur | divided_by: 10.0 }}rem;
-  
-          --badge-corner-radius: {{ settings.badge_corner_radius | divided_by: 10.0 }}rem;
-  
-          --popup-border-width: {{ settings.popup_border_thickness }}px;
-          --popup-border-opacity: {{ settings.popup_border_opacity | divided_by: 100.0 }};
-          --popup-corner-radius: {{ settings.popup_corner_radius }}px;
-          --popup-shadow-opacity: {{ settings.popup_shadow_opacity | divided_by: 100.0 }};
-          --popup-shadow-horizontal-offset: {{ settings.popup_shadow_horizontal_offset }}px;
-          --popup-shadow-vertical-offset: {{ settings.popup_shadow_vertical_offset }}px;
-          --popup-shadow-blur-radius: {{ settings.popup_shadow_blur }}px;
-  
-          --drawer-border-width: {{ settings.drawer_border_thickness }}px;
-          --drawer-border-opacity: {{ settings.drawer_border_opacity | divided_by: 100.0 }};
-          --drawer-shadow-opacity: {{ settings.drawer_shadow_opacity | divided_by: 100.0 }};
-          --drawer-shadow-horizontal-offset: {{ settings.drawer_shadow_horizontal_offset }}px;
-          --drawer-shadow-vertical-offset: {{ settings.drawer_shadow_vertical_offset }}px;
-          --drawer-shadow-blur-radius: {{ settings.drawer_shadow_blur }}px;
-  
-          --spacing-sections-desktop: {{ settings.spacing_sections }}px;
-          --spacing-sections-mobile: {% if settings.spacing_sections < 24 %}{{ settings.spacing_sections }}{% else %}{{ settings.spacing_sections | times: 0.7 | round | at_least: 20 }}{% endif %}px;
-  
-          --grid-desktop-vertical-spacing: {{ settings.spacing_grid_vertical }}px;
-          --grid-desktop-horizontal-spacing: {{ settings.spacing_grid_horizontal }}px;
-          --grid-mobile-vertical-spacing: {{ settings.spacing_grid_vertical | divided_by: 2 }}px;
-          --grid-mobile-horizontal-spacing: {{ settings.spacing_grid_horizontal | divided_by: 2 }}px;
-  
-          --text-boxes-border-opacity: {{ settings.text_boxes_border_opacity | divided_by: 100.0 }};
-          --text-boxes-border-width: {{ settings.text_boxes_border_thickness }}px;
-          --text-boxes-radius: {{ settings.text_boxes_radius }}px;
-          --text-boxes-shadow-opacity: {{ settings.text_boxes_shadow_opacity | divided_by: 100.0 }};
-          --text-boxes-shadow-visible: {% if settings.text_boxes_shadow_opacity > 0 %}1{% else %}0{% endif %};
-          --text-boxes-shadow-horizontal-offset: {{ settings.text_boxes_shadow_horizontal_offset }}px;
-          --text-boxes-shadow-vertical-offset: {{ settings.text_boxes_shadow_vertical_offset }}px;
-          --text-boxes-shadow-blur-radius: {{ settings.text_boxes_shadow_blur }}px;
-  
-          --buttons-radius: {{ settings.buttons_radius }}px;
-          --buttons-radius-outset: {% if settings.buttons_radius > 0 %}{{ settings.buttons_radius | plus: settings.buttons_border_thickness }}{% else %}0{% endif %}px;
-          --buttons-border-width: {% if settings.buttons_border_opacity > 0 %}{{ settings.buttons_border_thickness }}{% else %}0{% endif %}px;
-          --buttons-border-opacity: {{ settings.buttons_border_opacity | divided_by: 100.0 }};
-          --buttons-shadow-opacity: {{ settings.buttons_shadow_opacity | divided_by: 100.0 }};
-          --buttons-shadow-visible: {% if settings.buttons_shadow_opacity > 0 %}1{% else %}0{% endif %};
-          --buttons-shadow-horizontal-offset: {{ settings.buttons_shadow_horizontal_offset }}px;
-          --buttons-shadow-vertical-offset: {{ settings.buttons_shadow_vertical_offset }}px;
-          --buttons-shadow-blur-radius: {{ settings.buttons_shadow_blur }}px;
-          --buttons-border-offset: {% if settings.buttons_radius > 0 or settings.buttons_shadow_opacity > 0 %}0.3{% else %}0{% endif %}px;
-  
-          --inputs-radius: {{ settings.inputs_radius }}px;
-          --inputs-border-width: {{ settings.inputs_border_thickness }}px;
-          --inputs-border-opacity: {{ settings.inputs_border_opacity | divided_by: 100.0 }};
-          --inputs-shadow-opacity: {{ settings.inputs_shadow_opacity | divided_by: 100.0 }};
-          --inputs-shadow-horizontal-offset: {{ settings.inputs_shadow_horizontal_offset }}px;
-          --inputs-margin-offset: {% if settings.inputs_shadow_vertical_offset != 0 and settings.inputs_shadow_opacity > 0 %}{{ settings.inputs_shadow_vertical_offset | abs }}{% else %}0{% endif %}px;
-          --inputs-shadow-vertical-offset: {{ settings.inputs_shadow_vertical_offset }}px;
-          --inputs-shadow-blur-radius: {{ settings.inputs_shadow_blur }}px;
-          --inputs-radius-outset: {% if settings.inputs_radius > 0 %}{{ settings.inputs_radius | plus: settings.inputs_border_thickness }}{% else %}0{% endif %}px;
-  
-          --variant-pills-radius: {{ settings.variant_pills_radius }}px;
-          --variant-pills-border-width: {{ settings.variant_pills_border_thickness }}px;
-          --variant-pills-border-opacity: {{ settings.variant_pills_border_opacity | divided_by: 100.0 }};
-          --variant-pills-shadow-opacity: {{ settings.variant_pills_shadow_opacity | divided_by: 100.0 }};
-          --variant-pills-shadow-horizontal-offset: {{ settings.variant_pills_shadow_horizontal_offset }}px;
-          --variant-pills-shadow-vertical-offset: {{ settings.variant_pills_shadow_vertical_offset }}px;
-          --variant-pills-shadow-blur-radius: {{ settings.variant_pills_shadow_blur }}px;
-        }
-  
-        *,
-        *::before,
-        *::after {
-          box-sizing: inherit;
-        }
-  
-        html {
-          box-sizing: border-box;
-          font-size: calc(var(--font-body-scale) * 62.5%);
-          height: 100%;
-        }
-  
-        body {
-          display: grid;
-          grid-template-rows: auto auto 1fr auto;
-          grid-template-columns: 100%;
-          min-height: 100%;
-          margin: 0;
-          font-size: 1.5rem;
-          letter-spacing: 0.06rem;
-          line-height: calc(1 + 0.8 / var(--font-body-scale));
-          font-family: var(--font-body-family);
-          font-style: var(--font-body-style);
-          font-weight: var(--font-body-weight);
-        }
-  
-        @media screen and (min-width: 750px) {
-          body {
-            font-size: 1.6rem;
-          }
-        }
-      {% endstyle %}
-  <style>
-    @font-face {
-      font-family: 'Bauer Grotesk';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: url({{ 'BAUERGROTESKOT.woff2' | asset_url }}) format('woff2');
-    }
-  
-    :root {
-      --font-body-family: 'Bauer Grotesk', sans-serif !important;
-      --font-heading-family: 'Bauer Grotesk', sans-serif !important;
-    }
-    
-    main {
-      padding-top: calc(var(--announcement-height, 40px) + var(--header-height, 80px));
-    }
-  </style>
-      {{ 'base.css' | asset_url | stylesheet_tag }}
-      {{ 'custom-video-size.css' | asset_url | stylesheet_tag }}
-  
-      {%- unless settings.type_body_font.system? -%}
-        <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
-      {%- endunless -%}
-      {%- unless settings.type_header_font.system? -%}
-        <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
-      {%- endunless -%}
-  
-      {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
-        {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
-        <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
-      {%- endif -%}
-  
-      {%- if settings.predictive_search_enabled -%}
-        <link
-          rel="stylesheet"
-          href="{{ 'component-predictive-search.css' | asset_url }}"
-          media="print"
-          onload="this.media='all'"
-        >
-      {%- endif -%}
-  
-      <script>
-        document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
-        if (Shopify.designMode) {
-          document.documentElement.classList.add('shopify-design-mode');
-        }
-      </script>
-      <!-- Hotjar Tracking Code for https://www.pawinspired.com -->
-      <script>
-        (function(h,o,t,j,a,r){
-            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-            h._hjSettings={hjid:3114225,hjsv:6};
-            a=o.getElementsByTagName('head')[0];
-            r=o.createElement('script');r.async=1;
-            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-            a.appendChild(r);
-        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
-      </script>
-      
-      {{ 'custom-font.css' | asset_url | stylesheet_tag }}
-      {{ 'video-carousel.css' | asset_url | stylesheet_tag }}
-      {{ 'reviews-carousel.css' | asset_url | stylesheet_tag }}
-      <meta name="theme-logo-white" content="{{ 'logo-white.svg' | asset_url }}">
-      <meta name="theme-logo-color" content="{{ 'logo-color.svg' | asset_url }}">
-      {{ 'component-search.css' | asset_url | stylesheet_tag }}
-      {{ 'component-predictive-search.css' | asset_url | stylesheet_tag }}
-      {{ 'component-cart-notification.css' | asset_url | stylesheet_tag }}
-    </head>
-    
-  <body class="{% if template.name == 'index' %}no-header{% else %}show-header{% endif %} gradient {{ body_classes }}">
-  {% if template.name == 'index' %}
-    {% section 'hero-logo-overlay' %}
-    {% section 'custom-header' %}
-    <div id="scrollHeaderWrapper" class="scroll-header hidden">
-      {% section 'announcement-bar' %}
-      {% section 'header' %}
+    <!-- Menu Drawer -->
+    <div class="menu-drawer">
+      <div class="menu-drawer__top" style="display: flex; justify-content: space-between; align-items: center; padding: 2rem 0 1rem 0;">
+        <a href="/" class="drawer-logo">
+          <img src="{{ 'logo-color.svg' | asset_url }}" alt="Paw Inspired" style="height: 4rem; margin-left: 0;">
+        </a>
+        <button class="drawer-close-button" data-close-drawer>
+         <svg xmlns="http://www.w3.org/2000/svg" 
+             width="24" height="24" viewBox="0 0 24 24" 
+             fill="none" stroke="currentColor" stroke-width="2" 
+             stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 14 4 9l5-5"/>
+          <path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/>
+          </svg>
+        </button>
+      </div>
+      <div class="menu-drawer__inner">
+        <nav class="menu-drawer__navigation" role="navigation">
+          <ul class="menu-drawer__menu list-unstyled">
+            {% assign menu_handle = main_menu | default: 'main-menu-2-0' %}
+            {% assign menu_to_render = linklists[menu_handle] %}
+            {% if menu_to_render %}
+              {% for link in menu_to_render.links %}
+                <li class="menu-drawer__menu-item">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <a href="{{ link.url }}" class="menu-drawer__menu-item-link">
+                      {{ link.title }}
+                    </a>
+                    {% if link.links != blank %}
+                      <span class="submenu-toggle">
+                        <svg class="icon-plus" xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                             stroke-width="2" stroke-linecap="miter" stroke-linejoin="miter">
+                          <path d="M5 12h14"/><path d="M12 5v14"/>
+                        </svg>
+                        <svg class="icon-minus" xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                             viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                             stroke-width="2" stroke-linecap="miter" stroke-linejoin="miter">
+                          <path d="M5 12h14"/>
+                        </svg>
+                      </span>
+                    {% endif %}
+                  </div>
+                  {% if link.links != blank %}
+                    <ul class="menu-drawer__submenu list-unstyled">
+                      {% for childlink in link.links %}
+                        <li>
+                          <a href="{{ childlink.url }}" class="submenu-title submenu-heading">
+                            {% case childlink.title %}
+                              {% when 'Dog Essentials' %}
+                                {% render 'icon-dog-essentials' %}
+                              {% when 'Pads & Liners' %}
+                                {% render 'icon-pads-liners' %}
+                              {% when 'Diapering & Apparel' %}
+                                {% render 'icon-diapering-apparel' %}
+                              {% when 'Clean & Care' %}
+                                {% render 'icon-clean-care' %}
+                              {% when 'Browse' %}
+                                {% render 'icon-browse' %}
+                              {% when 'Disposable Cat Pads' %}
+                                {% render 'icon-disposable-cat-pads' %}
+                              {% when 'Washable Pet Pads' %}
+                                {% render 'icon-pads-liners' %}
+                              {% when 'Cage Liners' %}
+                                {% render 'icon-pads-liners' %}
+                              {% when 'Chinchilla Cuddler' %}
+                                {% render 'icon-chinchilla' %}
+                              {% when 'Furr-O® Burrowing Beds' %}
+                                {% render 'icon-guinea-pig' %}
+                              {% when 'Hammock' %}
+                                {% render 'icon-ferret' %}
+                              {% when 'Snuggle Bunny® Bed' %}
+                                {% render 'icon-snuggle-bunny-bed' %}
+                              {% when 'Dog' %}
+                                {% render 'icon-dog-essentials' %}
+                              {% when 'Small Pets' %}
+                                {% render 'icon-chinchilla' %}
+                            {% endcase %}
+                            {{ childlink.title }}
+                          </a>
+                          {% if childlink.links != blank %}
+                            <ul class="submenu-subitems">
+                              {% for sublink in childlink.links %}
+                                <li><a href="{{ sublink.url }}">{{ sublink.title }}</a></li>
+                              {% endfor %}
+                            </ul>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            {% endif %}
+          </ul>
+          <div class="drawer-social-wrapper">
+            <div class="drawer-social-icons">
+              {% render 'social-media-icons' %}
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div class="menu-drawer__overlay"></div>
     </div>
-  {% else %}
-    {% section 'announcement-bar' %}
-    {% section 'header' %}
-  {% endif %}
+  </details>  
+</header-drawer> 
 
-  <div id="fixedHeaderContainer" style="display:none;"></div>
-   
-  <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
-   {{ content_for_layout }}
-  </main>
-     {% section 'custom-footer' %}
-      <ul hidden>
-        <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
-        <li id="a11y-new-window-message">{{ 'accessibility.link_messages.new_window' | t }}</li>
-      </ul>
-<script>  
-  window.shopUrl = '{{ request.origin }}';
-  window.routes = {
-    cart_add_url: '{{ routes.cart_add_url }}',
-    cart_change_url: '{{ routes.cart_change_url }}',
-    cart_update_url: '{{ routes.cart_update_url }}',
-    cart_url: '{{ routes.cart_url }}',
-    predictive_search_url: '{{ routes.predictive_search_url }}',
-  };
-
-  window.cartStrings = {
-    error: `{{ 'sections.cart.cart_error' | t }}`,
-    quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t: quantity: '[quantity]' }}`,
-  };
-
-  window.variantStrings = {
-    addToCart: `{{ 'products.product.add_to_cart' | t }}`,
-    soldOut: `{{ 'products.product.sold_out' | t }}`,
-    unavailable: `{{ 'products.product.unavailable' | t }}`,
-    unavailable_with_option: `{{ 'products.product.value_unavailable' | t: option_value: '[value]' }}`,
-  };
-
-  window.quickOrderListStrings = {
-    itemsAdded: `{{ 'sections.quick_order_list.items_added.other' | t: quantity: '[quantity]' }}`,
-    itemAdded: `{{ 'sections.quick_order_list.items_added.one' | t: quantity: '[quantity]' }}`,
-    itemsRemoved: `{{ 'sections.quick_order_list.items_removed.other' | t: quantity: '[quantity]' }}`,
-    itemRemoved: `{{ 'sections.quick_order_list.items_removed.one' | t: quantity: '[quantity]' }}`,
-    viewCart: `{{- 'sections.quick_order_list.view_cart' | t -}}`,
-    each: `{{- 'sections.quick_order_list.each' | t: money: '[money]' }}`,
-  };
-
-  window.accessibilityStrings = {
-    imageAvailable: `{{ 'products.product.media.image_available' | t: index: '[index]' }}`,
-    shareSuccess: `{{ 'general.share.success_message' | t }}`,
-    pauseSlideshow: `{{ 'sections.slideshow.pause_slideshow' | t }}`,
-    playSlideshow: `{{ 'sections.slideshow.play_slideshow' | t }}`,
-    recipientFormExpanded: `{{ 'recipient.form.expanded' | t }}`,
-    recipientFormCollapsed: `{{ 'recipient.form.collapsed' | t }}`,
-    countrySelectorSearchCount: `{{ 'localization.country_results_count' | t: count: '[count]' }}`,
-  };
-  document.documentElement.classList.remove('no-js');
-</script>
-     {{ 'category.js' | asset_url | script_tag }}
-     {{ 'size-guide.js' | asset_url | script_tag }}
-     {{ 'products.js' | asset_url | script_tag }}
-     {{ 'reviews-carousel.js' | asset_url | script_tag }}
-     {{ 'video-carousel.js' | asset_url | script_tag }}
-     {{ 'theme.js' | asset_url | script_tag }}
-     {{ 'details-modal.js' | asset_url | script_tag }}
-     {{ 'search-form.js' | asset_url | script_tag }}
-     {{ 'predictive-search.js' | asset_url | script_tag }}
-<script>
-  //Hero overlay
-  document.addEventListener('DOMContentLoaded', () => {
-  const isHome = window.location.pathname === "/";
-  const heroPlayed = localStorage.getItem("heroPlayed");
-  document.body.classList.add(isHome && !heroPlayed ? "play-hero" : "skip-hero");
-});
-</script>
-
-<!-- Rewards Fixed Btn -->
-<button id="customRewardsBtn" class="custom-rewards-launcher" type="button" aria-label="Open rewards">
-  <span class="crl-icon" aria-hidden="true">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-gift-icon lucide-gift"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg>
-  </span>
-  <span class="crl-text">Rewards</span>
-</button>
-
-<script>
-  function openSmilePanel(e){
-    if (e) e.preventDefault();
-
-    const tryOpen = () => {
-      if (window.SmileUI && typeof window.SmileUI.open === 'function') {
-        window.SmileUI.open();
-        return true;
-      }
-      if (window.Smile && typeof window.Smile.open === 'function') {
-        window.Smile.open();
-        return true;
-      }
-      const launcher = document.querySelector('#smile-ui-lite-launcher, #smile-ui-launcher, [data-smile-button]');
-      if (launcher) { launcher.click(); return true; }
-      location.hash = 'smile-home';
-      return true;
-    };
-
-    if (tryOpen()) return false;
-
-    let tries = 0;
-    const timer = setInterval(() => {
-      if (tryOpen() || ++tries > 50) clearInterval(timer);
-    }, 100);
-    return false;
+<style>
+  .menu-drawer-container > summary {
+    position: relative; 
+    background: transparent;
   }
 
-  document.getElementById('customRewardsBtn').addEventListener('click', openSmilePanel);
-</script>
+  .header-main .custom-header-icons {
+    position: absolute;
+    right: 8rem;
+    top: 50%;
+    transform: translateY(-50%); 
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    z-index: 1;
+  }
 
-    </body>
-    <script async src="https://app.kiwisizing.com/web/js/dist/kiwiSizing/plugin/SizingPlugin.prod.js?v=318"></script>
-  </html>
+  .menu-drawer__overlay {
+    z-index: 9998;
+  }
+
+  .header-main[data-header-type="custom-header"] .custom-header-icons,
+  .header-main[data-header-type="custom-header"] .header__search summary {
+    color: #fff;      
+  }
+
+  .shopify-section-header-sticky .custom-header-icons,
+  .shopify-section-header-sticky .header__search summary,
+  .header-main:not([data-header-type="custom-header"]) .custom-header-icons,
+  .header-main:not([data-header-type="custom-header"]) .header__search summary {
+    color: #00b4ed;    
+  }
+
+  .mobile-header-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-white,
+  .logo-color {
+    height: 60px;
+    padding-bottom: 1rem;
+    transform: translateX(24px);
+  }
+
+  .header-main[data-header-type="custom-header"] .logo-white {
+    display: inline-block;
+  }
+  .header-main[data-header-type="custom-header"] .logo-color {
+    display: none;
+  }
+  .header-main:not([data-header-type="custom-header"]) .logo-white {
+    display: none;
+  }
+  .header-main:not([data-header-type="custom-header"]) .logo-color {
+    display: inline-block;
+  }
+  .shopify-section-header-sticky .logo-white {
+    display: none !important;
+  }
+  .shopify-section-header-sticky .logo-color {
+    display: inline-block !important;
+    position: relative;
+    z-index: 100;
+  }
+  .shopify-section-header {
+    background-color: transparent;
+  }
+  .shopify-section-header-sticky {
+    background-color: white;
+    z-index: 10;
+  }
+
+  .custom-header-link {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+  }
+  .header-link {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #00b4ed;
+    text-decoration: none;
+  }
+
+  body.show-header header.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999;
+  }
+  
+  .menu-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 100vh;
+    background: #fff;
+    z-index: 10000;
+    overflow-y: auto;
+    padding: 2rem;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu-drawer__overlay {
+    position: fixed;
+    top: 0;
+    left: 320px;
+    width: calc(100vw - 320px);
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.1);
+    z-index: 9998;
+  }
+
+  summary.header__icon.header__icon--menu.header__icon--summary.focus-inset::before {
+    background: transparent !important;
+  }
+
+  .menu-drawer__menu-item {
+    padding: 1rem 0;
+    position: relative;
+  }
+
+  .menu-drawer__menu-item-link {
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #000;
+    text-decoration: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .menu-drawer__menu-item-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #00B4ED;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+  }
+
+  .menu-drawer__menu-item.open .menu-drawer__menu-item-link::after {
+    transform: scaleX(1);
+  }
+  
+  .menu-drawer__submenu {
+    display: none;
+    margin-top: 1rem;
+    padding-left: 0;
+  }
+
+  .menu-drawer__menu-item.open .menu-drawer__submenu {
+    display: block;
+  }
+  
+  .menu-drawer__submenu li a {
+    font-size: 1.6rem;
+    color: #000;
+    text-decoration: none;
+    line-height: 2.2rem;
+    display: block;
+    margin-top: 1.5rem;
+  }
+  
+  .submenu-heading {
+    display: flex;
+    align-items: center;
+    margin-top: 1.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+    color: #000;
+  }
+
+  .menu-drawer__submenu .submenu-heading .submenu-title {
+    font-weight: bold;
+    font-size: 1.8rem;
+    color: #000;
+  }
+
+  .submenu-title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .submenu-title svg {
+    width: 20px;
+    height: 20px;
+    stroke: #00B4ED;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    margin-right: 0.6rem;
+  }
+
+  .submenu-subitems {
+    list-style: none;
+    padding-left: 5rem;
+    margin-top: 0.5rem;
+  }
+  
+  .submenu-toggle .icon-minus {
+    display: none;
+  }
+
+  .open .submenu-toggle .icon-minus {
+    display: inline;
+  }
+
+  .open .submenu-toggle .icon-plus {
+    display: none;
+  }
+  
+  .submenu-toggle {
+    font-size: 2rem;
+    color: #00b4ed;
+    cursor: pointer;
+    margin-left: auto;
+  }
+
+  .drawer-close-button {
+    position: relative;
+    z-index: 9999;
+    background: none;
+    border: none;
+    padding: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .drawer-close-button svg,
+  .menu-drawer__menu-item svg {
+    width: 24px;
+    height: 24px;
+    stroke: #00b4ed;
+    stroke-width: 2;
+  }
+
+  .header__icon {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  .drawer-social-wrapper {
+    width: 100%;
+    padding: 0;
+    margin-top: 0;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+  .drawer-social-icons {
+    width: 100%;
+  }
+  
+  .drawer-social-icons .footer-icons {
+    width: 100%;
+    max-width: 320px; 
+    margin: 0 auto;   
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .drawer-social-icons .footer-icons a {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .drawer-social-icons .footer-icons svg {
+    width: 28px;
+    height: 28px;
+    fill: #00b4ed !important;
+    stroke: none !important;
+  }
+   .search-trigger {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .header-main[data-header-type="custom-header"] .search-trigger,
+  .header-main[data-header-type="custom-header"] .search-trigger svg {
+    color: #fff;
+    stroke: #fff;
+  }
+
+  .shopify-section-header-sticky .search-trigger,
+  .shopify-section-header-sticky .search-trigger svg,
+  .header-main:not([data-header-type="custom-header"]) .search-trigger,
+  .header-main:not([data-header-type="custom-header"]) .search-trigger svg {
+    color: #00b4ed;
+    stroke: #00b4ed;
+  }
+  
+  @media screen and (max-width: 768px) {
+    summary.header__icon {
+      margin: 3.5rem 0 0 !important;
+    }
+    
+    summary.header__icon--menu {
+      padding: 1rem 1.2rem !important;
+      height: auto;
+    }
+
+    .custom-header-link,
+    .header-link {
+      display: none !important;
+    }
+
+    .mobile-header-logo img {
+      height: 40px;
+      padding-bottom: 0;
+      transform: translateX(-5px); 
+    }
+
+    .mobile-header-logo {
+      top: 50%;
+      transform: translate(-50%, -50%);
+      height: auto;
+    }
+    .custom-hamburger-icon svg {
+      color: #fff;
+      margin-top: 1rem;
+    }
+    .custom-header-icons svg {
+      width: 24px;
+      height: 24px;
+      stroke-width: 1.5;
+      color: #fff;
+      stroke: #fff;
+    }
+    .header-main .custom-header-icons {
+      right: 1rem;
+      gap: 0 !important;
+    }
+
+    .custom-header-icons svg,
+    .custom-header-icons img {
+      width: 80%;
+      max-width: 50%;
+      height: auto;
+      flex: 0 0 100% !important;
+      justify-content: flex-end;
+    }
+    
+    a[aria-label="Account"] {
+      display: none !important;
+    }
+  }
+
+  
+</style>
+
+<script>
+//Search 
+  document.addEventListener('DOMContentLoaded', function () { 
+   const observer = new MutationObserver(() => { 
+    document.querySelectorAll('[data-search-trigger]').forEach((trigger) => {
+      if (!trigger.dataset.searchBound) {
+        trigger.dataset.searchBound = 'true';
+        trigger.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+  
+
+          console.log('Search Btn Clicked');
+
+          const summary = this.closest('summary');
+          if (summary) {
+            summary.style.pointerEvents = 'none';
+            setTimeout(() => {
+              summary.style.pointerEvents = '';
+            }, 200);
+          }
+          const searchDetails = document.querySelector('.header__search details');
+          if (searchDetails) {
+            searchDetails.open = true;
+            console.log('Open Search modal');
+            
+              
+            setTimeout(() => {
+              const searchInput = searchDetails.querySelector('input[type="search"]');
+              if (searchInput) {
+                searchInput.focus();
+                console.log('Focus Input');
+              }
+            }, 150);
+          } else {
+    
+            const nativeSearchButton = document.querySelector('.header__search summary');
+            if (nativeSearchButton) {
+              nativeSearchButton.click();
+            }
+          }
+        });
+      }
+    });
+
+  
+  // Return
+  document.querySelectorAll('[data-close-drawer]').forEach((btn) => { 
+    if (!btn.dataset.bound) { 
+      btn.dataset.bound = 'true'; 
+      btn.addEventListener('click', () => { 
+        const drawer = btn.closest('details.menu-drawer-container'); 
+        if (drawer && drawer.hasAttribute('open')) { 
+          drawer.removeAttribute('open'); 
+        } 
+      }); 
+    } 
+  }); 
+    // Submenu 
+    document.querySelectorAll('.submenu-toggle').forEach((toggle) => { 
+      if (!toggle.dataset.bound) { 
+        toggle.dataset.bound = 'true'; 
+        toggle.addEventListener('click', function () { 
+          const parentLi = toggle.closest('li.menu-drawer__menu-item'); 
+          const submenu = parentLi.querySelector('.menu-drawer__submenu'); 
+          if (submenu) { 
+            const isOpen = submenu.classList.contains('open'); 
+            submenu.classList.toggle('open', !isOpen); 
+            parentLi.classList.toggle('open', !isOpen); 
+          } 
+       }); 
+      } 
+    }); 
+  }); 
+  observer.observe(document.body, { childList: true, subtree: true }); 
+  setTimeout(() => observer.takeRecords(), 0); 
+});   
+</script>

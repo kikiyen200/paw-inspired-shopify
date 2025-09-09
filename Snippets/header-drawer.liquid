@@ -30,17 +30,19 @@
         {% endif %}
       </a>
       <div class="custom-header-icons">
-        <!-- Account -->
+        <button type="button" class="header__icon search-trigger" aria-label="Search" data-search-trigger>
+         {% render 'icon-search' %}
+        </button>
         <a href="/account/login" class="header__icon" aria-label="Account">
           {% render 'icon-user' %}
         </a>
-        <!-- Cart -->
         <a href="/cart" class="header__icon header__icon--cart" aria-label="Cart">
-        {% render 'cart-icon-bubble' %}
+          {% render 'cart-icon-bubble' %}
         </a>
       </div>
       {% render 'header-search', input_id: 'Search-In-Modal' %}
     </summary>
+    
 
     <!-- Menu Drawer -->
     <div class="menu-drawer">
@@ -156,12 +158,14 @@
   }
 
   .header-main .custom-header-icons {
-    position: relative;
+    position: absolute;
+    right: 8rem;
+    top: 50%;
+    transform: translateY(-50%); 
     display: flex;
     align-items: center;
     gap: 2rem;
-    z-index: 10002; 
-    left: 70rem;
+    z-index: 1;
   }
 
   .menu-drawer__overlay {
@@ -186,7 +190,6 @@
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    z-index: 10;
   }
   
   .logo-white,
@@ -442,7 +445,29 @@
     fill: #00b4ed !important;
     stroke: none !important;
   }
+   .search-trigger {
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .header-main[data-header-type="custom-header"] .search-trigger,
+  .header-main[data-header-type="custom-header"] .search-trigger svg {
+    color: #fff;
+    stroke: #fff;
+  }
 
+  .shopify-section-header-sticky .search-trigger,
+  .shopify-section-header-sticky .search-trigger svg,
+  .header-main:not([data-header-type="custom-header"]) .search-trigger,
+  .header-main:not([data-header-type="custom-header"]) .search-trigger svg {
+    color: #00b4ed;
+    stroke: #00b4ed;
+  }
   
   @media screen and (max-width: 768px) {
     summary.header__icon {
@@ -501,9 +526,54 @@
   }
 </style>
 
-<script> 
-  document.addEventListener('DOMContentLoaded', function () { const observer = new MutationObserver(() => { 
-    // Return
+<script>
+//Search 
+  document.addEventListener('DOMContentLoaded', function () { 
+   const observer = new MutationObserver(() => { 
+    document.querySelectorAll('[data-search-trigger]').forEach((trigger) => {
+      if (!trigger.dataset.searchBound) {
+        trigger.dataset.searchBound = 'true';
+        trigger.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+  
+
+          console.log('Search Btn Clicked');
+
+          const summary = this.closest('summary');
+          if (summary) {
+            summary.style.pointerEvents = 'none';
+            setTimeout(() => {
+              summary.style.pointerEvents = '';
+            }, 200);
+          }
+          const searchDetails = document.querySelector('.header__search details');
+          if (searchDetails) {
+            searchDetails.open = true;
+            console.log('Open Search modal');
+            
+              
+            setTimeout(() => {
+              const searchInput = searchDetails.querySelector('input[type="search"]');
+              if (searchInput) {
+                searchInput.focus();
+                console.log('Focus Input');
+              }
+            }, 150);
+          } else {
+    
+            const nativeSearchButton = document.querySelector('.header__search summary');
+            if (nativeSearchButton) {
+              nativeSearchButton.click();
+            }
+          }
+        });
+      }
+    });
+
+  
+  // Return
   document.querySelectorAll('[data-close-drawer]').forEach((btn) => { 
     if (!btn.dataset.bound) { 
       btn.dataset.bound = 'true'; 
@@ -515,24 +585,23 @@
       }); 
     } 
   }); 
-  // Submenu 
-  document.querySelectorAll('.submenu-toggle').forEach((toggle) => { 
-    if (!toggle.dataset.bound) { 
-      toggle.dataset.bound = 'true'; 
-      toggle.addEventListener('click', function () { 
-        const parentLi = toggle.closest('li.menu-drawer__menu-item'); 
-        const submenu = parentLi.querySelector('.menu-drawer__submenu'); 
-        if (submenu) { 
-          const isOpen = submenu.classList.contains('open'); 
-          submenu.classList.toggle('open', !isOpen); 
-          parentLi.classList.toggle('open', !isOpen); 
-        } 
-      }); 
-    } 
+    // Submenu 
+    document.querySelectorAll('.submenu-toggle').forEach((toggle) => { 
+      if (!toggle.dataset.bound) { 
+        toggle.dataset.bound = 'true'; 
+        toggle.addEventListener('click', function () { 
+          const parentLi = toggle.closest('li.menu-drawer__menu-item'); 
+          const submenu = parentLi.querySelector('.menu-drawer__submenu'); 
+          if (submenu) { 
+            const isOpen = submenu.classList.contains('open'); 
+            submenu.classList.toggle('open', !isOpen); 
+            parentLi.classList.toggle('open', !isOpen); 
+          } 
+       }); 
+      } 
+    }); 
   }); 
-}); 
-observer.observe(document.body, { childList: true, subtree: true }); 
-setTimeout(() => observer.takeRecords(), 0); 
-  });
-
+  observer.observe(document.body, { childList: true, subtree: true }); 
+  setTimeout(() => observer.takeRecords(), 0); 
+});   
 </script>
