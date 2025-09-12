@@ -4,24 +4,6 @@
   "class": "section-header",
   "settings": [
     {
-      "type": "color",
-      "id": "header_background",
-      "label": "Header Background Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#00b4ed"
-    },
-    {
-      "type": "color",
-      "id": "hover_color",
-      "label": "Hover Color",
-      "default": "#ff6b6b"
-    },
-    {
       "type": "link_list",
       "id": "menu",
       "label": "Menu"
@@ -37,10 +19,8 @@
 
 <header class="header shopify-section-header">
   <div class="header-inner">
-  {% render 'header-drawer', 
-   header_type: 'header',
-   main_menu: settings.menu
-%}
+  {% render 'header-drawer', header_type: 'header', main_menu: settings.menu %}
+  {% render 'header-search', input_id: 'Search-In-Modal' %} 
   </div>
 </header>
 
@@ -71,4 +51,14 @@
 header.shopify-section-header-sticky .logo-white {
   display: none !important;
 }
+
+.shopify-section-header .header__search {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 100%;
+  z-index: 9999;
+}
 </style>
+
+

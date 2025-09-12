@@ -74,8 +74,16 @@
               </svg>
             </button>
             <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
-              <svg class="icon icon-search" aria-hidden="true" focusable="false">
-                <use href="#icon-search">
+              <svg xmlns="http://www.w3.org/2000/svg" 
+                    width="20" height="20" 
+                    viewBox="0 0 28 28" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    stroke-width="2" 
+                    stroke-linecap="round" 
+                    stroke-linejoin="round">
+                <path d="m21 21-4.34-4.34"/>
+                <circle cx="11" cy="11" r="8"/>
               </svg>
             </button>
           </div>
@@ -98,8 +106,13 @@
           class="search-modal__close-button modal__close-button link link--text focus-inset"
           aria-label="{{ 'accessibility.close' | t }}"
         >
-          <svg class="icon icon-close" aria-hidden="true" focusable="false">
-            <use href="#icon-close">
+          <svg class="icon icon-close" aria-hidden="true" focusable="false" 
+               xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+               viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          >
+            <path d="M18 6 6 18"/>
+            <path d="m6 6 12 12"/>
           </svg>
         </button>
       </div>

@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 Timestamp: new Date().toISOString()
             };
 
-            fetch('https://docs.google.com/spreadsheets/d/1eLGI4RaYUFiTWuc5nMtQbdxE3bBI8HOLJmMhPsa6YlY/edit?gid=1723888274#gid=1723888274', {
+            fetch('https://docs.google.com/spreadsheets/d/1vfCLJCeR0Katb0wHedI0jLRcUWk3Dm526tIuYO4Bf0A/edit?gid=0#gid=0', {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },

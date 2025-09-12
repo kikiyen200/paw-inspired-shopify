@@ -142,8 +142,8 @@ html {
     cursor: pointer;
     user-select: none;
     font-family: "Bauer Grotesk";
-    font-size: 2.4rem;
-    color: #333;
+    font-size: 2rem;
+    color: #878787;
     text-align: center;
     transition: all 0.3s ease;
     position: relative;
@@ -152,8 +152,8 @@ html {
 .form-row .select-selected::after {
     content: '';
     position: absolute;
-    right: 1.25rem;
-    top: 50%;
+    right: 1.5rem;
+    top: 60%;
     transform: translateY(-50%);
     width: 0;
     height: 0;
@@ -190,6 +190,7 @@ html {
     z-index: 99;
     background-color: white;
     border: 4px solid #00B4ED;
+    color: #333;
     border-top: none;
     border-radius: 0 0 20px 20px;
     max-height: 300px;
@@ -272,10 +273,9 @@ html {
     text-align: center;
 }
 
-.form-row select, 
-select {
+.size-guide-step .form-row select{
     font-family: "Bauer Grotesk" !important;
-    font-size: 2.4rem !important;
+    font-size: 2rem !important;
     font-weight: normal;
     
     width: 100%;
@@ -285,7 +285,7 @@ select {
     border: 4px solid #00B4ED;
     border-radius: 999px;
     background-color: white;
-    color: #333;
+    color: #878787;
     
     text-align: center;
     
@@ -308,7 +308,7 @@ select {
 .form-row select option,
 select option {
     font-family: "Bauer Grotesk" !important;
-    font-size: 1.6rem !important;
+    font-size: 1.4rem !important;
     padding: 8px 16px;
     background-color: white;
     color: #333;

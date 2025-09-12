@@ -348,7 +348,7 @@ class MenuDrawer extends HTMLElement {
   constructor() {
     super();
 
-     this.mainDetailsToggle = this.querySelector('details');
+    this.mainDetailsToggle = this.querySelector('details');
 
     this.addEventListener('keyup', this.onKeyUp.bind(this));
     this.addEventListener('focusout', this.onFocusOut.bind(this));
@@ -378,16 +378,6 @@ class MenuDrawer extends HTMLElement {
 
   onSummaryClick(event) {
     const summaryElement = event.currentTarget;
-    console.log('onSummaryClick 被觸發，summary:', summaryElement);
-
-    if (summaryElement.closest('.header__search') || 
-      summaryElement.classList.contains('header__icon--search') ||
-      summaryElement.querySelector('[data-search-trigger]')) {
-    console.log('跳過搜尋相關的 summary');
-    return;
-  }
-    console.log('繼續執行菜單邏輯');
-    
     const detailsElement = summaryElement.parentNode;
     const parentMenuElement = detailsElement.closest('.has-submenu');
     const isOpen = detailsElement.hasAttribute('open');
@@ -1284,3 +1274,5 @@ class ProductRecommendations extends HTMLElement {
 }
 
   customElements.define('product-recommendations', ProductRecommendations);
+
+  

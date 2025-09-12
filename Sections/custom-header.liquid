@@ -4,24 +4,7 @@
   "class": "section-header",
   "settings": [
     {
-      "type": "color",
-      "id": "header_background",
-      "label": "Header Background Color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text Color",
-      "default": "#000000"
-    },
-    {
-      "type": "color",
-      "id": "hover_color",
-      "label": "Hover Color",
-      "default": "#ff6b6b"
-    },
-    {
+     
       "type": "link_list",
       "id": "menu",
       "label": "Menu"
@@ -35,12 +18,16 @@
 }
 {% endschema %}
 
-<div id="customHeaderWrapper" class="custom-header hidden">
-  <header class="header">
-    <div class="header-inner">
-      {% render 'header-drawer', 
+<div id="customHeaderWrapper" class="custom-header">
+  <header class="custom-header__container">
+    <div class="custom-header__inner">
+      {% render 'header-drawer',
          header_type: 'custom-header',
-         main_menu: settings.menu 
+         main_menu: settings.menu
+      %}
+      {% render 'header-search',
+         input_id: 'Search-In-In-Custom-Header',
+         header_type: 'custom-header'
       %}
     </div>
   </header>
@@ -52,25 +39,43 @@
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 9999;
-    display: none;
     opacity: 0;
+    pointer-events: none;
     transition: opacity 0.3s ease;
   }
 
   body.show-header .custom-header {
-    display: block;
     opacity: 1;
     pointer-events: auto;
   }
 
-  .custom-header .header-inner {
-    background: transparent;
+  .custom-header__container {
+    width: 100%;
+    background-color: transparent; 
   }
 
-  .custom-header svg,
-  .custom-header .icon,
-  .custom-header .custom-header-link {
-    color: #fff;
+  .custom-header .header__icon svg,
+  .custom-header .header__icon .icon {
+    stroke: #fff !important;
+    fill: none !important;
   }
+
+  .custom-header .header__search,
+  .custom-header .custom-header-search {
+    background-color: transparent;
+    z-index:10000;
+  }
+
+  .custom-header .custom-hamburger-icon svg {
+    fill: #fff !important;
+  }
+
+  .icon-close {
+    stroke: #353535;
+  }
+
+  .icon-search {
+    stroke: #353535;
+  }
+
 </style>

@@ -6,7 +6,7 @@
     <summary
       class="header__icon header__icon--menu header__icon--summary focus-inset"
       aria-label="{{ 'sections.header.menu' | t }}"
-      style="margin-top: 4.5rem; display: flex; align-items: center; justify-content: space-between; padding: 3rem 8rem; height: 6rem; width: 100vw; z-index: 9999;"
+      style="margin-top: 4.5rem; display: flex; align-items: center; justify-content: space-between; padding: 3rem 8rem; height: 6rem; width: 100vw;"
     >
       <div style="display: flex; align-items: center; gap: 3rem;">
         <div class="custom-hamburger-icon">
@@ -40,7 +40,6 @@
           {% render 'cart-icon-bubble' %}
         </a>
       </div>
-      {% render 'header-search', input_id: 'Search-In-Modal' %}
     </summary>
     
 
@@ -495,10 +494,7 @@
       transform: translate(-50%, -50%);
       height: auto;
     }
-    .custom-hamburger-icon svg {
-      color: #fff;
-      margin-top: 1rem;
-    }
+    
     .custom-header-icons svg {
       width: 24px;
       height: 24px;
@@ -524,20 +520,20 @@
       display: none !important;
     }
   }
+
+  
 </style>
 
 <script>
 //Search 
   document.addEventListener('DOMContentLoaded', function () { 
-   const observer = new MutationObserver(() => { 
+  const observer = new MutationObserver(() => { 
     document.querySelectorAll('[data-search-trigger]').forEach((trigger) => {
       if (!trigger.dataset.searchBound) {
         trigger.dataset.searchBound = 'true';
         trigger.addEventListener('click', function(e) {
           e.preventDefault();
           e.stopPropagation();
-          e.stopImmediatePropagation();
-  
 
           console.log('Search Btn Clicked');
 
@@ -548,25 +544,41 @@
               summary.style.pointerEvents = '';
             }, 200);
           }
-          const searchDetails = document.querySelector('.header__search details');
-          if (searchDetails) {
-            searchDetails.open = true;
-            console.log('Open Search modal');
-            
-              
-            setTimeout(() => {
-              const searchInput = searchDetails.querySelector('input[type="search"]');
-              if (searchInput) {
-                searchInput.focus();
-                console.log('Focus Input');
-              }
-            }, 150);
-          } else {
-    
-            const nativeSearchButton = document.querySelector('.header__search summary');
-            if (nativeSearchButton) {
-              nativeSearchButton.click();
+
+          let searchDetails = null;
+          
+          const headerContainer = this.closest('header-drawer, .custom-header, .shopify-section-header');
+          if (headerContainer) {
+            searchDetails = headerContainer.querySelector('.header__search details');
+          }
+
+          if (!searchDetails) {
+            if (this.closest('.custom-header') || this.closest('header-drawer[data-header-type="custom-header"]')) {
+              searchDetails = document.querySelector('.custom-header .header__search details') ||
+                            document.querySelector('.custom-header-search details');
+            } else {
+              searchDetails = document.querySelector('.shopify-section-header .header__search details');
             }
+          }
+          if (!searchDetails) {
+            searchDetails = document.querySelector('.header__search details');
+          }
+
+          console.log('Find Search Element:', searchDetails);
+          console.log('Search Container:', headerContainer);
+
+          if (searchDetails) {
+            searchDetails.setAttribute('open', 'true');
+            console.log('Open Search modal');
+            const searchInput = searchDetails.querySelector('input[type="search"]');
+            if (searchInput) {
+              searchInput.focus();
+              console.log('Focus Input');
+            }
+          } else {
+            console.error('Can Not Found');
+            console.log('All .header__search:', document.querySelectorAll('.header__search'));
+            console.log('All details:', document.querySelectorAll('details'));
           }
         });
       }
