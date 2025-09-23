@@ -18,15 +18,6 @@
         <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
       {%- endunless -%}
 
-      {%- if settings.predictive_search_enabled -%}
-        <link
-          rel="stylesheet"
-          href="{{ 'component-predictive-search.css' | asset_url }}"
-          media="print"
-          onload="this.media='all'"
-        >
-      {%- endif -%}
-
       <title>
         {{ page_title }}
         {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
@@ -40,71 +31,30 @@
   
       {% render 'meta-tags' %}
       {% render 'kiwiSizing' %}
-      {{ content_for_header }}
 
-      {{ 'brand-carousel.css' | asset_url | stylesheet_tag }} 
-      {{ 'custom-hero.css' | asset_url | stylesheet_tag }}
-      {{ 'products.css' | asset_url | stylesheet_tag }}
-      {{ 'size-guide.css' | asset_url | stylesheet_tag }}
-      {{ 'category.css' | asset_url | stylesheet_tag }}
-      {{ 'component-predictive-search.css' | asset_url | stylesheet_tag }}
-      {{ 'custom-font.css' | asset_url | stylesheet_tag }}
-      {{ 'video-carousel.css' | asset_url | stylesheet_tag }}
-      {{ 'reviews-carousel.css' | asset_url | stylesheet_tag }}
-      {{ 'component-search.css' | asset_url | stylesheet_tag }}
-      {{ 'component-cart-notification.css' | asset_url | stylesheet_tag }}
-
-      <!-- Hide Smile launcher early to prevent initial flash -->
-      <style id="hide-smile-launcher-early">
-      #smile-lite-launcher-frame,
-      #smile-lite-launcher-frame-container,
-      #smile-ui-lite-launcher,
-      #smile-ui-launcher,
-      #smile-floating-button,
-      .smile-launcher,
-      .smile-launcher-frame,
-      .smile-launcher-frame-container,
-      a[data-smile-button],
-      button[data-smile-button] {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      pointer-events: none !important;
-      }
-      </style>
-
-      <style>
-      @font-face {
-      font-family: 'Bauer Grotesk';
-      font-style: normal;
-      font-weight: 400;
-      font-display: swap;
-      src: url({{ 'BAUERGROTESKOT.woff2' | asset_url }}) format('woff2');
-      }
-  
-      :root {
-      --font-body-family: 'Bauer Grotesk', sans-serif !important;
-      --font-heading-family: 'Bauer Grotesk', sans-serif !important;
-      }
-    
-      main {
-      padding-top: calc(var(--announcement-height, 40px) + var(--header-height, 80px));
-      }
-      </style>
-  
       <script src="{{ 'constants.js' | asset_url }}" defer="defer"></script>
       <script src="{{ 'pubsub.js' | asset_url }}" defer="defer"></script>
       <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
       {%- if settings.animations_reveal_on_scroll -%}
         <script src="{{ 'animations.js' | asset_url }}" defer="defer"></script>
       {%- endif -%}
-  
+
+      {{ content_for_header }}
+      <style>
+        {{ settings.body_font | font_face }}
+
+        :root{
+          --bodyFont:{{ settings.body_font.family }};
+          --bodyFontWeight:{{ settings.body_font.weight }};
+        }
+      </style>
+
       {%- liquid
         assign body_font_bold = settings.type_body_font | font_modify: 'weight', 'bold'
         assign body_font_italic = settings.type_body_font | font_modify: 'style', 'italic'
         assign body_font_bold_italic = body_font_bold | font_modify: 'style', 'italic'
       %}
-  
+
       {% style %}
         {{ settings.type_body_font | font_face: font_display: 'swap' }}
         {{ body_font_bold | font_face: font_display: 'swap' }}
@@ -312,21 +262,88 @@
           }
         }
       {% endstyle %}
- 
+
       {{ 'base.css' | asset_url | stylesheet_tag }}
-      {{ 'custom-video-size.css' | asset_url | stylesheet_tag }}
-  
+      <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
+
+      {%- if settings.cart_type == 'drawer' -%}
+        {{ 'component-cart-drawer.css' | asset_url | stylesheet_tag }}
+        {{ 'component-cart.css' | asset_url | stylesheet_tag }}
+        {{ 'component-totals.css' | asset_url | stylesheet_tag }}
+        {{ 'component-price.css' | asset_url | stylesheet_tag }}
+        {{ 'component-discounts.css' | asset_url | stylesheet_tag }}
+      {%- endif -%}
+
+      {%- unless settings.type_body_font.system? -%}
+        {% comment %}theme-check-disable AssetPreload{% endcomment %}
+        <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+        {% comment %}theme-check-enable AssetPreload{% endcomment %}
+      {%- endunless -%}
+      {%- unless settings.type_header_font.system? -%}
+        {% comment %}theme-check-disable AssetPreload{% endcomment %}
+        <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+        {% comment %}theme-check-enable AssetPreload{% endcomment %}
+      {%- endunless -%}
+
       {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
         {{ 'component-localization-form.css' | asset_url | stylesheet_tag: preload: true }}
         <script src="{{ 'localization-form.js' | asset_url }}" defer="defer"></script>
       {%- endif -%}
-  
+
+      {%- if settings.predictive_search_enabled -%}
+        <link
+          rel="stylesheet"
+          href="{{ 'component-predictive-search.css' | asset_url }}"
+          media="print"
+          onload="this.media='all'"
+        >
+      {%- endif -%}
+
       <script>
         document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
         if (Shopify.designMode) {
           document.documentElement.classList.add('shopify-design-mode');
         }
       </script>
+
+      {{ 'brand-carousel.css' | asset_url | stylesheet_tag }} 
+      {{ 'custom-hero.css' | asset_url | stylesheet_tag }}
+      {{ 'products.css' | asset_url | stylesheet_tag }}
+      {{ 'size-guide.css' | asset_url | stylesheet_tag }}
+      {{ 'category.css' | asset_url | stylesheet_tag }}
+      {{ 'component-predictive-search.css' | asset_url | stylesheet_tag }}
+      {{ 'video-carousel.css' | asset_url | stylesheet_tag }}
+      {{ 'reviews-carousel.css' | asset_url | stylesheet_tag }}
+      {{ 'component-search.css' | asset_url | stylesheet_tag }}
+      {{ 'component-cart-notification.css' | asset_url | stylesheet_tag }}
+      {{ 'custom-video-size.css' | asset_url | stylesheet_tag }}
+
+      <!-- Hide Smile launcher early to prevent initial flash -->
+      <style id="hide-smile-launcher-early">
+      #smile-lite-launcher-frame,
+      #smile-lite-launcher-frame-container,
+      #smile-ui-lite-launcher,
+      #smile-ui-launcher,
+      #smile-floating-button,
+      .smile-launcher,
+      .smile-launcher-frame,
+      .smile-launcher-frame-container,
+      a[data-smile-button],
+      button[data-smile-button] {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      }
+      </style>
+
+      <style>
+    
+      main {
+      padding-top: calc(var(--announcement-height, 40px) + var(--header-height, 80px));
+      }
+      </style>
+  
       <!-- Hotjar Tracking Code for https://www.pawinspired.com -->
       <script>
         (function(h,o,t,j,a,r){
@@ -369,7 +386,7 @@
       <script>  
         window.shopUrl = '{{ request.origin }}';
         window.routes = {
-          cart_add_url: '{{ routes.cart_add_url }}',
+          cart_add_url: '{{ routes.cart_add_url }}.js',
           cart_change_url: '{{ routes.cart_change_url }}',
           cart_update_url: '{{ routes.cart_update_url }}',
           cart_url: '{{ routes.cart_url }}',

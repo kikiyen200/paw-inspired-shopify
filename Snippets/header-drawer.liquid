@@ -519,6 +519,7 @@
     a[aria-label="Account"] {
       display: none !important;
     }
+    
   }
 
   
@@ -528,7 +529,8 @@
 //Search 
   document.addEventListener('DOMContentLoaded', function () { 
   const observer = new MutationObserver(() => { 
-    document.querySelectorAll('[data-search-trigger]').forEach((trigger) => {
+    document.querySelectorAll('[data-search-trigger]')
+    .forEach((trigger) => {
       if (!trigger.dataset.searchBound) {
         trigger.dataset.searchBound = 'true';
         trigger.addEventListener('click', function(e) {
@@ -583,7 +585,6 @@
         });
       }
     });
-
   
   // Return
   document.querySelectorAll('[data-close-drawer]').forEach((btn) => { 

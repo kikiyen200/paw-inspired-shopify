@@ -27,11 +27,15 @@
         <div class="size-guide-step step-2-female">
             <p class="step-label">STEP 2 OF 3</p>
             <h2 class="step-title">What breed is your dog?</h2>
-                <div class="form-row">
-                    <div class="custom-select" id="breed-select">
-                        <div class="select-selected placeholder">My pet is a...</div>
-                        <div class="select-items select-hide">
-                        <div class="disabled">My pet is a...</div>
+            <div class="form-row">
+                <div class="custom-select" id="breed-select-female">
+                    <div class="select-selected placeholder" data-value="">
+                        My pet is a...
+                    </div>
+                    <div class="select-items select-hide">
+                        <div class="disabled" data-value="">
+                            My pet is a...
+                        </div>
                         <div data-value="other">Other/ Not Listed</div>
                         <div data-value="australian">Australian Shepherd</div>
                         <div data-value="basset">Basset Hound</div>
@@ -77,7 +81,10 @@
 
                 <h2 class="step-title">How much does your dog weight?</h2>
                 <div class="form-row">
-                    <input type="number" name="weight" placeholder="lbs" min="1" max="200" />
+                    <div class="input-with-unit">
+                        <input type="number" name="weight" placeholder="0" min="1" max="150" />
+                            <span class="unit-label">lbs</span>
+                    </div>
                 </div>
 
                 <div class="button-group">
@@ -111,52 +118,62 @@
                 <p class="step-label">STEP 2 OF 3</p>
                 <h2 class="step-title">What breed is your dog?</h2>
                 <div class="form-row">
-                    <select name="breed" id="breed-male">
-                        <option value="" disabled selected>My pet is a...</option>
-                        <option value="other">Other/ Not Listed</option>
-                        <option value="australian">Australian Shepherd</option>
-                        <option value="basset">Basset Hound</option>
-                        <option value="beagle">Beagle</option>
-                        <option value="bichonsFrise">Bichons Frise</option>
-                        <option value="borderCollie">Border Collie</option>
-                        <option value="boston">Boston Terrier</option>
-                        <option value="boxer">Boxer</option>
-                        <option value="bulldogUS">Bulldog (American)</option>
-                        <option value="bulldogUK">Bulldog (English)</option>
-                        <option value="kingCharles">Cavalier King Charles Spaniel</option>
-                        <option value="chihuahua">Chihuahua</option>
-                        <option value="cocker">Cocker Spaniel</option>
-                        <option value="corgi">Corgi</option>
-                        <option value="dachshundMini">Dachshund (Mini)</option>
-                        <option value="dachshundStandard">Dachshund (Standard)</option>
-                        <option value="doberman">Doberman Pinscher</option>
-                        <option value="french">French Bulldog</option>
-                        <option value="german">German Shepherd</option>
-                        <option value="golden">Golden Retriever</option>
-                        <option value="labrador">Labrador Retriever</option>
-                        <option value="lhasaApso">Lhasa Apso</option>
-                        <option value="maltese">Maltese</option>
-                        <option value="miniature">Miniature Pinscher</option>
-                        <option value="pitBull">Pit Bull</option>
-                        <option value="pomeranian">Pomeranian</option>
-                        <option value="poodleMini">Poodle (Mini)</option>
-                        <option value="poodleToy">Poodle (Toy)</option>
-                        <option value="pug">Pug</option>
-                        <option value="rottweiler">Rottweiler</option>
-                        <option value="russell">Russell Terrier</option>
-                        <option value="schnauzerMini">Schnauzer (Mini)</option>
-                        <option value="schnauzerStandard">Schnauzer (Standard)</option>
-                        <option value="shibaInu">Shiba Inu</option>
-                        <option value="shihTzu">Shih Tzu</option>
-                        <option value="silky">Silky Terrier</option>
-                        <option value="teacup">Teacup Breeds</option>
-                        <option value="yorkshire">Yorkshire Terrier</option>
-                    </select>
+                    <div class="custom-select" id="breed-select-male">
+                        <div class="select-selected placeholder" data-value="">
+                         My pet is a...
+                        </div>
+                        <div class="select-items select-hide">
+                            <div class="disabled" data-value="">
+                            My pet is a...
+                            </div>
+                            <div data-value="other">Other/ Not Listed</div>
+                            <div data-value="australian">Australian Shepherd</div>
+                            <div data-value="basset">Basset Hound</div>
+                            <div data-value="beagle">Beagle</div>
+                            <div data-value="bichonsFrise">Bichons Frise</div>
+                            <div data-value="borderCollie">Border Collie</div>
+                            <div data-value="boston">Boston Terrier</div>
+                            <div data-value="boxer">Boxer</div>
+                            <div data-value="bulldogUS">Bulldog (American)</div>
+                            <div data-value="bulldogUK">Bulldog (English)</div>
+                            <div data-value="kingCharles">Cavalier King Charles Spaniel</div>
+                            <div data-value="chihuahua">Chihuahua</div>
+                            <div data-value="cocker">Cocker Spaniel</div>
+                            <div data-value="corgi">Corgi</div>
+                            <div data-value="dachshundMini">Dachshund (Mini)</div>
+                            <div data-value="dachshundStandard">Dachshund (Standard)</div>
+                            <div data-value="doberman">Doberman Pinscher</div>
+                            <div data-value="french">French Bulldog</div>
+                            <div data-value="german">German Shepherd</div>
+                            <div data-value="golden">Golden Retriever</div>
+                            <div data-value="labrador">Labrador Retriever</div>
+                            <div data-value="lhasaApso">Lhasa Apso</div>
+                            <div data-value="maltese">Maltese</div>
+                            <div data-value="miniature">Miniature Pinscher</div>
+                            <div data-value="pitBull">Pit Bull</div>
+                            <div data-value="pomeranian">Pomeranian</div>
+                            <div data-value="poodleMini">Poodle (Mini)</div>
+                            <div data-value="poodleToy">Poodle (Toy)</div>
+                            <div data-value="pug">Pug</div>
+                            <div data-value="rottweiler">Rottweiler</div>
+                            <div data-value="russell">Russell Terrier</div>
+                            <div data-value="schnauzerMini">Schnauzer (Mini)</div>
+                            <div data-value="schnauzerStandard">Schnauzer (Standard)</div>
+                            <div data-value="shibaInu">Shiba Inu</div>
+                            <div data-value="shihTzu">Shih Tzu</div>
+                            <div data-value="silky">Silky Terrier</div>
+                            <div data-value="teacup">Teacup Breeds</div>
+                            <div data-value="yorkshire">Yorkshire Terrier</div>
+                        </div>
+                    </div>
                 </div>
 
                 <h2 class="step-title">What's your dog's waist size?</h2>
                 <div class="form-row">
-                    <input type="number" name="waist" placeholder="inches" min="5" max="50" step="0.5" />
+                    <div class="input-with-unit">
+                        <input type="number" name="waist" placeholder="0" min="5 max="32" step="0.5" />
+                            <span class="unit-label">inches</span>
+                    </div>
                 </div>
 
                 <div class="button-group">

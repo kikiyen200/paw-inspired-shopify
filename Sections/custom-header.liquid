@@ -4,10 +4,15 @@
   "class": "section-header",
   "settings": [
     {
-     
       "type": "link_list",
       "id": "menu",
       "label": "Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "predictive_search_enabled",
+      "label": "Enable predictive search",
+      "default": true
     }
   ],
   "presets": [
@@ -27,7 +32,8 @@
       %}
       {% render 'header-search',
          input_id: 'Search-In-In-Custom-Header',
-         header_type: 'custom-header'
+         header_type: 'custom-header',
+         settings: section.settings
       %}
     </div>
   </header>
