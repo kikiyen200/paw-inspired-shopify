@@ -1,5 +1,5 @@
 .rating-carousel-section {
-  padding: 4rem 0;
+  padding: 2rem 0;
   text-align: center;
 }
 
@@ -11,10 +11,10 @@
 }
 
 .rating-subheading {
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: #333;
   margin-bottom: 1.5rem;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .rating-carousel-section .button {
@@ -55,7 +55,7 @@
   position: relative;
   max-width: 1400px;        
   margin: 6rem auto;        
-  padding: 0 10rem;          
+  padding: 0 8rem;          
   overflow: visible !important;        
 }
 
@@ -99,8 +99,8 @@
 
 .rating-carousel .rc-track {
   display: flex;
-  gap: 4rem;   
-  padding: 0 2.5rem; 
+  gap: 5.5rem;   
+  padding: 0 2rem; 
   overflow-x: auto;  
   overflow-y: visible;
   scroll-snap-type: x mandatory;
@@ -120,14 +120,15 @@
   box-shadow: 0 4px 8px rgba(0,0,0,0.2);
   padding: 1rem;
   margin: 2rem 0;          
-  height: 20rem;
+  height: auto;
+  max-height: 24rem;
   display: flex;           
 }
 
 .rc-review-left {
   position: relative;
   flex: 0 0 22rem; 
-  height: 18rem; 
+  height: auto; 
   margin: 0; 
 }
 
@@ -236,6 +237,13 @@
 }
 
 @media (max-width: 768px) {
+  .rating-subheading {
+  font-size: 1.6rem;
+  }
+
+  .rating-carousel-section .button {
+  font-size: 1.8rem;
+  }
   
   .rating-carousel {
     display: flex !important;
@@ -285,6 +293,7 @@
     flex-direction: column !important;
     flex: 0 0 80vw !important;
     max-width: 280px !important;
+    max-height: none;
     margin: 0 auto 1rem !important;
     scroll-snap-align: center;
     height: auto !important;   
@@ -329,12 +338,14 @@
 
   .rc-review-title {
     margin-top: 0;
-    line-height: 1;
-    font-size: 2rem;
+    line-height: 1.2;
+    font-size: 1.6rem;
   }
   .rc-review-text {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     line-height: 1.2;
+    font-size: 1.4rem;
+    margin-bottom: 0;
   }
   
   .rating-carousel .rc-arrow {

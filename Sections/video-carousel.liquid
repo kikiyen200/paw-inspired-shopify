@@ -32,6 +32,18 @@
           </div>
         {% endif %}
       {% endfor %}
+
+      <div class="mobile-only-marquee-content">
+      {% for block in section.blocks %}
+        {% if block.type == 'product_card' %}
+          <div class="product-card card-link" 
+               data-video-web="{{ block.settings.block_video_url_web }}" 
+               data-video-mobile="{{ block.settings.block_video_url_mobile }}">
+            </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    
     </div>
   </div>
 </section>

@@ -1275,4 +1275,155 @@ class ProductRecommendations extends HTMLElement {
 
   customElements.define('product-recommendations', ProductRecommendations);
 
+  // icon cart bubble
+window.updateCartIconBubble = function(itemCount) {
+  console.log('Updating cart icon to:', itemCount);
+  
+  const selectors = [
+    '#cart-icon-bubble .cart-count-bubble span',
+    '#cart-icon-bubble [data-cart-count]',
+    '.cart-count-bubble span',
+    '.cart-count',
+    '[data-cart-count]',
+    '#cart-count',
+    '.header__icon--cart .cart-count-bubble span',
+    '.cart-icon .cart-count-bubble span'
+  ];
+  
+  let updated = false;
+  
+  selectors.forEach(selector => {
+    const elements = document.querySelectorAll(selector);
+    elements.forEach(element => {
+      if (element) {
+        const displayCount = itemCount < 100 ? itemCount.toString() : '99+';
+        element.textContent = displayCount;
+        console.log(`Updated element with selector ${selector}:`, displayCount);
+        
+        const bubble = element.closest('.cart-count-bubble') || element;
+        if (bubble && bubble.style !== undefined) {
+          bubble.style.display = itemCount > 0 ? '' : 'none';
+          bubble.style.opacity = itemCount > 0 ? '1' : '0';
+        }
+        
+        element.classList.add('cart-updated');
+        setTimeout(() => {
+          element.classList.remove('cart-updated');
+        }, 300);
+        
+        updated = true;
+      }
+    });
+  });
+  
+  if (!updated) {
+    console.log('Standard selectors failed, trying generic approach...');
+    
+    const allSpans = document.querySelectorAll('span, .count, [class*="count"], [class*="bubble"]');
+    
+    allSpans.forEach(span => {
+      const text = span.textContent.trim();
+
+      if (/^\d+$/.test(text) && parseInt(text) >= 0 && parseInt(text) <= 99) {
+        const parent = span.closest('a[href*="cart"], .cart, [class*="cart"]');
+        if (parent) {
+          span.textContent = itemCount < 100 ? itemCount : '99+';
+          console.log('Updated potential cart count element:', span);
+          updated = true;
+        }
+      }
+    });
+  }
+  
+  if (!updated) {
+    console.warn('Could not find cart count element to update');
+    console.log('Available cart-related elements:', document.querySelectorAll('[class*="cart"], [id*="cart"]'));
+  }
+  
+  return updated;
+};
+
+const cartIconStyle = document.createElement('style');
+cartIconStyle.textContent = `
+  .cart-updated {
+    animation: cartIconBounce 0.4s ease-out !important;
+    transform-origin: center center;
+  }
+  
+  @keyframes cartIconBounce {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.15); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+  }
+  
+  .cart-count-bubble {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+`;
+document.head.appendChild(cartIconStyle);
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('=== Cart Icon Debug Info ===');
+  
+  const cartElements = document.querySelectorAll('[class*="cart"], [id*="cart"]');
+  console.log('Found cart-related elements:', cartElements);
+  
+  cartElements.forEach((element, index) => {
+    console.log(`Cart element ${index}:`, {
+      tagName: element.tagName,
+      id: element.id,
+      className: element.className,
+      innerHTML: element.innerHTML.substring(0, 200)
+    });
+  });
+  
+  setTimeout(() => {
+    console.log('Testing cart icon update...');
+    window.updateCartIconBubble(1);
+  }, 1000);
+});
+
+window.directUpdateCartCount = function(count) {
+  console.log('Direct update cart count called with:', count);
+  
+  if (typeof count === 'undefined') {
+    const cartItems = document.querySelectorAll('.cart-item, [data-cart-item]');
+    count = cartItems.length;
+    console.log('Calculated count from DOM:', count);
+  }
+  
+  return window.updateCartIconBubble(count);
+};
+
+const observeCartChanges = function() {
+  const cartContainer = document.querySelector('cart-items, .cart-items, [data-cart-items]');
+  
+  if (cartContainer) {
+    console.log('Setting up cart container observer');
+    
+    const observer = new MutationObserver(function(mutations) {
+      console.log('Cart container changed, updating icon...');
+      
+      setTimeout(() => {
+        const items = cartContainer.querySelectorAll('.cart-item, [data-cart-item]');
+        const count = items.length;
+        console.log('Detected cart items count:', count);
+        window.updateCartIconBubble(count);
+      }, 100);
+    });
+    
+    observer.observe(cartContainer, {
+      childList: true,
+      subtree: true,
+      attributes: false
+    });
+    
+    const items = cartContainer.querySelectorAll('.cart-item, [data-cart-item]');
+    window.updateCartIconBubble(items.length);
+  }
+};
+
+setTimeout(observeCartChanges, 2000);
+
   

@@ -2,7 +2,7 @@
   <h2 style="color: #00B4ED; font-size: 3.2rem; font-weight: 700; margin-bottom: 2rem;">
    NEED HELP FITTING YOUR DOG?
   </h2>
-   <h3 style="font-size: 2.3rem; font-weight: 700; margin-top: 2rem;">
+   <h3 style="font-size: 2rem; font-weight: 700; margin-top: 2rem;">
      Disposable Diaper/ Male wrap
    </h3>
  
@@ -56,13 +56,13 @@
      </div>
     <div class="dog-size-item">
      <img 
-       src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/paw-inspired-disposable-diaper-for-small-senior-yorkshire-terrier-dog.png?v=1753755289" 
-       alt="Paw Inspired dog diaper on senior Yorkshire Terrier – perfect for small breed dogs with incontinence issues" 
+       src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/paw-inspired-disposable-malewrap-for-small-senior-yorkshire-terrier-dog.png?v=1758876182" 
+       alt="Paw Inspired dog male wrap on senior Yorkshire Terrier – perfect for small breed dogs with incontinence issues" 
        class="dog-img back"
      >
      <img 
-       src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/paw-inspired-disposable-diaper-for-small-senior-yorkshire-terrier-dog-front-view.png?v=1753756071" 
-       alt="Paw Inspired dog diaper on senior Yorkshire Terrier – perfect for small breed dogs with incontinence issues" 
+       src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/paw-inspired-disposable-malewrap-for-small-senior-yorkshire-terrier-dog-front-view.png?v=1758876182" 
+       alt="Paw Inspired dog male wrap on senior Yorkshire Terrier – perfect for small breed dogs with incontinence issues" 
        class="dog-img front"
      >
    </div>
@@ -78,7 +78,7 @@
        class="dog-img front"
      >
    </div>
-      <div class="dog-size-item">
+      <div class="dog-size-item reverse-hover">
      <img 
        src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/paw-inspired-disposable-dog-diaper-for-french-bulldog-incontinence-care.png?v=1753760837" 
        alt="French Bull Comfortable and secure fit: French Bulldog wearing Paw Inspired diaper for elderly dogs and potty training support" 
@@ -92,13 +92,13 @@
    </div>
      <div class="dog-size-item">
      <img 
-       src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/paw-inspired-disposable-dog-diaper-old-danish-pointer-large-dog-incontinence.png?v=1753769169" 
-       alt="Large senior dog (Old Danish Pointer) wearing Paw Inspired disposable diaper – ideal for incontinence and post-surgery care" 
+       src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/paw-inspired-disposable-dog-male-wrap-sheltie-large-senior-dog-incontinence.png?v=1758876769" 
+       alt="Large senior dog (Sheltie) wearing Paw Inspired disposable diaper – ideal for incontinence and post-surgery care" 
        class="dog-img back"
      >
      <img 
-       src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/paw-inspired-disposable-dog-diaper-old-danish-pointer-large-dog-incontinence-front-view.png?v=1753769169" 
-       alt="Large senior dog (Old Danish Pointer) wearing Paw Inspired disposable diaper – ideal for incontinence and post-surgery care" 
+       src="https://cdn.shopify.com/s/files/1/0611/7992/0584/files/paw-inspired-disposable-dog-male-wrap-sheltie-large-dog-incontinence-front-view.png?v=1758876769" 
+       alt="Large senior dog (Sheltie) wearing Paw Inspired disposable diaper – ideal for incontinence and post-surgery care" 
        class="dog-img front"
      >
    </div>
@@ -114,10 +114,10 @@
         border-radius: 999px; 
         padding: 0.75rem 1.25rem; 
         font-weight: 700; 
-        font-size: 2.4rem; 
+        font-size: 2rem; 
         text-decoration: none; 
         display: inline-block; 
-        margin: 6rem 0 4rem; 
+        margin: 2rem 0 4rem; 
         cursor: pointer; 
         transition: all 0.2s ease;
     "
@@ -159,6 +159,24 @@
  .dog-size-item:hover .back {
    opacity: 0;
  }
+ 
+ /* reverse-hover */
+ .dog-size-item.reverse-hover .front {
+   opacity: 1;
+ }
+ 
+ .dog-size-item.reverse-hover .back {
+   opacity: 0;
+ }
+ 
+ .dog-size-item.reverse-hover:hover .front {
+   opacity: 0;
+ }
+ 
+ .dog-size-item.reverse-hover:hover .back {
+   opacity: 1; 
+ }
+ 
    @media screen and (max-width: 768px) {
    .dog-row {
      overflow-x: auto;
@@ -177,7 +195,7 @@
      display: flex;
      justify-content: center;
      align-items: flex-end; 
-     height: 420px;
+     height: 360px;
    }
  
    .dog-size-item img {
@@ -186,9 +204,22 @@
      object-fit: contain;
    }
  }
- 
  </style>
- 
+ <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const dogRow = document.querySelector('.dog-row');
+    const frenchBulldogItem = dogRow.querySelectorAll('.dog-size-item')[3]; 
+    
+    if (dogRow && frenchBulldogItem) {
+      const itemLeft = frenchBulldogItem.offsetLeft; 
+      const itemWidth = frenchBulldogItem.offsetWidth; 
+      const containerWidth = dogRow.offsetWidth; 
+      const scrollToPosition = itemLeft - (containerWidth / 2) + (itemWidth / 2);
+  
+      dogRow.scrollLeft = scrollToPosition;
+    }
+  });
+  </script>
  
  <!-- Shopify 必加 model-viewer polyfill -->
  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>

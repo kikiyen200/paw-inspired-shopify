@@ -1,7 +1,7 @@
 .hero-with-bg {
-  background: url("https://cdn.shopify.com/s/files/1/0611/7992/0584/files/branding-smallpet-with-kids-furro-pawinspired.jpg?v=1745225517");
+  background: url("https://cdn.shopify.com/s/files/1/0611/7992/0584/files/branding-smallpet-with-kids-furro-pawinspired-dog-diaper.jpg?v=1755570005");
   background-repeat: no-repeat;
-  background-position: right 70%; 
+  background-position: right 65%; 
   background-size: cover;
 
   padding-top: 8rem;
@@ -15,16 +15,16 @@
 }
 
 .hero-with-bg__text {
-  max-width: 40%;
+  max-width: 45%;
   padding: 4rem 0;      
   color: #00b4ed;               
 }
 
 .hero-with-bg__text h2 {
-  font-family: "BauerGrotesk", sans-serif;
+  font-family: var(--bodyFont);
   font-weight: 700;
   color: #00b4ed;
-  font-size: 5.6rem;
+  font-size: 5rem;
   line-height: 1.2;
   margin: 4rem 0 8rem;
 }
@@ -48,6 +48,7 @@
   font-size: 2.4rem;
   color: #00b4ed;
   font-weight: 600;
+  font-family: var(--bodyFont);
   margin-top: 4rem;
 }
 .hero-with-bg__text .button::after {
@@ -114,9 +115,9 @@
   }
   
   .hero-with-bg__text p {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     line-height: 1.4;
-    margin: 2rem 0 2rem;
+    margin: 2rem 1rem 2rem;
   }
   
   .hero-with-bg__text .button {

@@ -36,8 +36,10 @@
 }
 
 .video-carousel-section .carousel-track {
+  width :100% !important;
+  max-width: 100vw !important; 
   display: flex;
-  overflow-x: auto;
+  overflow-x: hidden!important;
   animation: none;
   transform: none;
   scroll-snap-type: x mandatory;
@@ -140,12 +142,16 @@
   font-size: 2.4rem;
   cursor: pointer;
 }
+
+.mobile-only-marquee-content {
+  display: none;
+}
+
 @media screen and (max-width: 768px) {
   .video-carousel-section {
     position: relative;
     padding-bottom: 0;
     height: 46vh;
-    overflow: hidden;
   }
 
   .video-bg,
@@ -164,6 +170,12 @@
     pointer-events: none;
   }
 
+  .video-carousel-section .product-card.card-link {
+    margin-right: 1rem;
+    width: 33rem;
+    height: 10rem;
+  }
+
   .product-carousel {
     transform: none !important;
     position: absolute;
@@ -178,12 +190,32 @@
   .video-carousel-section .carousel-track {
     display: flex;
     justify-content: flex-start;
-    overflow-x: auto;
+    overflow-x: hidden !important;
     padding: 0; 
-    scroll-snap-type: x mandatory;
+    width: calc(200% + 3rem) !important;     
+    min-width: calc(200% + 3rem) !important;
+    animation: marquee-scroll 15s linear infinite;
+    gap: 1.5rem;
   }
+
+  @keyframes marquee-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-50% - 0.75rem));
+    }
+  }
+
+  .video-carousel-section .carousel-track:active,
+.video-carousel-section .carousel-track:hover {
+  animation-play-state: paused;
+}
+
   .video-carousel-section .product-card {
-  scroll-snap-align: center; 
   flex: 0 0 auto; 
+  width: 28rem !important;
+  height: 9rem !important;
+  margin-right: 0;
   }
 }
