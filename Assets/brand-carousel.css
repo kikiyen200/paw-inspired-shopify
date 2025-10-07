@@ -2,10 +2,10 @@
   overflow: hidden;
   width: 100%;
   padding: 0.2rem 0;
-  background-color: #f6f6f6;
+  background-color: #f1f2f2;
 }
 
-.carousel-track {
+.brand-carousel .carousel-track {
   display: flex;
   width: max-content;
   animation: scroll 80s linear infinite;
@@ -13,7 +13,7 @@
   align-items: center;
 }
 
-.carousel-track img {
+.brand-carousel .carousel-track img {
 max-height: 160px;
 width: auto;
 height: auto;
@@ -40,12 +40,12 @@ transition: opacity 0.3s;
 }
 
 @media (max-width: 768px) {
-  .carousel-track {
-    gap: 2rem;
+  .brand-carousel .carousel-track {
+    gap: 1rem !important;
     animation-duration: 80s;
   }
 
-  .carousel-track img {
-    height: 100px;
+  .brand-carousel .carousel-track img {
+    height: 120px !important;
   }
 }  

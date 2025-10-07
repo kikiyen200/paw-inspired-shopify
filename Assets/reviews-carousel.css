@@ -370,6 +370,10 @@
   .reviews-carousel .rc-slide {
     transition: opacity 0.3s ease;
   }
+
+  .reviews-carousel {
+    padding:0;
+  }
   
   .reviews-carousel .rc-arrow {
     transition: transform 0.2s ease;

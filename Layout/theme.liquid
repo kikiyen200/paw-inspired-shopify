@@ -436,15 +436,6 @@
       {{ 'details-modal.js' | asset_url | script_tag }}
       {{ 'search-form.js' | asset_url | script_tag }}
 
-      <script>
-      //Hero overlay
-      document.addEventListener('DOMContentLoaded', () => {
-        const isHome = window.location.pathname === "/";
-        const heroPlayed = localStorage.getItem("heroPlayed");
-      document.body.classList.add(isHome && !heroPlayed ? "play-hero" : "skip-hero");
-      });
-      </script>
-
       {%- if settings.predictive_search_enabled -%} 
         <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
       {%- endif -%}

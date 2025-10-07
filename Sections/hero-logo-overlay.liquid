@@ -4,10 +4,15 @@
   "tag": "section",
   "class": "section-hero-logo-overlay",
   "settings": [
+     {
+      "type": "url",
+      "id": "desktop_video_url",
+      "label": "Desktop Background Video URL"
+    },
     {
       "type": "url",
-      "id": "background_video_url",
-      "label": "Background video URL"
+      "id": "mobile_video_url",
+      "label": "Mobile Background Video URL"
     },
     {
       "type": "image_picker",
@@ -40,8 +45,8 @@
 
 <div class="hero-logo-overlay-wrapper" data-delay="{{ section.settings.delay }}">
   <div class="video-wrapper">
-    <video class="hero-video" autoplay muted loop playsinline>
-      <source src="{{ section.settings.background_video_url }}" type="video/mp4">
+    <video class="hero-video" autoplay muted loop playsinline id="heroBackgroundVideo">
+     <source id="heroVideoSource" src="{{ section.settings.desktop_video_url }}" type="video/mp4">
     </video>
 
     <div class="hero-overlay" id="heroLogoOverlay">
@@ -52,11 +57,11 @@
       <p class="splash-slogan" style="animation-delay: {{ section.settings.delay | plus: 1.5 }}s">
         {{ section.settings.slogan }}
       </p>
-      <a class="cta-button" style="animation-delay: {{ section.settings.delay | plus: 2 }}s">
+      <a href="/collections/all" class="cta-button" style="animation-delay: {{ section.settings.delay | plus: 2 }}s">
          Shop What They Need
       </a>
       <div class="scroll-down-indicator" style="animation-delay: {{ section.settings.delay | plus: 2.5 }}s">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" class="chevrons-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" class="chevrons-icon">
           <path d="m7 6 5 5 5-5"/><path d="m7 13 5 5 5-5"/>
         </svg>
       </div>
@@ -116,31 +121,6 @@
   animation: fadeInSlogan 0.5s ease 1.2s forwards;
 }
 
-.cta-button {
-  background: none;
-  color: #fff;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 2.2rem;
-  text-decoration: underline;
-  opacity: 0;
-  animation: fadeInSlogan 1s ease 3s forwards;
-}
-
-.scroll-down-indicator {
-  margin-top: 1rem;
-  text-align: center;
-  animation: fadeInUp 1s ease forwards;
-  opacity: 0;
-}
-
-.scroll-down-indicator .chevrons-icon {
-  width: 32px;
-  height: auto;
-  color: #fff;
-  animation: bounceDown 1s infinite;
-}
-
 @keyframes fadeInSlogan {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -155,73 +135,95 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(6px); }
 }
-
-@media (max-width: 767px) {
-  .splash-slogan { font-size: 3.6rem; line-height: 1.2; }
-  .splash-logo {
-    animation: shrinkLogoToFixedMobile 2s ease forwards;
-    animation-delay: 2s;
-  }
-  .hero-logo-overlay-wrapper { height: 65vh; }
-  .hero-content-scroll { top: 75%; }
-
-  @keyframes shrinkLogoToFixedMobile {
-    0% { top: 50%; transform: translate(-50%, -50%) scale(1); }
-    100% { top: 2rem; transform: translateX(-50%) scale(0.35); }
-  }
-}
 {% endstylesheet %}
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  if (window.location.pathname !== "/") return;
-
-  const logo = document.querySelector(".splash-logo");
-  const delay = (parseFloat(document.querySelector(".hero-logo-overlay-wrapper")?.dataset.delay) || 2) * 1000;
-
-  document.body.classList.add("no-header");
-
-  logo?.addEventListener("animationend", () => {
-    console.log("🌟 Logo Finished");
-
-    const overlay = document.getElementById("heroLogoOverlay");
-    if (overlay) overlay.remove();
-
-    const customHeader = document.getElementById("customHeaderWrapper");
-    if (customHeader) {
-      customHeader.classList.remove("hidden");
-      customHeader.style.display = "block";
-    }
-
-    let hasSwitched = false;
-    window.addEventListener("scroll", function () {
-      if (window.scrollY > 30 && !hasSwitched) {
-        hasSwitched = true;
-
-        const announcement = document.querySelector(".announcement-bar");
-        if (announcement) {
-          announcement.classList.remove("hidden");
-          announcement.style.display = "block";
-        }
-
-        const scrollHeaderWrapper = document.getElementById("scrollHeaderWrapper");
-        if (scrollHeaderWrapper) {
+  function handleHeroAnimation() {
+    if (window.location.pathname !== "/") return;
+    if (localStorage.getItem("hasPlayedHeroAnimation") === "true") {
+      document.body.classList.remove("no-header");
+      document.body.classList.add("show-header");
+  
+      const overlay = document.getElementById("heroLogoOverlay");
+      if (overlay) overlay.remove();
+  
+      const customHeader = document.getElementById("customHeaderWrapper");
+      const scrollHeaderWrapper = document.getElementById("scrollHeaderWrapper");
+      const announcement = document.querySelector(".announcement-bar");
+  
+      if (scrollHeaderWrapper) {
           scrollHeaderWrapper.classList.remove("hidden");
           scrollHeaderWrapper.style.display = "block";
-        }
-
-        if (customHeader) {
-          customHeader.style.display = "none";
-        }
-
-        console.log("✅ Switched to colored header + announcement bar");
       }
+  
+      if (customHeader) customHeader.style.display = "none";
+      if (announcement) announcement.style.display = "block";
+  
+      return;
+    } 
+    const videoEl = document.getElementById("heroBackgroundVideo");
+    const sourceEl = document.getElementById("heroVideoSource");
+  
+    const isMobile = window.innerWidth <= 767;
+    const mobileSrc = "{{ section.settings.mobile_video_url }}";
+    const desktopSrc = "{{ section.settings.desktop_video_url }}";
+  
+    if (videoEl && sourceEl) {
+      sourceEl.src = isMobile ? mobileSrc : desktopSrc;
+      videoEl.load();  
+    }
+  
+    const logo = document.querySelector(".splash-logo");
+    const delay = (parseFloat(document.querySelector(".hero-logo-overlay-wrapper")?.dataset.delay) || 2) * 1000;
+  
+    document.body.classList.add("no-header");
+  
+    logo?.addEventListener("animationend", () => {
+      const overlay = document.getElementById("heroLogoOverlay");
+      if (overlay) overlay.remove();
+  
+      const customHeader = document.getElementById("customHeaderWrapper");
+      if (customHeader) {
+        customHeader.classList.remove("hidden");
+        customHeader.style.display = "block";
+      }
+  
+      let hasSwitched = false;
+      window.addEventListener("scroll", function () {
+        if (window.scrollY > 30 && !hasSwitched) {
+          hasSwitched = true;
+  
+          const announcement = document.querySelector(".announcement-bar");
+          if (announcement) {
+            announcement.classList.remove("hidden");
+            announcement.style.display = "block";
+          }
+  
+          const scrollHeaderWrapper = document.getElementById("scrollHeaderWrapper");
+          if (scrollHeaderWrapper) {
+            scrollHeaderWrapper.classList.remove("hidden");
+            scrollHeaderWrapper.style.display = "block";
+          }
+  
+          if (customHeader) {
+            customHeader.style.display = "none";
+          }
+        }
+      });
     });
+    
+    setTimeout(() => {
+      localStorage.setItem("hasPlayedHeroAnimation", "true");
+      document.body.classList.remove("no-header");
+      document.body.classList.add("show-header");
+    }, delay);
+  }
+  document.addEventListener("DOMContentLoaded", function () {
+    handleHeroAnimation();
   });
-
-  setTimeout(() => {
-    document.body.classList.remove("no-header");
-    document.body.classList.add("show-header");
-  }, delay);
-});
-</script>
+  window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+      handleHeroAnimation();
+    }
+  });
+  </script> 
